@@ -2,9 +2,10 @@
   "type": "module",
   "dependencies": {
     "express": "^4.21.2",
+    "mongodb": "^6.14.2",
     "react": "^19.0.0"
   },
   "scripts": {
     "start": "node server.js"
-}
+  }
 }
