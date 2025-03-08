@@ -34,7 +34,9 @@ const applicantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    aptNum: String,
+    aptNum: {
+        type: String
+    },
     city: { 
         type: String,
         required: true
@@ -48,7 +50,7 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     gpa: { 
-        type: String,
+        type: Number,
         required: true
     },
     college: { 
@@ -82,7 +84,8 @@ const applicantSchema = new mongoose.Schema({
     },
     application: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Application'
+        ref: 'Application',
+        required: true
     }]
 });
 
@@ -92,11 +95,11 @@ const adminSchema = new mongoose.Schema({
         required: true
     },
     lastName: {
-        String,
+        type: String,
         required: true
     },
     email: {
-        String,
+        type: String,
         required: true
     }
 });
@@ -111,16 +114,16 @@ const scholarshipSchema = new mongoose.Schema({
         required: true
     },
     funderName: {
-            type: String,
-            required: true
+        type: String,
+        required: true
     },
     description: { 
         type: String,
         required: true
     },
     fundsAllocated: {
-            type: Number,
-            required: true
+        type: Number,
+        required: true
     },
     fundingType: {
         type: String,
@@ -144,7 +147,8 @@ const scholarshipSchema = new mongoose.Schema({
     },
     applications: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Application'
+        ref: 'Application',
+        required: true
     }]
 });
 
@@ -158,9 +162,6 @@ const applicationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Scholarship',
         required: true
-    },
-    coverLetter: {
-        type: Buffer
     },
     cv: {
         type: Buffer
