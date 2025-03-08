@@ -77,6 +77,7 @@ const applicantSchema = new mongoose.Schema({
     },
     gradYear: { 
         type: Date,
+        required: true
     },
     pic: { 
         type: Buffer,
