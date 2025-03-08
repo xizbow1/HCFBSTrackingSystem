@@ -2,10 +2,19 @@
   "type": "module",
   "dependencies": {
     "express": "^4.21.2",
+<<<<<<< HEAD
     "mongoose": "^8.12.1",
     "react": "^19.0.0"
   },
   "scripts": {
     "start": "node server.js"
+=======
+    "firebase": "^11.4.0",
+    "mongodb": "^6.14.2",
+    "react": "^19.0.0"
+  },
+  "scripts": {
+    "start": "node src/server.js"
+>>>>>>> 511aa22f602a1c206ea9472f9ba3952ed4fe347c
   }
 }
