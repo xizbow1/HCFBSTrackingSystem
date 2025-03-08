@@ -1,5 +1,5 @@
-const { application } = require('express');
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import express from 'express';
 
 const connectDB = async() => {
     try {
@@ -22,7 +22,7 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        String,
+        type: String,
         required: true,
         unique: true,
     },
@@ -34,7 +34,9 @@ const applicantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    aptNum: String,
+    aptNum: {
+        type: String
+    },
     city: { 
         type: String,
         required: true
@@ -48,7 +50,7 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     gpa: { 
-        type: String,
+        type: Number,
         required: true
     },
     college: { 
@@ -67,39 +69,43 @@ const applicantSchema = new mongoose.Schema({
         type: Buffer,
         required: true
     },
-    highschool: String,
+    highschool: {
+        Type:String
+    },
     hsGradYear: { 
-        type: String,
+        type: Date,
     },
     gradYear: { 
-        type: String,
+        type: Date,
+        required: true
     },
     pic: { 
         type: Buffer,
         required: true
     },
     application: [{
-        type: monggose.Schema.Types.ObjectId,
-        ref: 'Application'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Application',
+        required: true
     }]
 });
 
-const admin = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     firstName: { 
         type: String,
         required: true
     },
     lastName: {
-        String,
+        type: String,
         required: true
     },
     email: {
-        String,
+        type: String,
         required: true
     }
 });
 
-const Scholarship = new mongoose.Schema({
+const scholarshipSchema = new mongoose.Schema({
     name: { 
         type: String,
         required: true
@@ -109,16 +115,16 @@ const Scholarship = new mongoose.Schema({
         required: true
     },
     funderName: {
-            type: String,
-            required: true
+        type: String,
+        required: true
     },
     description: { 
         type: String,
         required: true
     },
     fundsAllocated: {
-            type: Number,
-            required: true
+        type: Number,
+        required: true
     },
     fundingType: {
         type: String,
@@ -142,11 +148,12 @@ const Scholarship = new mongoose.Schema({
     },
     applications: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Application'
+        ref: 'Application',
+        required: true
     }]
 });
 
-const Application = new mongoose.Schema({
+const applicationSchema = new mongoose.Schema({
     applicant: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Applicant',
@@ -157,11 +164,9 @@ const Application = new mongoose.Schema({
         ref: 'Scholarship',
         required: true
     },
-    coverLetter: {
-        type: Buffer
-    },
     cv: {
-        type: Buffer
+        type: Buffer,
+        required: true
     },
     personalStatement: {
         type: String,
@@ -173,10 +178,19 @@ const Application = new mongoose.Schema({
     },
     dateSubmission: {
         type: Date,
+        required: true
 
     },
     rank: {
-        type: String
+        type: Number,
+        required: true
     },
 
 });
+
+const Applicant = mongoose.model('Applicant', applicantSchema);
+const Admin = mongoose.model('Admin', adminSchema);
+const Scholarship = mongoose.model('Scholarship', scholarshipSchema);
+const Application = mongoose.model('Application', applicationSchema);
+
+export {connectDB, Applicant, Admin, Scholarship,Application};

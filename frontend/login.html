@@ -19,31 +19,31 @@
                 <div class="uk-width-1-1@m">
                     <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
                         <img src="assets/images/FB_HUMBOLDT_LOGO_RGB_1COLOR_GREEN.jpg" alt="Humboldt Logo" class="uk-margin uk-margin-auto">
-                        <form>
+                        <form id="loginForm">
                             <div class="uk-margin">
                                 <div class="uk-inline uk-width-1-1">
                                     <span class="uk-form-icon" uk-icon="icon: user"></span>
-                                    <input class="uk-input" type="text" placeholder="Username" required="required">
+                                    <input class="uk-input" type="email" id="email" placeholder="Email" required="required">
                                 </div>
                             </div>
                             <div class="uk-margin">
                                 <div class="uk-inline uk-width-1-1">
                                     <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                    <input class="uk-input" type="password" placeholder="Password" required="required">
+                                    <input class="uk-input" type="password" id="password" placeholder="Password" required="required">
                                 </div>
                             </div>
                             <div class="uk-margin">
-                                <button class="uk-button uk-width-1-1">Login</button>
+                                <button type="submit" class="uk-button uk-width-1-1">Login</button>
                             </div>
+                            <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
 
-                            <div class="uk-text-center" style = "font-weight:300;">
-                                <span style = "margin-right: 5px;width: 15px"class="uk-icon" uk-icon="icon: info"></span>
+                            <div class="uk-text-center" style="font-weight:300;">
+                                <span style="margin-right: 5px;width: 15px" class="uk-icon" uk-icon="icon: info"></span>
                                 <a href="adminLogin.html">Admin Login</a>
-                                <hr style = "margin:7.5px;border-width:2.5px">
+                                <hr style="margin:7.5px;border-width:2.5px">
                                 Don't have an account? 
                                 <a href="signup.html">Sign up</a>
                             </div>   
-
                         </form>
                     </div>
                 </div>
@@ -54,5 +54,42 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+        
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                // Store token in localStorage for future requests
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('userEmail', result.email);
+                
+                // Redirect to dashboard or home page
+                window.location.href = '/dashboard.html';
+            } else {
+                errorMessage.textContent = result.error || 'Login failed. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        } catch (error) {
+            errorMessage.textContent = 'An error occurred. Please try again later.';
+            errorMessage.style.display = 'block';
+            console.error('Error:', error);
+        }
+    });
+</script>
 </body>
 </html>
