@@ -14,10 +14,6 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(cors()); // Enable CORS for React frontend
-
 // Define the root path handler first (before static middleware)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/login.html'));
@@ -31,4 +27,4 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', authRoutes);
 app.use('/api/applicants', applicantRoutes);
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(3000, () => console.log('Example app listening on port 3000! Visit http://localhost:3000 to view the login page.'));
