@@ -27,7 +27,7 @@
                             margin-bottom: 0px;
                             margin-top: 0px;" src="assets/images/FB_HUMBOLDT_LOGO_RGB_1COLOR_GREEN.jpg" alt="Humboldt Logo"
                                 class="uk-margin uk-margin-auto">
-                            <form>
+                            <form id="signupForm">
                                 <div class="form-container uk-column-1-2 uk-column-divider">
                                     <div id="column-left">
                                         <div class="uk-margin">
@@ -155,16 +155,18 @@
                                 <div class="uk-margin uk-width-1-1" style = "white-space:nowrap">
                                     <div class="uk-inline uk-width-1-2">
                                         <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                        <input class="uk-input" type="password" placeholder="Password" required="required">
+                                        <input class="uk-input" id="password" type="password" placeholder="Password" required="required">
                                     </div>
                                     <div class="uk-inline uk-width-1-2">
                                         <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                        <input class="uk-input" type="password" placeholder="Confirm Password" required="required">
+                                        <input class="uk-input" id="confirmPassword" type="password" placeholder="Confirm Password" required="required">
                                     </div>
                                 </div>
 
+                                <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
+                                
                                 <div class="uk-margin">
-                                    <button class="uk-button uk-width-1-1">Create Account</button>
+                                    <button type="submit" class="uk-button uk-width-1-1">Create Account</button>
                                 </div>
 
                             </form>
@@ -177,6 +179,56 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const email = document.querySelector('input[type="email"]').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const firstName = document.querySelector('input[placeholder="First Name"]').value;
+            const lastName = document.querySelector('input[placeholder="Last Name"]').value;
+            const phone = document.querySelector('input[type="tel"]').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            // Validate password match
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "Passwords don't match";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        email, 
+                        password,
+                        firstName,
+                        lastName,
+                        phone
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Redirect to login page
+                    window.location.href = '/login.html?registered=true';
+                } else {
+                    errorMessage.textContent = result.error || 'Signup failed. Please try again.';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred. Please try again later.';
+                errorMessage.style.display = 'block';
+                console.error('Error:', error);
+            }
+        });
+    </script>
 </body>
 
 </html>
