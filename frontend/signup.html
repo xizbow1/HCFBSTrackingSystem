@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lexend+Deca:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/uikitMods.css">
+</head>
+
+<body>
+
+    <div class="uk-section uk-flex uk-flex-middle uk-animation-fade" uk-height-viewport>
+        <div class="uk-width-1-1">
+            <div class="uk-container">
+                <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+                    <div class="uk-width-1-1@m">
+                        <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+                        style = "width: 800px">
+                            <img style = "max-width: 400px;
+                            margin-bottom: 0px;
+                            margin-top: 0px;" src="assets/images/FB_HUMBOLDT_LOGO_RGB_1COLOR_GREEN.jpg" alt="Humboldt Logo"
+                                class="uk-margin uk-margin-auto">
+                            <form>
+                                <div class="form-container uk-column-1-2 uk-column-divider">
+                                    <div id="column-left">
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                                                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                                                <input class="uk-input" type="text" placeholder="First Name" required="required">
+                                            </div>
+                                            <div class="uk-inline uk-width-1-1">
+                                                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                                                <input class="uk-input" type="text" placeholder="Last Name" required="required">
+                                            </div>
+                                        </div>
+                                
+                                            <div class="uk-inline uk-width-1-1">
+                                                <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                                                <input class="uk-input" type="email" placeholder="example@domain.com" required="required">
+                                            </div>
+                                
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1">
+                                                <span class="uk-form-icon" uk-icon="icon: phone"></span>
+                                                <input class="uk-input" type="tel" placeholder="(888) 888-8888" required="required">
+                                            </div>
+                                        </div>
+                                
+                                        <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                                            <span class="uk-form-icon" uk-icon="icon: home"></span>
+                                            <input class="uk-input" type="text" placeholder="Street Address 1" required="required">
+                                        </div>
+
+                                        <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                                            <span class="uk-form-icon" uk-icon="icon: home"></span>
+                                            <input class="uk-input" type="text" placeholder="Street Address 2" required="required">
+                                        </div>
+                                
+                                        <div>
+                                            <div class="uk-inline uk-width-1-3">
+                                                <input class="uk-input" type="text" placeholder="City" required="required">
+                                            </div>
+                                            <div class="uk-inline uk-width-1-4">
+                                                <input class="uk-input" type="text" placeholder="State" required="required">
+                                            </div>
+                                            <div class="uk-inline uk-width-1-3">
+                                                <input class="uk-input" type="text" placeholder="ZIP" required="required">
+                                            </div>
+                                        </div>
+
+
+                                        <br />
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                                                <span class="uk-form-icon" uk-icon="icon: location"></span>
+                                                <input class="uk-input" type="text" placeholder="High School" required="required">
+                                            </div>
+                                
+                                            <div class="uk-inline uk-width-1-1">
+                                                <span class="uk-form-icon" uk-icon="icon: star"></span>
+                                                <input class="uk-input" type="text" placeholder="GPA (Optional)">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                
+                                    <div id="column-right">
+                                
+                                        <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                                            <input class="uk-input" type="text" placeholder="College/University" required="required">
+                                        </div>
+                                
+                                        <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                                            <span class="uk-form-icon" uk-icon="icon: pencil"></span>
+                                            <input class="uk-input" type="text" placeholder="Major" required="required">
+                                        </div>
+                                
+                                        <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                                            <span class="uk-form-icon" uk-icon="icon: star"></span>
+                                            <input class="uk-input" type="text" placeholder="GPA" required="required">
+                                        </div>
+                                
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1">
+                                                <label class="uk-form-label">Upload Transcripts</label>
+                                                <br />
+                                                <div uk-form-custom="target: true">
+                                                    <input type="file" required="required">
+                                                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
+                                            <div class="uk-inline uk-width-1-1">
+                                                <label class="uk-form-label">Year</label>
+                                                <select class="uk-select" required="required">
+                                                    <option value="" selected disabled>Select...</option>
+                                                    <option value="freshman">Freshman</option>
+                                                    <option value="sophomore">Sophomore</option>
+                                                    <option value="junior">Junior</option>
+                                                    <option value="senior">Senior</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1">
+                                                <label class="uk-form-label">Enrollment Status</label>
+                                                <select class="uk-select" required="required">
+                                                    <option value="" selected disabled>Select...</option>
+                                                    <option value="freshman">Part-time</option>
+                                                    <option value="sophomore">Full-time</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1">
+                                                <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+                                                <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required="required">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+
+
+                                <div class="uk-margin uk-width-1-1" style = "white-space:nowrap">
+                                    <div class="uk-inline uk-width-1-2">
+                                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                        <input class="uk-input" type="password" placeholder="Password" required="required">
+                                    </div>
+                                    <div class="uk-inline uk-width-1-2">
+                                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                        <input class="uk-input" type="password" placeholder="Confirm Password" required="required">
+                                    </div>
+                                </div>
+
+                                <div class="uk-margin">
+                                    <button class="uk-button uk-width-1-1">Create Account</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+</body>
+
+</html>
