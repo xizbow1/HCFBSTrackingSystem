@@ -1,9 +1,10 @@
 {
+  "type": "module",
   "dependencies": {
     "express": "^4.21.2",
     "react": "^19.0.0"
   },
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node server.js"
 }
 }
