@@ -2,24 +2,27 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
 
-  apiKey: "AIzaSyDcLf4EaT3DTfIgpAZWnY_KBoYm_hDsvn0",
+  apiKey: process.env.FIRE_BASE_KEY,
 
-  authDomain: "hcfbstrackingsystem.firebaseapp.com",
+  authDomain: process.env.AUTH_DOMAIN,
 
-  projectId: "hcfbstrackingsystem",
+  projectId: process.env.PROJECT_ID,
 
-  storageBucket: "hcfbstrackingsystem.firebasestorage.app",
+  storageBucket: process.env.STORAGE_BUCKET,
 
-  messagingSenderId: "485920168712",
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
 
-  appId: "1:485920168712:web:dd7a0fbebbcba341922abd",
+  appId: process.env.APP_ID,
 
-  measurementId: "G-MP5E2K9BV7"
+  measurementId: process.envMEASUREMENT_ID
 
 };
 
