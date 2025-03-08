@@ -96,21 +96,5 @@ export const applicantAPI = {
       console.error(`Error deleting applicant ${id}:`, error);
       throw error;
     }
-  },
-
-  // Get applicant by email
-  getByEmail: async (email) => {
-    try {
-      const response = await fetch(`/api/applicants?email=${encodeURIComponent(email)}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      return handleResponse(response);
-    } catch (error) {
-      console.error('Error fetching applicant:', error);
-      throw error;
-    }
   }
 };

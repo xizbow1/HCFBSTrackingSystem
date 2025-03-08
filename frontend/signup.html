@@ -179,7 +179,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
-    <script src="assets/js/api.js"></script>
     <script>
         document.getElementById('signupForm').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -190,18 +189,6 @@
             const firstName = document.querySelector('input[placeholder="First Name"]').value;
             const lastName = document.querySelector('input[placeholder="Last Name"]').value;
             const phone = document.querySelector('input[type="tel"]').value;
-            const street = document.querySelector('input[placeholder="Street Address 1"]').value;
-            const aptNum = document.querySelector('input[placeholder="Street Address 2"]').value;
-            const city = document.querySelector('input[placeholder="City"]').value;
-            const state = document.querySelector('input[placeholder="State"]').value;
-            const zip = document.querySelector('input[placeholder="ZIP"]').value;
-            const highschool = document.querySelector('input[placeholder="High School"]').value;
-            const hsGpa = document.querySelector('input[placeholder="GPA (Optional)"]').value;
-            const college = document.querySelector('input[placeholder="College/University"]').value;
-            const major = document.querySelector('input[placeholder="Major"]').value;
-            const gpa = document.querySelector('input[placeholder="GPA"]').value;
-            const studentType = document.querySelector('select[aria-label="Enrollment Status"]').value;
-            const gradYear = document.querySelector('input[placeholder="Expected Graduation Date (YYYY)"]').value;
             const errorMessage = document.getElementById('error-message');
             
             // Validate password match
@@ -212,7 +199,6 @@
             }
             
             try {
-                // Step 1: Create Firebase user
                 const response = await fetch('/signup', {
                     method: 'POST',
                     headers: {
@@ -230,50 +216,8 @@
                 const result = await response.json();
                 
                 if (response.ok) {
-                    // Step 2: Create applicant in MongoDB
-                    try {
-                        // Mock transcripts - in production, you'd handle file uploads properly
-                        const mockTranscripts = "transcripts-placeholder";
-                        
-                        const applicantData = {
-                            firstName,
-                            lastName,
-                            email,
-                            phone,
-                            street,
-                            aptNum,
-                            city,
-                            state,
-                            zip,
-                            highschool,
-                            college,
-                            major,
-                            gpa,
-                            studentType,
-                            gradYear,
-                            hsGradYear: '',
-                            transcripts: mockTranscripts,
-                            firebaseUid: result.uid
-                        };
-                        
-                        localStorage.setItem('token', result.token || '');
-                        
-                        // Save to MongoDB
-                        await fetch('/api/applicants', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(applicantData)
-                        });
-                        
-                        // Redirect to login page
-                        window.location.href = '/login.html?registered=true';
-                    } catch (dbError) {
-                        console.error('Failed to save to MongoDB:', dbError);
-                        errorMessage.textContent = 'Account created but profile data could not be saved. Please contact support.';
-                        errorMessage.style.display = 'block';
-                    }
+                    // Redirect to login page
+                    window.location.href = '/login.html?registered=true';
                 } else {
                     errorMessage.textContent = result.error || 'Signup failed. Please try again.';
                     errorMessage.style.display = 'block';

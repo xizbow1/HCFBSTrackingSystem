@@ -54,85 +54,42 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
-<script src="assets/js/api.js"></script>
 <script>
-  document.getElementById('loginForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const errorMessage = document.getElementById('error-message');
-    
-    try {
-      // Step 1: Authenticate with Firebase
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
-      
-      const result = await response.json();
-      
-      if (response.ok) {
-        // Store authentication data
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('userEmail', result.email);
-        localStorage.setItem('uid', result.uid);
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
         
-        // Step 2: Fetch user profile from MongoDB
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+        
         try {
-          const fetchProfileResponse = await fetch(`/api/applicants?email=${encodeURIComponent(email)}`, {
-            headers: {
-              'Authorization': `Bearer ${result.token}`
-            }
-          });
-          
-          if (fetchProfileResponse.ok) {
-            const profiles = await fetchProfileResponse.json();
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
             
-            if (profiles && profiles.length > 0) {
-              // Store basic profile data
-              localStorage.setItem('userId', profiles[0]._id);
-              localStorage.setItem('firstName', profiles[0].firstName);
-              localStorage.setItem('lastName', profiles[0].lastName);
-              
-              console.log('Profile loaded from MongoDB');
+            const result = await response.json();
+            
+            if (response.ok) {
+                // Store token in localStorage for future requests
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('userEmail', result.email);
+                
+                // Redirect to dashboard or home page
+                window.location.href = '/dashboard.html';
             } else {
-              console.warn('No profile found in MongoDB');
+                errorMessage.textContent = result.error || 'Login failed. Please try again.';
+                errorMessage.style.display = 'block';
             }
-          }
-          
-          // Redirect to dashboard or home page
-          window.location.href = '/dashboard.html';
-        } catch (profileError) {
-          console.error('Error fetching profile:', profileError);
-          // Still redirect to dashboard, but there might be incomplete profile data
-          window.location.href = '/dashboard.html';
+        } catch (error) {
+            errorMessage.textContent = 'An error occurred. Please try again later.';
+            errorMessage.style.display = 'block';
+            console.error('Error:', error);
         }
-      } else {
-        errorMessage.textContent = result.error || 'Login failed. Please try again.';
-        errorMessage.style.display = 'block';
-      }
-    } catch (error) {
-      errorMessage.textContent = 'An error occurred. Please try again later.';
-      errorMessage.style.display = 'block';
-      console.error('Error:', error);
-    }
-  });
-  
-  // Check for registration success message
-  document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('registered') === 'true') {
-      const errorMessage = document.getElementById('error-message');
-      errorMessage.textContent = 'Registration successful! Please login.';
-      errorMessage.style.display = 'block';
-      errorMessage.classList.remove('uk-text-danger');
-      errorMessage.classList.add('uk-text-success');
-    }
-  });
+    });
 </script>
 </body>
 </html>

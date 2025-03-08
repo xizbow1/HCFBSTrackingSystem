@@ -29,24 +29,14 @@ export const getApplicant = async (req, res) => {
   }
 };
 
-// Create an applicant with more flexible validation
+// Create an applicant
 export const createApplicant = async (req, res) => {
   try {
-    // Handle required fields that might be missing during signup flow
-    const applicantData = {
-      ...req.body,
-      // Set missing required fields to placeholder values if needed
-      transcripts: req.body.transcripts || Buffer.from('placeholder')
-    };
-    
-    const applicant = new Applicant(applicantData);
+    const applicant = new Applicant(req.body);
     await applicant.save();
     res.status(201).json(applicant);
   } catch (error) {
-    res.status(400).json({ 
-      message: error.message,
-      details: 'Failed to create applicant profile'
-    });
+    res.status(400).json({ message: error.message });
   }
 };
 
