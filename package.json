@@ -1,20 +1,17 @@
 {
   "type": "module",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
-<<<<<<< HEAD
+    "firebase": "^11.4.0",
     "mongoose": "^8.12.1",
     "react": "^19.0.0"
   },
   "scripts": {
-    "start": "node server.js"
-=======
+    "start": "node src/server.js",
     "firebase": "^11.4.0",
     "mongodb": "^6.14.2",
     "react": "^19.0.0"
-  },
-  "scripts": {
-    "start": "node src/server.js"
->>>>>>> 511aa22f602a1c206ea9472f9ba3952ed4fe347c
   }
 }
