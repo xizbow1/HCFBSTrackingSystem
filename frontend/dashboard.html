@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/uikitMods.css">
+</head>
+<body>
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="#">Dashboard</a></li>
+                <li><a href="#">Scholarships</a></li>
+                <li><a href="#">Applications</a></li>
+            </ul>
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="#" id="user-name">Loading...</a>
+                    <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#" id="logout-btn">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="uk-section">
+        <div class="uk-container">
+            <h1>Student Dashboard</h1>
+            
+            <div id="loading" class="uk-text-center">
+                <div uk-spinner></div>
+                <p>Loading your profile...</p>
+            </div>
+            
+            <div id="profile-data" class="uk-card uk-card-default uk-card-body" style="display:none;">
+                <h2>Your Profile</h2>
+                <div id="user-profile">
+                    <!-- Profile data will be inserted here -->
+                </div>
+            </div>
+            
+            <div id="error-message" class="uk-alert-danger uk-margin" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+    <script src="assets/js/api.js"></script>
+    
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('token');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (!token || !userEmail) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // Update user name in nav
+            const firstName = localStorage.getItem('firstName');
+            const lastName = localStorage.getItem('lastName');
+            if (firstName && lastName) {
+                document.getElementById('user-name').textContent = `${firstName} ${lastName}`;
+            } else {
+                document.getElementById('user-name').textContent = userEmail;
+            }
+            
+            // Setup logout button
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = '/login.html';
+            });
+            
+            const loading = document.getElementById('loading');
+            const profileData = document.getElementById('profile-data');
+            const userProfile = document.getElementById('user-profile');
+            const errorMessage = document.getElementById('error-message');
+            
+            try {
+                // Fetch profile data
+                const response = await fetch(`/api/applicants?email=${encodeURIComponent(userEmail)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load profile data');
+                }
+                
+                const applicants = await response.json();
+                
+                if (applicants.length > 0) {
+                    const applicant = applicants[0];
+                    
+                    // Create profile HTML
+                    let profileHTML = `
+                        <div class="uk-grid" uk-grid>
+                            <div class="uk-width-1-2">
+                                <p><strong>Name:</strong> ${applicant.firstName} ${applicant.lastName}</p>
+                                <p><strong>Email:</strong> ${applicant.email}</p>
+                                <p><strong>Phone:</strong> ${applicant.phone}</p>
+                                <p><strong>Address:</strong><br>
+                                   ${applicant.street}${applicant.aptNum ? ', ' + applicant.aptNum : ''}<br>
+                                   ${applicant.city}, ${applicant.state} ${applicant.zip}</p>
+                            </div>
+                            <div class="uk-width-1-2">
+                                <p><strong>College/University:</strong> ${applicant.college}</p>
+                                <p><strong>Major:</strong> ${applicant.major}</p>
+                                <p><strong>GPA:</strong> ${applicant.gpa}</p>
+                                <p><strong>Student Type:</strong> ${applicant.studentType}</p>
+                                <p><strong>Expected Graduation:</strong> ${applicant.gradYear}</p>
+                            </div>
+                        </div>
+                        <div class="uk-margin">
+                            <button class="uk-button uk-button-primary">Edit Profile</button>
+                        </div>
+                    `;
+                    
+                    userProfile.innerHTML = profileHTML;
+                } else {
+                    userProfile.innerHTML = `
+                        <p>We couldn't find your profile information. Please complete your profile.</p>
+                        <a href="#" class="uk-button uk-button-primary">Complete Profile</a>
+                    `;
+                }
+                
+                // Hide loading, show profile
+                loading.style.display = 'none';
+                profileData.style.display = 'block';
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                errorMessage.textContent = `Error: ${error.message}`;
+                errorMessage.style.display = 'block';
+                console.error('Error fetching profile:', error);
+            }
+        });
+    </script>
+</body>
+</html>
