@@ -73,10 +73,10 @@ const applicantSchema = new mongoose.Schema({
         Type:String
     },
     hsGradYear: { 
-        type: Date,
+        type: String,
     },
     gradYear: { 
-        type: Date,
+        type: String,
     },
     pic: { 
         type: Buffer,
@@ -164,8 +164,7 @@ const applicationSchema = new mongoose.Schema({
         required: true
     },
     cv: {
-        type: Buffer,
-        required: true
+        type: Buffer
     },
     personalStatement: {
         type: String,
@@ -177,12 +176,10 @@ const applicationSchema = new mongoose.Schema({
     },
     dateSubmission: {
         type: Date,
-        required: true
 
     },
     rank: {
-        type: Number,
-        required: true
+        type: String
     },
 
 });
