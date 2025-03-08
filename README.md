@@ -9,4 +9,5 @@ npm install
 npm start
 ```
 
-![schema](https://github.com/xizbow1/HCFBSTrackingSystem/deployment/schema.png?raw=true
+The relationship within the database is shown below:
+![screenshot](/deployment/schema.png)
