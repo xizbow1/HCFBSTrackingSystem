@@ -179,7 +179,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+    <script src="assets/js/api.js" type="module"></script>
     <script>
+        import { applicantAPI } from './assets/js/api.js';
+        
         document.getElementById('signupForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             
@@ -189,6 +192,16 @@
             const firstName = document.querySelector('input[placeholder="First Name"]').value;
             const lastName = document.querySelector('input[placeholder="Last Name"]').value;
             const phone = document.querySelector('input[type="tel"]').value;
+            const street = document.querySelector('input[placeholder="Street Address 1"]').value;
+            const aptNum = document.querySelector('input[placeholder="Street Address 2"]').value;
+            const city = document.querySelector('input[placeholder="City"]').value;
+            const state = document.querySelector('input[placeholder="State"]').value;
+            const zip = document.querySelector('input[placeholder="ZIP"]').value;
+            const highschool = document.querySelector('input[placeholder="High School"]').value;
+            const hsGpa = document.querySelector('input[placeholder="GPA (Optional)"]').value;
+            const college = document.querySelector('input[placeholder="College/University"]').value;
+            const major = document.querySelector('input[placeholder="Major"]').value;
+            const gpa = document.querySelector('input[placeholder="GPA"]').value;
             const errorMessage = document.getElementById('error-message');
             
             // Validate password match
@@ -199,7 +212,8 @@
             }
             
             try {
-                const response = await fetch('/signup', {
+                // Step 1: Create Firebase user
+                const authResponse = await fetch('/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -213,13 +227,53 @@
                     })
                 });
                 
-                const result = await response.json();
+                const authResult = await authResponse.json();
                 
-                if (response.ok) {
-                    // Redirect to login page
-                    window.location.href = '/login.html?registered=true';
+                if (authResponse.ok) {
+                    // Step 2: Store user profile in MongoDB using the API
+                    try {
+                        const studentType = document.querySelector('select[aria-label="Enrollment Status"]').value;
+                        const gradYear = document.querySelector('input[placeholder="Expected Graduation Date (YYYY)"]').value;
+                        
+                        const applicantData = {
+                            firstName,
+                            lastName,
+                            email,
+                            phone,
+                            street,
+                            aptNum,
+                            city,
+                            state,
+                            zip,
+                            highschool,
+                            college,
+                            major,
+                            gpa,
+                            studentType,
+                            gradYear,
+                            hsGradYear: '',
+                            firebaseUid: authResult.uid
+                        };
+                        
+                        // Use the API module to create an applicant
+                        await fetch('/api/applicants', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${authResult.token}`
+                            },
+                            body: JSON.stringify(applicantData)
+                        });
+                        
+                        // Redirect to login page
+                        window.location.href = '/login.html?registered=true';
+                    } catch (dbError) {
+                        console.error('Failed to save to database:', dbError);
+                        errorMessage.textContent = 'Account created but profile data could not be saved. Please contact support.';
+                        errorMessage.style.display = 'block';
+                    }
                 } else {
-                    errorMessage.textContent = result.error || 'Signup failed. Please try again.';
+                    errorMessage.textContent = authResult.error || 'Signup failed. Please try again.';
                     errorMessage.style.display = 'block';
                 }
             } catch (error) {
