@@ -1,5 +1,5 @@
-const { application } = require('express');
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import express from 'express';
 
 const connectDB = async() => {
     try {
@@ -22,7 +22,7 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        String,
+        type: String,
         required: true,
         unique: true,
     },
@@ -67,7 +67,9 @@ const applicantSchema = new mongoose.Schema({
         type: Buffer,
         required: true
     },
-    highschool: String,
+    highschool: {
+        Type:String
+    },
     hsGradYear: { 
         type: String,
     },
@@ -79,12 +81,12 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     application: [{
-        type: monggose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Application'
     }]
 });
 
-const admin = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     firstName: { 
         type: String,
         required: true
@@ -99,7 +101,7 @@ const admin = new mongoose.Schema({
     }
 });
 
-const Scholarship = new mongoose.Schema({
+const scholarshipSchema = new mongoose.Schema({
     name: { 
         type: String,
         required: true
@@ -146,7 +148,7 @@ const Scholarship = new mongoose.Schema({
     }]
 });
 
-const Application = new mongoose.Schema({
+const applicationSchema = new mongoose.Schema({
     applicant: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Applicant',
@@ -180,3 +182,10 @@ const Application = new mongoose.Schema({
     },
 
 });
+
+const Applicant = mongoose.model('Applicant', applicantSchema);
+const Admin = mongoose.model('Admin', adminSchema);
+const Scholarship = mongoose.model('Scholarship', scholarshipSchema);
+const Application = mongoose.model('Application', applicationSchema);
+
+export {connectDB, Applicant, Admin, Scholarship,Application};
