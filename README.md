@@ -8,3 +8,5 @@ After installing Node.js, you can run the following commands in the HCFBSTrackin
 npm install
 npm start
 ```
+
+![schema](https://github.com/xizbow1/HCFBSTrackingSystem/deployment/schema.png?raw=true
