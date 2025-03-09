@@ -30,7 +30,7 @@
                             <form id="signupForm">
                                 <div class="form-container uk-column-1-2 uk-column-divider">
                                     <div id="column-left">
-                                        <div class="uk-margin">
+
                                             <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                                 <span class="uk-form-icon" uk-icon="icon: user"></span>
                                                 <input class="uk-input" type="text" placeholder="First Name" required="required">
@@ -38,6 +38,16 @@
                                             <div class="uk-inline uk-width-1-1">
                                                 <span class="uk-form-icon" uk-icon="icon: user"></span>
                                                 <input class="uk-input" type="text" placeholder="Last Name" required="required">
+                                            </div>
+
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1">
+                                                <label class="uk-form-label">Upload Profile Picture</label>
+                                                <br />
+                                                <div uk-form-custom="target: true">
+                                                    <input type="file" required="required">
+                                                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                </div>
                                             </div>
                                         </div>
                                 
