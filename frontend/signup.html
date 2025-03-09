@@ -27,51 +27,51 @@
                             margin-bottom: 0px;
                             margin-top: 0px;" src="assets/images/FB_HUMBOLDT_LOGO_RGB_1COLOR_GREEN.jpg" alt="Humboldt Logo"
                                 class="uk-margin uk-margin-auto">
-                            <form id="signupForm">
+                            <form id="signupForm" enctype="multipart/form-data">
                                 <div class="form-container uk-column-1-2 uk-column-divider">
                                     <div id="column-left">
                                         <div class="uk-margin">
                                             <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                                 <span class="uk-form-icon" uk-icon="icon: user"></span>
-                                                <input class="uk-input" type="text" placeholder="First Name" required="required">
+                                                <input class="uk-input" type="text" id="firstName" name="firstName" placeholder="First Name" required="required">
                                             </div>
                                             <div class="uk-inline uk-width-1-1">
                                                 <span class="uk-form-icon" uk-icon="icon: user"></span>
-                                                <input class="uk-input" type="text" placeholder="Last Name" required="required">
+                                                <input class="uk-input" type="text" id="lastName" name="lastName" placeholder="Last Name" required="required">
                                             </div>
                                         </div>
                                 
                                             <div class="uk-inline uk-width-1-1">
                                                 <span class="uk-form-icon" uk-icon="icon: mail"></span>
-                                                <input class="uk-input" type="email" placeholder="example@domain.com" required="required">
+                                                <input class="uk-input" type="email" id="email" name="email" placeholder="example@domain.com" required="required">
                                             </div>
                                 
                                         <div class="uk-margin">
                                             <div class="uk-inline uk-width-1-1">
                                                 <span class="uk-form-icon" uk-icon="icon: phone"></span>
-                                                <input class="uk-input" type="tel" placeholder="(888) 888-8888" required="required">
+                                                <input class="uk-input" type="tel" id="phone" name="phone" placeholder="(888) 888-8888" required="required">
                                             </div>
                                         </div>
                                 
                                         <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                             <span class="uk-form-icon" uk-icon="icon: home"></span>
-                                            <input class="uk-input" type="text" placeholder="Street Address 1" required="required">
+                                            <input class="uk-input" type="text" id="street" name="street" placeholder="Street Address 1" required="required">
                                         </div>
 
                                         <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                             <span class="uk-form-icon" uk-icon="icon: home"></span>
-                                            <input class="uk-input" type="text" placeholder="Street Address 2" required="required">
+                                            <input class="uk-input" type="text" id="aptNum" name="aptNum" placeholder="Street Address 2">
                                         </div>
                                 
                                         <div>
                                             <div class="uk-inline uk-width-1-3">
-                                                <input class="uk-input" type="text" placeholder="City" required="required">
+                                                <input class="uk-input" type="text" id="city" name="city" placeholder="City" required="required">
                                             </div>
                                             <div class="uk-inline uk-width-1-4">
-                                                <input class="uk-input" type="text" placeholder="State" required="required">
+                                                <input class="uk-input" type="text" id="state" name="state" placeholder="State" required="required">
                                             </div>
                                             <div class="uk-inline uk-width-1-3">
-                                                <input class="uk-input" type="text" placeholder="ZIP" required="required">
+                                                <input class="uk-input" type="text" id="zip" name="zip" placeholder="ZIP" required="required">
                                             </div>
                                         </div>
 
@@ -80,12 +80,12 @@
                                         <div class="uk-margin">
                                             <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                                 <span class="uk-form-icon" uk-icon="icon: location"></span>
-                                                <input class="uk-input" type="text" placeholder="High School" required="required">
+                                                <input class="uk-input" type="text" id="highschool" name="highschool" placeholder="High School" required="required">
                                             </div>
                                 
                                             <div class="uk-inline uk-width-1-1">
                                                 <span class="uk-form-icon" uk-icon="icon: star"></span>
-                                                <input class="uk-input" type="text" placeholder="GPA (Optional)">
+                                                <input class="uk-input" type="number" step="0.01" min="0" max="4.0" id="hsGpa" name="hsGpa" placeholder="GPA (Optional)">
                                             </div>
                                         </div>
 
@@ -95,17 +95,17 @@
                                 
                                         <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                             <span class="uk-form-icon" uk-icon="icon: location"></span>
-                                            <input class="uk-input" type="text" placeholder="College/University" required="required">
+                                            <input class="uk-input" type="text" id="college" name="college" placeholder="College/University" required="required">
                                         </div>
                                 
                                         <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                             <span class="uk-form-icon" uk-icon="icon: pencil"></span>
-                                            <input class="uk-input" type="text" placeholder="Major" required="required">
+                                            <input class="uk-input" type="text" id="major" name="major" placeholder="Major" required="required">
                                         </div>
                                 
                                         <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
                                             <span class="uk-form-icon" uk-icon="icon: star"></span>
-                                            <input class="uk-input" type="text" placeholder="GPA" required="required">
+                                            <input class="uk-input" type="number" step="0.01" min="0" max="4.0" id="gpa" name="gpa" placeholder="GPA" required="required">
                                         </div>
                                 
                                         <div class="uk-margin">
@@ -113,7 +113,7 @@
                                                 <label class="uk-form-label">Upload Transcripts</label>
                                                 <br />
                                                 <div uk-form-custom="target: true">
-                                                    <input type="file" required="required">
+                                                    <input type="file" id="transcripts" name="transcripts" required="required">
                                                     <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
                                                 </div>
                                             </div>
@@ -121,7 +121,7 @@
                                 
                                             <div class="uk-inline uk-width-1-1">
                                                 <label class="uk-form-label">Year</label>
-                                                <select class="uk-select" required="required">
+                                                <select class="uk-select" id="studentType" name="studentType" required="required">
                                                     <option value="" selected disabled>Select...</option>
                                                     <option value="freshman">Freshman</option>
                                                     <option value="sophomore">Sophomore</option>
@@ -133,10 +133,10 @@
                                             <div class="uk-margin">
                                             <div class="uk-inline uk-width-1-1">
                                                 <label class="uk-form-label">Enrollment Status</label>
-                                                <select class="uk-select" required="required">
+                                                <select class="uk-select" id="enrollmentStatus" name="enrollmentStatus" required="required">
                                                     <option value="" selected disabled>Select...</option>
-                                                    <option value="freshman">Part-time</option>
-                                                    <option value="sophomore">Full-time</option>
+                                                    <option value="part-time">Part-time</option>
+                                                    <option value="full-time">Full-time</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -144,7 +144,18 @@
                                         <div class="uk-margin">
                                             <div class="uk-inline uk-width-1-1">
                                                 <span class="uk-form-icon" uk-icon="icon: calendar"></span>
-                                                <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required="required">
+                                                <input class="uk-input" type="text" id="gradYear" name="gradYear" placeholder="Expected Graduation Date (YYYY)" required="required">
+                                            </div>
+                                        </div>
+
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1">
+                                                <label class="uk-form-label">Upload Profile Picture</label>
+                                                <br />
+                                                <div uk-form-custom="target: true">
+                                                    <input type="file" id="pic" name="pic" required="required">
+                                                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -155,7 +166,7 @@
                                 <div class="uk-margin uk-width-1-1" style = "white-space:nowrap">
                                     <div class="uk-inline uk-width-1-2">
                                         <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                        <input class="uk-input" id="password" type="password" placeholder="Password" required="required">
+                                        <input class="uk-input" id="password" name="password" type="password" placeholder="Password" required="required">
                                     </div>
                                     <div class="uk-inline uk-width-1-2">
                                         <span class="uk-form-icon" uk-icon="icon: lock"></span>
@@ -164,6 +175,7 @@
                                 </div>
 
                                 <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
+                                <div id="success-message" class="uk-text-success uk-text-center" style="display: none;"></div>
                                 
                                 <div class="uk-margin">
                                     <button type="submit" class="uk-button uk-width-1-1">Create Account</button>
@@ -183,13 +195,16 @@
         document.getElementById('signupForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             
-            const email = document.querySelector('input[type="email"]').value;
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            
+            // Hide any previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Get form data
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const firstName = document.querySelector('input[placeholder="First Name"]').value;
-            const lastName = document.querySelector('input[placeholder="Last Name"]').value;
-            const phone = document.querySelector('input[type="tel"]').value;
-            const errorMessage = document.getElementById('error-message');
             
             // Validate password match
             if (password !== confirmPassword) {
@@ -198,28 +213,59 @@
                 return;
             }
             
+            // Create FormData object for file uploads
+            const formData = new FormData();
+            
+            // Add text fields to FormData
+            formData.append('firstName', document.getElementById('firstName').value);
+            formData.append('lastName', document.getElementById('lastName').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('street', document.getElementById('street').value);
+            formData.append('aptNum', document.getElementById('aptNum').value);
+            formData.append('city', document.getElementById('city').value);
+            formData.append('state', document.getElementById('state').value);
+            formData.append('zip', document.getElementById('zip').value);
+            formData.append('highschool', document.getElementById('highschool').value);
+            formData.append('gpa', document.getElementById('gpa').value);
+            formData.append('college', document.getElementById('college').value);
+            formData.append('major', document.getElementById('major').value);
+            formData.append('studentType', document.getElementById('studentType').value);
+            formData.append('gradYear', document.getElementById('gradYear').value);
+            formData.append('password', password);
+            
+            // Add file inputs
+            const transcriptsFile = document.getElementById('transcripts').files[0];
+            const picFile = document.getElementById('pic').files[0];
+            
+            if (transcriptsFile) {
+                formData.append('transcripts', transcriptsFile);
+            }
+            
+            if (picFile) {
+                formData.append('pic', picFile);
+            }
+            
             try {
-                const response = await fetch('/signup', {
+                // Submit to the API endpoint instead of /signup
+                const response = await fetch('/api/applicants', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        email, 
-                        password,
-                        firstName,
-                        lastName,
-                        phone
-                    })
+                    body: formData // Don't set Content-Type header - FormData sets it automatically with boundary
                 });
                 
                 const result = await response.json();
                 
                 if (response.ok) {
-                    // Redirect to login page
-                    window.location.href = '/login.html?registered=true';
+                    // Show success message
+                    successMessage.textContent = "Account created successfully! Redirecting to login...";
+                    successMessage.style.display = 'block';
+                    
+                    // Redirect after a delay
+                    setTimeout(() => {
+                        window.location.href = '/login.html?registered=true';
+                    }, 2000);
                 } else {
-                    errorMessage.textContent = result.error || 'Signup failed. Please try again.';
+                    errorMessage.textContent = result.message || 'Signup failed. Please try again.';
                     errorMessage.style.display = 'block';
                 }
             } catch (error) {

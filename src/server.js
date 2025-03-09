@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 connectDB();
 
@@ -24,7 +25,8 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Use auth routes
+// Use routes
 app.use('/', authRoutes);
+app.use('/api', applicantRoutes); // Mount applicant routes under /api
 
 app.listen(3000, () => console.log('Example app listening on port 3000! Visit http://localhost:3000 to view the login page.'));

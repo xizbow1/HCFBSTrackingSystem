@@ -1,21 +1,11 @@
 import express from 'express';
-import * as applicantController from '../controllers/applicantController.js';
+import { createApplicant, getApplicants, getApplicantById, uploadFiles } from '../controllers/applicantController.js';
 
 const router = express.Router();
 
-// GET all applicants
-router.get('/', applicantController.getApplicants);
-
-// GET a single applicant
-router.get('/:id', applicantController.getApplicant);
-
-// POST a new applicant
-router.post('/', applicantController.createApplicant);
-
-// PUT update an applicant
-router.put('/:id', applicantController.updateApplicant);
-
-// DELETE an applicant
-router.delete('/:id', applicantController.deleteApplicant);
+// Routes for applicants
+router.post('/applicants', uploadFiles, createApplicant);
+router.get('/applicants', getApplicants);
+router.get('/applicants/:id', getApplicantById);
 
 export default router;
