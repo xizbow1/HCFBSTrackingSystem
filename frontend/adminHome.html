@@ -350,7 +350,7 @@ margin:-5px;
             <!-- two tabbed interface-->
             <ul class="uk-tab" uk-tab>
                 <li onclick = "changeTab('allScholarships')" style = "padding-left:20px;"><a href="#" class="active" id = "allTab">All Scholarships</a></li>
-                <li onclick = "changeTab('myScholarships')"><a href="#" id = "myTab" >My Scholarships</a></li>
+                <li onclick = "changeTab('myAccount')"><a href="#" id = "myTab" >Account</a></li>
             </ul>
 
             <div class = "page" id="allScholarships">
@@ -360,7 +360,7 @@ margin:-5px;
 
             <div class = "innerMenu" id="allScholarshipsMenu">
 
-                <h1>Scholarship Information</h1>
+                <h1>Current Applicants</h1>
                 <hr/>
                 <p>Name: <span id = "allScholarshipName"></span></p>
                 <p>Posted: <span id = "allScholarshipPosted"></span></p>
@@ -379,16 +379,18 @@ margin:-5px;
 
             </div>
 
+            <div class = "innerToolbar"
+
             </div>
 
-            <div class = "page" id="myScholarships">
+            <div class = "page" id="myAccount">
 
-            <div class = "innerWriteable" id = "myScholarshipsInner">
+            <div class = "innerWriteable" id = "myAccountInner">
             </div>
 
-            <div class = "innerMenu" id="myScholarshipsMenu">
+            <div class = "innerMenu" id="myAccountMenu">
 
-            <button class = "closeButton" onclick = "closeMenu('myScholarshipsMenu')">
+            <button class = "closeButton" onclick = "closeMenu('myAccountMenu')">
                 <i class="ri-close-circle-fill"></i>
             </button>
 
@@ -650,14 +652,14 @@ margin:-5px;
                 <h3>`+fixedDateMonth+`/`+fixedDateDay+`</h3>
                 </div>
                 <div class ="scholarshipMiddle">
-                <p>Requirements:</p>
-                <div class = "scholarshipReq">
-                    `+requirements+`
+                <p>Description:</p>
+                <div class = "scholarshipDesc">
+                    `+description+`
                 </div>
                 </div>
                 <div class = "scholarshipNav">
                     <button onclick = "getScholarshipData(`+randomID+`, '`+menu+`Menu')" >
-                    More
+                    View Applicants
                     </button>
                 </div>
             </div>
@@ -670,7 +672,7 @@ margin:-5px;
 
         var postedScholarship = document.getElementById(id);
 
-        if (menu === "myScholarshipsMenu") {
+        if (menu === "myAccountMenu") {
             document.getElementById("myScholarshipName").innerHTML = postedScholarship.getAttribute("data-name");
             document.getElementById("myScholarshipPosted").innerHTML = postedScholarship.getAttribute("data-creationDate");
             document.getElementById("myScholarshipFunder").innerHTML = postedScholarship.getAttribute("data-funderName");
@@ -721,7 +723,7 @@ margin:-5px;
 
     function changeTab(tab){
         document.getElementById("allScholarships").style.display = "none";
-        document.getElementById("myScholarships").style.display = "none";
+        document.getElementById("myAccount").style.display = "none";
         document.getElementById(tab).style.display = "flex";
 
         if(tab == "allScholarships"){
