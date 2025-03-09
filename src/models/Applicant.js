@@ -67,10 +67,6 @@ const applicantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     enrollmentStatus: {
         type: String,
         required: true
