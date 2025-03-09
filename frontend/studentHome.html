@@ -57,7 +57,7 @@
             <div class="page" id="myScholarships">
                 <div class="innerWriteable" id="myScholarshipsInner"></div>
             </div>
-            <div class="page">
+            <div class="page" id = "myProfileOuter">
                 <div id="myProfile" class="uk-flex uk-flex-middle uk-animation-fade" uk-height-viewport>
 
                                         
@@ -693,7 +693,7 @@ function writeScholarship(
             <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
             <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
             <hr style = 'margin-top:10px;margin-bottom:10px'>
-            <button class = 'applyButton2' onclick='launchApplyModal("${randomID}")'>
+            <button class = 'applyButton2' onclick='launchApplyModal(`+randomID+`)'>
             <i class='ri-external-link-fill' style = 'margin-right:5px'></i>
             Apply Now
             </button>
@@ -759,6 +759,13 @@ function writeScholarship(
         if (tab === "myScholarships") {
             fetchMyScholarships();
         }
+
+        if (tab === "myProfile") {
+            document.getElementById('myProfileOuter').style.backgroundImage = "none";
+        } else {
+            document.getElementById('myProfileOuter').style.backgroundImage = "url('assets/images/pfp_test.jpg')";
+        }
+
     }
 
     function logOut() {
