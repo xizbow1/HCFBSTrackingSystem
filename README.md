@@ -1,8 +1,6 @@
 # HCFBSTrackingSystem
 
-The Humboldt County Farm Bureau Scholarship Tracking System was created during the Cal Poly Humboldt 2025 Hackathon
-
-
+The Humboldt County Farm Bureau Scholarship Tracking System was created during the Cal Poly Humboldt 2025 Hackathon. The project was created with highlighting social good for local non-profits in Humboldt County.
 
 To run the project, you must install Node.js and npm. You can download Node.js from [here](https://nodejs.org/en/download/).
 
