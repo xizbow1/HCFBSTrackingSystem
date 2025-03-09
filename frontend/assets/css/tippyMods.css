@@ -257,7 +257,7 @@ opacity: 50%;
 margin-bottom: 5px;
 }
 
-.scholarshipReq {
+.scholarshipReq, .scholarshipDesc {
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
@@ -478,4 +478,8 @@ padding:15px;
 
 #myProfileInner {
     width:100%;
+}
+
+#myProfile {
+    min-height:unset!important;
 }

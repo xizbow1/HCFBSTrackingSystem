@@ -22,6 +22,11 @@
             transition: all 0s;
         }
 
+        textarea {
+            resize: none;
+            font-weight: 300;
+        }
+
         .uk-button {
             background-color: #056937;
             color:white;
@@ -56,4 +61,47 @@
         label {
             font-weight: 300;
             color: #666;
+        }
+
+        #myProfile {
+            padding:0px;
+        }
+
+        .innerToolbar {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 15px;
+            display: grid;
+            grid-gap: 10px;
+        }
+
+        .innerToolbar button {
+            background-color: #333333;
+            color: white;
+            border: none;
+            font-family: 'DM Sans';
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 15px;
+            box-shadow: 5px 5px 0px #33333350;
+        }
+
+        .innerToolbar i {
+            margin-right: 5px;
+        }
+
+        .uk-form-label {
+            font-size: 12px;
+            margin: 0;
+            font-weight: 900;
+            color: #555;
+            opacity: 50%;
+            margin-bottom: 5px;
+        }
+
+        .uk-form-controls {
+            margin-bottom: 10px;
+            font-weight: 300;
         }

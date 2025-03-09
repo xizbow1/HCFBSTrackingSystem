@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
-    <script src ="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.22.0/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -56,115 +57,179 @@
             <div class="page" id="myScholarships">
                 <div class="innerWriteable" id="myScholarshipsInner"></div>
             </div>
-            <div class="page" id="myProfile">
-                <div class="innerWriteable" id="myProfileInner">
-                <div class="innerWriteable" id="myProfileInner">
-                    <button style="border: none; border-radius: 10px; box-shadow: 5px 5px 0px #33333350; font-size: 17px;" class="uk-button uk-button-default" onclick="launchEditProfileModal()">
-                        <i style="margin-right:5px" class="ri-pencil-line"></i>
-                        Edit Profile
-                    </button>
-                    <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
-                        <div>
-                            <label class="uk-form-label">Upload Profile Picture</label>
-                            <div uk-form-custom="target: true">
-                                <input type="file" required="required">
-                                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: mail"></span>
-                                <input class="uk-input" type="email" placeholder="example@domain.com" required="required">
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: phone"></span>
-                                <input class="uk-input" type="tel" placeholder="(888) 888-8888" required="required">
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: home"></span>
-                                <input class="uk-input" type="text" placeholder="Street Address 1" required="required">
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: home"></span>
-                                <input class="uk-input" type="text" placeholder="Street Address 2">
-                            </div>
-                            <div class="uk-margin">
-                                <input class="uk-input" type="text" placeholder="City" required="required">
-                                <input class="uk-input" type="text" placeholder="State" required="required">
-                                <input class="uk-input" type="text" placeholder="ZIP" required="required">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: location"></span>
-                                <input class="uk-input" type="text" placeholder="High School" required="required">
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: star"></span>
-                                <input class="uk-input" type="text" placeholder="GPA (Optional)">
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: location"></span>
-                                <input class="uk-input" type="text" placeholder="College/University" required="required">
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: pencil"></span>
-                                <input class="uk-input" type="text" placeholder="Major" required="required">
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: star"></span>
-                                <input class="uk-input" type="text" placeholder="GPA" required="required">
-                            </div>
-                            <div class="uk-margin">
-                                <label class="uk-form-label">Upload Transcripts</label>
-                                <div uk-form-custom="target: true">
-                                    <input type="file" id="transcriptsFile" name="transcripts" accept=".pdf,.doc,.docx,image/*" required="required">
-                                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
-                                </div>
-                                <div class="uk-text-small uk-text-muted">Accepted formats: PDF, DOC, DOCX, Images</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-margin">
-                                <label class="uk-form-label">Year</label>
-                                <select class="uk-select" id="studentType" required="required">
-                                    <option value="" selected disabled>Select...</option>
-                                    <option value="freshman">Freshman</option>
-                                    <option value="sophomore">Sophomore</option>
-                                    <option value="junior">Junior</option>
-                                    <option value="senior">Senior</option>
-                                </select>
-                            </div>
-                            <div class="uk-margin">
-                                <label class="uk-form-label">Enrollment Status</label>
-                                <select class="uk-select" id="enrollmentStatus" required="required">
-                                    <option value="" selected disabled>Select...</option>
-                                    <option value="part-time">Part-time</option>
-                                    <option value="full-time">Full-time</option>
-                                </select>
-                            </div>
-                            <div class="uk-margin">
-                                <span class="uk-form-icon" uk-icon="icon: calendar"></span>
-                                <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required="required">
-                            </div>
-                            <div class="uk-margin uk-width-1-1" style="white-space:nowrap">
-                                <div class="uk-inline uk-width-1-2">
-                                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                    <input class="uk-input" id="password" type="password" placeholder="Password" required="required">
-                                </div>
-                                <div class="uk-inline uk-width-1-2">
-                                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                    <input class="uk-input" id="confirmPassword" type="password" placeholder="Confirm Password" required="required">
-                                </div>
-                            </div>
-                            <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
-                            <div class="uk-margin">
-                                <button type="submit" class="uk-button uk-width-1-1">Save Changes</button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="page">
+                <div id="myProfile" class="uk-flex uk-flex-middle uk-animation-fade" uk-height-viewport>
+
+                                        
+                                        <div id="myProfileInner">
+    
+            
+                                            <form id="profileForm">
+                                                <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
+                                                    
+                                                    <!-- Column 1 -->
+                                                    <div>
+                                                        <div class="uk-margin">
+                                                            <label class="uk-form-label">Upload Profile Picture</label>
+                                                            <div uk-form-custom="target: true">
+                                                                <input type="file" id="profilePic" name="pic" accept="image/*" required>
+                                                                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                            </div>
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                                                            <input class="uk-input" type="email" placeholder="example@domain.com" required>
+                                                        </div>
+                                            
+                                                        <div class="uk-margin">
+                                                            <div class="uk-inline uk-width-1-1">
+                                                                <span class="uk-form-icon" uk-icon="icon: phone"></span>
+                                                                <input class="uk-input" type="tel" placeholder="(888) 888-8888" required>
+                                                            </div>
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: home"></span>
+                                                            <input class="uk-input" type="text" placeholder="Street Address 1" required>
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: home"></span>
+                                                            <input class="uk-input" type="text" placeholder="Street Address 2">
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <!-- Column 2 -->
+                                                    <div>
+                                                        <div class="uk-margin">
+                                                            <div class="uk-inline uk-width-1-3">
+                                                                <input class="uk-input" type="text" placeholder="City" required>
+                                                            </div>
+                                                            <div class="uk-inline uk-width-1-4">
+                                                                <input class="uk-input" type="text" placeholder="State" required>
+                                                            </div>
+                                                            <div class="uk-inline uk-width-1-3">
+                                                                <input class="uk-input" type="text" placeholder="ZIP" required>
+                                                            </div>
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                                                            <input class="uk-input" type="text" placeholder="High School" required>
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: star"></span>
+                                                            <input class="uk-input" type="text" placeholder="GPA (Optional)">
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                                                            <input class="uk-input" type="text" placeholder="College/University" required>
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: pencil"></span>
+                                                            <input class="uk-input" type="text" placeholder="Major" required>
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <!-- Column 3 -->
+                                                    <div>
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <span class="uk-form-icon" uk-icon="icon: star"></span>
+                                                            <input class="uk-input" type="text" placeholder="GPA" required>
+                                                        </div>
+                                            
+                                                        <div class="uk-margin">
+                                                            <label class="uk-form-label">Upload Transcripts</label>
+                                                            <div uk-form-custom="target: true">
+                                                                <input type="file" id="transcriptsFile" name="transcripts" accept=".pdf,.doc,.docx,image/*" required>
+                                                                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                            </div>
+                                                            
+                                                        </div>
+                                            
+                                                        <div class="uk-inline uk-width-1-1">
+                                                            <label class="uk-form-label">Year</label>
+                                                            <select class="uk-select" id="studentType" required>
+                                                                <option value="" selected disabled>Select...</option>
+                                                                <option value="freshman">Freshman</option>
+                                                                <option value="sophomore">Sophomore</option>
+                                                                <option value="junior">Junior</option>
+                                                                <option value="senior">Senior</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <div class="uk-margin">
+                                                            <label class="uk-form-label">Enrollment Status</label>
+                                                            <select class="uk-select" id="enrollmentStatus" required>
+                                                                <option value="" selected disabled>Select...</option>
+                                                                <option value="part-time">Part-time</option>
+                                                                <option value="full-time">Full-time</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <div class="uk-margin">
+                                                            <div class="uk-inline uk-width-1-1">
+                                                                <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+                                                                <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            
+                                                </div>
+                                            
+                                                <!-- Password Fields -->
+                                                <div class="uk-margin uk-width-1-1" style="white-space:nowrap">
+                                                    <div class="uk-inline uk-width-1-2">
+                                                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                                        <input class="uk-input" id="password" type="password" placeholder="Password" required>
+                                                    </div>
+                                                    <div class="uk-inline uk-width-1-2">
+                                                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                                        <input class="uk-input" id="confirmPassword" type="password" placeholder="Confirm Password" required>
+                                                    </div>
+                                                </div>
+                                            
+                                                <!-- Error Message -->
+                                                <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
+                                            
+                                                <!-- Save Button -->
+                                                <div class="uk-margin">
+                                                    <button type="submit" class="uk-button uk-width-1-1">Save Changes</button>
+                                                </div>
+                                            
+                                            </form>
+                                        </div> <!-- End #myprofileinner -->
+                                
                 </div>
             </div>
-
-        </div>
+            
+            <script>
+            function enableEdit(button) {
+                let input = button.previousElementSibling;
+                if (input.tagName === "SELECT" || input.type === "file") {
+                    input.disabled = false;
+                } else {
+                    input.removeAttribute("disabled");
+                }
+                button.style.display = 'none';
+                button.nextElementSibling.style.display = 'inline-block';
+            }
+            
+            function saveEdit(button) {
+                let input = button.previousElementSibling.previousElementSibling;
+                if (input.tagName === "SELECT" || input.type === "file") {
+                    input.disabled = true;
+                } else {
+                    input.setAttribute("disabled", "disabled");
+                }
+                button.style.display = 'none';
+                button.previousElementSibling.style.display = 'inline-block';
+            }
+            </script>
     </div>
 
     <!-- Application Modal -->
@@ -300,7 +365,7 @@
                                 <input type="file" id="transcriptsFile" name="transcripts" accept=".pdf,.doc,.docx,image/*" required="required">
                                 <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
                             </div>
-                            <div class="uk-text-small uk-text-muted">Accepted formats: PDF, DOC, DOCX, Images</div>
+                            
                         </div>
                     </div>
                     <div class="uk-inline uk-width-1-1">
@@ -398,7 +463,6 @@ function writeScholarship(
         <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${funderName}</span><br>
         <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
         <b><i class='ri-award-line'></i></b> <span>${fundingType}</span><br>
-        <b><i class='ri-group-2-line'></i></b> <span>${numOfApps} applicants</span><br>
         <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
         <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
         <hr style = 'margin-top:10px;margin-bottom:10px'>
@@ -416,7 +480,6 @@ function writeScholarship(
         data-description="${description}"
         data-fundsAllocated="${fundsAllocated}" 
         data-fundingType="${fundingType}"
-        data-numOfApps="${numOfApps}" 
         data-creationDate="${creationDate}"
         data-endDate="${endDate}" 
         data-requirements="${requirements}"
