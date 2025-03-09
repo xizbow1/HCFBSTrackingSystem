@@ -45,6 +45,11 @@
             <div class = "page" id="allScholarships">
 
             <div class = "innerWriteable" id = "allScholarshipsInner">
+                <!-- Scholarships will be loaded here dynamically -->
+                <div class="uk-text-center">
+                    <div uk-spinner="ratio: 1.5"></div>
+                    <p>Loading scholarships...</p>
+                </div>
             </div>
 
             
@@ -187,106 +192,7 @@
 
 </body>
 
-<script src="assets/js/dummyScholarship.js"></script>
-
 <script>
-
-function writeScholarship(
-    name, dueDate, funderName, description, fundsAllocated, 
-    fundingType, numOfApps, creationDate, endDate, requirements, menu
-) {
-    const randomID = "id_" + Math.floor(Math.random() * 1000000);
-    const fixedDateMonth = dueDate.getMonth() + 1;
-    const fixedDateDay = dueDate.getDate();
-    const fixedDateYear = dueDate.getFullYear();
-
-    // Generate tooltip content
-    const today = new Date();
-    const timeDiff = dueDate.getTime() - today.getTime();
-    const daysUntilDeadline = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-    const postedDateMonth = creationDate.getMonth() + 1;
-    const postedDateDay = creationDate.getDate();
-    const postedDateYear = creationDate.getFullYear();
-
-    // how many days ago was creation date
-    var timeDiff2 = today.getTime() - creationDate.getTime();
-    var daysSincePosted = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
-
-    // if it was "1 days ago" change to "yesterday"
-    if (daysSincePosted === 1) {
-        daysSincePosted = 'Posted yesterday';
-    } else {
-        daysSincePosted = daysSincePosted + ' days ago';
-    }
-
-    var formattedMoney = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    }).format(fundsAllocated);
-
-    const tooltipContent = `
-        <p>Full Description</p>
-        <h3>${description}</h3>
-        <hr>
-        <p style = 'margin-top:10px' >Full Requirements</p>
-        <h3>${requirements}</h3>
-        <hr>
-        <p>Quick Info</p>
-        <b style = 'opacity:30%' ><i class='ri-price-tag-3-fill'></i></b> <span style = 'opacity:30%'>${name}</span><br>
-        <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${funderName}</span><br>
-        <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
-        <b><i class='ri-award-line'></i></b> <span>${fundingType}</span><br>
-        <b><i class='ri-group-2-line'></i></b> <span>${numOfApps} applicants</span><br>
-        <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
-        <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
-        <hr style = 'margin-top:10px;margin-bottom:10px'>
-        <button class = 'applyButton2' onclick='launchApplyModal(`+randomID+`)'>
-        <i class='ri-edit-fill' style = 'margin-right:5px'></i>
-        Edit Scholarship   
-        </button>
-    `;
-
-    const scholarshipHTML = `
-    <div id="${randomID}" class="scholarship"
-        data-name="${name}" 
-        data-dueDate="${fixedDateMonth}/${fixedDateDay}"
-        data-funderName="${funderName}" 
-        data-description="${description}"
-        data-fundsAllocated="${fundsAllocated}" 
-        data-fundingType="${fundingType}"
-        data-numOfApps="${numOfApps}" 
-        data-creationDate="${creationDate}"
-        data-endDate="${endDate}" 
-        data-requirements="${requirements}"
-        data-tippy-content="${tooltipContent}">
-        <div class="scholarshipTitle">
-            <div class="titleWrapper">
-                <h1>${name}</h1>
-                <h2>${funderName}</h2>
-            </div>
-            <h3><i style = "margin-right:5px;" class="ri-calendar-schedule-line"></i> ${fixedDateMonth}/${fixedDateDay}</h3>
-        </div>
-        <div class="scholarshipMiddle">
-            <p>Description</p>
-            <div class="scholarshipDesc">
-            ${description}
-        </div>
-    </div>`;
-
-    document.getElementById(`${menu}Inner`).insertAdjacentHTML('beforeend', scholarshipHTML);
-
-    // Initialize Tippy.js on the newly added scholarship after insertion
-    setTimeout(() => {
-        tippy(`#${randomID}`, {
-            allowHTML: true,
-            theme: 'innerMenuTheme',
-            interactive: true,
-            placement: 'right-start',
-            intertia: true,
-        });
-    }, 0);  // Timeout ensures it's applied after the DOM is updated
-}
 
 function getScholarshipData(id, menu) {
     const postedScholarship = document.getElementById(id);
@@ -339,28 +245,6 @@ function getScholarshipData(id, menu) {
     }
 }
 
-    function generateWriteScholarships(menu) {
-
-        for (let i = 0; i < dummyScholarships.length; i++) {
-            writeScholarship(
-                dummyScholarships[i].name,
-                dummyScholarships[i].dueDate,
-                dummyScholarships[i].funderName,
-                dummyScholarships[i].description,
-                dummyScholarships[i].fundsAllocated,
-                dummyScholarships[i].fundingType,
-                dummyScholarships[i].numOfApps,
-                dummyScholarships[i].creationDate,
-                dummyScholarships[i].endDate,
-                dummyScholarships[i].requirements,
-                menu
-            );
-        }
-
-    }
-
-
-
     function changeTab(tab){
         document.getElementById("allScholarships").style.display = "none";
         document.getElementById("myAccount").style.display = "none";
@@ -378,12 +262,23 @@ function getScholarshipData(id, menu) {
     }
 
     function closeMenu(menu){
-        console.log(menu);
-        document.getElementById(menu).style.display = "none";
+        UIkit.modal(document.getElementById(menu)).hide();
     }
 
     window.onload = function(){
-        generateWriteScholarships("allScholarships");
+        fetchScholarships();
+
+        // Add submit handler for the scholarship form
+        const scholarshipForm = document.querySelector('#scholarshipCreateModal form');
+        if (scholarshipForm) {
+            scholarshipForm.addEventListener('submit', handleScholarshipSubmit);
+        }
+        
+        // Add submit handler for the admin creation form
+        const adminForm = document.querySelector('#adminCreateModal form');
+        if (adminForm) {
+            adminForm.addEventListener('submit', handleAdminSubmit);
+        }
     }
     
     function logOut(){
@@ -392,14 +287,419 @@ function getScholarshipData(id, menu) {
     }
 
     function createScholarship(){
+        // Clear any previous data and reset form
+        const form = document.querySelector('#scholarshipCreateModal form');
+        form.reset();
+        document.getElementById('scholarshipCreateModal').removeAttribute('data-edit-id');
+        
+        const submitButton = document.querySelector('#scholarshipCreateModal form button');
+        submitButton.innerHTML = '<i class="ri-check-fill" style="margin-right:5px"></i>Create Scholarship';
+        
         UIkit.modal(document.getElementById('scholarshipCreateModal')).show();
     }
 
     function createAdmin(){
+        // Clear any previous data
+        const form = document.querySelector('#adminCreateModal form');
+        form.reset();
+        
         UIkit.modal(document.getElementById('adminCreateModal')).show();
     }
 
+    // Leave the detailed application view functions unchanged
+    function showApplicationDetailsModal(application) {
+        const submissionDate = new Date(application.dateSubmission).toLocaleDateString();
+        const status = application.fundsDispursed ? 'Funds Disbursed' : 'Pending';
+        
+        // Format applicant name
+        const applicantName = application.applicant ? 
+            `${application.applicant.firstName} ${application.applicant.lastName}` : 'Unknown';
+        
+        // Create modal HTML
+        let modalHTML = `
+        <div id="applicationDetailsModal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="closeButton" type="button" uk-close onclick="document.getElementById('applicationDetailsModal').remove()"></button>
+                <h2 class="uk-modal-title">Application Details</h2>
+                
+                    // ...existing code...
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        UIkit.modal(document.getElementById('applicationDetailsModal')).show();
+    }
 
-    </script>
+// New function to fetch scholarships from the database
+async function fetchScholarships() {
+    try {
+        document.getElementById('allScholarshipsInner').innerHTML = '<div class="uk-text-center"><div uk-spinner="ratio: 3"></div><p>Loading scholarships...</p></div>';
+        
+        const response = await fetch('/api/scholarships');
+        
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Fetched scholarships:', data); // Debug log
+        
+        // Clear loading indicator
+        document.getElementById('allScholarshipsInner').innerHTML = '';
+        
+        // Display scholarships
+        if (data.data && data.data.length > 0) {
+            data.data.forEach(scholarship => {
+                writeScholarshipFromDB(scholarship, "allScholarships");
+            });
+        } else {
+            document.getElementById('allScholarshipsInner').innerHTML = '<p class="uk-text-center">No scholarships available at this time.</p>';
+        }
+    } catch (error) {
+        console.error('Error fetching scholarships:', error);
+        document.getElementById('allScholarshipsInner').innerHTML = `
+            <div class="uk-alert-danger" uk-alert>
+                <p>Error loading scholarships. Please try again later.</p>
+                <p>Error details: ${error.message}</p>
+            </div>
+        `;
+    }
+}
 
-    </html>
+// Function to write scholarships from database data
+function writeScholarshipFromDB(scholarship, menu) {
+    const randomID = "id_" + Math.floor(Math.random() * 1000000);
+    
+    // Convert database dates to JavaScript Date objects
+    const dueDate = new Date(scholarship.dueDate);
+    const creationDate = new Date(scholarship.creationDate);
+    const endDate = new Date(scholarship.endDate);
+    
+    const fixedDateMonth = dueDate.getMonth() + 1;
+    const fixedDateDay = dueDate.getDate();
+    const fixedDateYear = dueDate.getFullYear();
+
+    // Generate tooltip content
+    const today = new Date();
+    const timeDiff = dueDate.getTime() - today.getTime();
+    const daysUntilDeadline = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    const postedDateMonth = creationDate.getMonth() + 1;
+    const postedDateDay = creationDate.getDate();
+    const postedDateYear = creationDate.getFullYear();
+
+    // how many days ago was creation date
+    var timeDiff2 = today.getTime() - creationDate.getTime();
+    var daysSincePosted = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+    // if it was "1 days ago" change to "yesterday"
+    if (daysSincePosted === 1) {
+        daysSincePosted = 'Posted yesterday';
+    } else {
+        daysSincePosted = daysSincePosted + ' days ago';
+    }
+
+    var formattedMoney = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(scholarship.fundsAllocated);
+
+    const tooltipContent = `
+        <p>Full Description</p>
+        <h3>${scholarship.description}</h3>
+        <hr>
+        <p style = 'margin-top:10px' >Full Requirements</p>
+        <h3>${scholarship.requirements}</h3>
+        <hr>
+        <p>Quick Info</p>
+        <b style = 'opacity:30%' ><i class='ri-price-tag-3-fill'></i></b> <span style = 'opacity:30%'>${scholarship.name}</span><br>
+        <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${scholarship.funderName}</span><br>
+        <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
+        <b><i class='ri-award-line'></i></b> <span>${scholarship.fundingType || 'Scholarship'}</span><br>
+        <b><i class='ri-group-2-line'></i></b> <span>${scholarship.numOfApps || 0} applicants</span><br>
+        <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
+        <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
+        <hr style = 'margin-top:10px;margin-bottom:10px'>
+        <button class = 'applyButton2' onclick='editScholarship("${scholarship._id}")'>
+        <i class='ri-edit-fill' style = 'margin-right:5px'></i>
+        Edit Scholarship   
+        </button>
+        <button class = 'deleteButton' onclick='deleteScholarship("${scholarship._id}")' style="background-color: #ff5252; margin-top: 5px;">
+        <i class='ri-delete-bin-line' style = 'margin-right:5px'></i>
+        Delete
+        </button>
+        <button class = 'infoButton' onclick='viewApplications("${scholarship._id}")' style="background-color: #4CAF50; margin-top: 5px;">
+        <i class='ri-file-list-line' style = 'margin-right:5px'></i>
+        View Applications (${scholarship.applications ? scholarship.applications.length : 0})
+        </button>
+    `;
+
+    const scholarshipHTML = `
+    <div id="${randomID}" class="scholarship"
+        data-id="${scholarship._id}"
+        data-name="${scholarship.name}" 
+        data-dueDate="${fixedDateMonth}/${fixedDateDay}"
+        data-funderName="${scholarship.funderName}" 
+        data-description="${scholarship.description}"
+        data-fundsAllocated="${scholarship.fundsAllocated}" 
+        data-fundingType="${scholarship.fundingType || 'Scholarship'}"
+        data-numOfApps="${scholarship.numOfApps || 0}" 
+        data-creationDate="${scholarship.creationDate}"
+        data-endDate="${scholarship.endDate}" 
+        data-requirements="${scholarship.requirements}"
+        data-tippy-content="${tooltipContent}">
+        <div class="scholarshipTitle">
+            <div class="titleWrapper">
+                <h1>${scholarship.name}</h1>
+                <h2>${scholarship.funderName}</h2>
+            </div>
+            <h3><i style = "margin-right:5px;" class="ri-calendar-schedule-line"></i> ${fixedDateMonth}/${fixedDateDay}</h3>
+        </div>
+        <div class="scholarshipMiddle">
+            <p>Description</p>
+            <div class="scholarshipDesc">
+            ${scholarship.description}
+        </div>
+    </div>`;
+
+    document.getElementById(`${menu}Inner`).insertAdjacentHTML('beforeend', scholarshipHTML);
+
+    // Initialize Tippy.js on the newly added scholarship after insertion
+    setTimeout(() => {
+        tippy(`#${randomID}`, {
+            allowHTML: true,
+            theme: 'innerMenuTheme',
+            interactive: true,
+            placement: 'right-start',
+            inertia: true,
+        });
+    }, 0);  // Timeout ensures it's applied after the DOM is updated
+}
+
+// Make sure form submit handlers are properly implemented
+function handleScholarshipSubmit(event) {
+    event.preventDefault();
+    
+    const formData = {
+        name: document.getElementById('formScholarshipName').value,
+        dueDate: document.getElementById('formScholarshipDueDate').value,
+        funderName: document.getElementById('formScholarshipFunderName').value,
+        description: document.getElementById('formScholarshipDescription').value,
+        requirements: document.getElementById('formScholarshipRequirements').value,
+        fundsAllocated: parseFloat(document.getElementById('formScholarshipFundsAllocated').value),
+        fundingType: 'Scholarship', // Default value
+        numOfApps: 0, // Default for new scholarships
+        creationDate: new Date().toISOString(),
+        endDate: document.getElementById('formScholarshipDueDate').value, // Same as due date by default
+    };
+    
+    const modal = document.getElementById('scholarshipCreateModal');
+    const scholarshipId = modal.getAttribute('data-edit-id');
+    const isUpdate = !!scholarshipId;
+    
+    const url = isUpdate ? `/api/scholarships/${scholarshipId}` : '/api/scholarships';
+    const method = isUpdate ? 'PUT' : 'POST';
+    
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Failed to ${isUpdate ? 'update' : 'create'} scholarship`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        UIkit.notification({
+            message: `Scholarship ${isUpdate ? 'updated' : 'created'} successfully`,
+            status: 'success',
+            pos: 'top-center',
+            timeout: 3000
+        });
+        
+        // Reset form and close modal
+        event.target.reset();
+        UIkit.modal(modal).hide();
+        
+        // Reset modal state for next use
+        modal.removeAttribute('data-edit-id');
+        const submitButton = document.querySelector('#scholarshipCreateModal form button');
+        submitButton.innerHTML = '<i class="ri-check-fill" style="margin-right:5px"></i>Create Scholarship';
+        
+        // Reload scholarships
+        fetchScholarships();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        UIkit.notification({
+            message: `Error ${isUpdate ? 'updating' : 'creating'} scholarship: ${error.message}`,
+            status: 'danger',
+            pos: 'top-center',
+            timeout: 3000
+        });
+    });
+}
+
+function handleAdminSubmit(event) {
+    event.preventDefault();
+    
+    // Validate password matching
+    const password = document.getElementById('formAdminPassword').value;
+    const confirmPassword = document.getElementById('formAdminPasswordConfirm').value;
+    
+    if (password !== confirmPassword) {
+        UIkit.notification({
+            message: 'Passwords do not match',
+            status: 'danger',
+            pos: 'top-center',
+            timeout: 3000
+        });
+        return;
+    }
+    
+    const formData = {
+        firstName: document.getElementById('formAdminName').value,
+        lastName: document.getElementById('formAdminLastName').value,
+        email: document.getElementById('formAdminEmail').value,
+        password: password,
+        super: false, // Default values
+        read: true,   // Default values
+        write: true   // Default values
+    };
+    
+    fetch('/api/admins', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to create admin account');
+        }
+        return response.json();
+    })
+    .then(data => {
+        UIkit.notification({
+            message: 'Admin account created successfully',
+            status: 'success',
+            pos: 'top-center',
+            timeout: 3000
+        });
+        
+        // Reset form and close modal
+        event.target.reset();
+        UIkit.modal(document.getElementById('adminCreateModal')).hide();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        UIkit.notification({
+            message: `Error creating admin account: ${error.message}`,
+            status: 'danger',
+            pos: 'top-center',
+            timeout: 3000
+        });
+    });
+}
+
+// Additional functions for scholarship management (edit, delete, view applications)
+function editScholarship(scholarshipId) {
+    fetch(`/api/scholarships/${scholarshipId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch scholarship details');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const scholarship = data.data;
+            
+            // Populate form fields
+            document.getElementById('formScholarshipName').value = scholarship.name;
+            document.getElementById('formScholarshipDueDate').value = new Date(scholarship.dueDate).toISOString().split('T')[0];
+            document.getElementById('formScholarshipFunderName').value = scholarship.funderName;
+            document.getElementById('formScholarshipDescription').value = scholarship.description;
+            document.getElementById('formScholarshipRequirements').value = scholarship.requirements;
+            document.getElementById('formScholarshipFundsAllocated').value = scholarship.fundsAllocated;
+            
+            // Store scholarship ID for the update operation
+            document.getElementById('scholarshipCreateModal').setAttribute('data-edit-id', scholarshipId);
+            
+            // Change button text
+            const submitButton = document.querySelector('#scholarshipCreateModal form button');
+            submitButton.innerHTML = '<i class="ri-check-fill" style="margin-right:5px"></i>Update Scholarship';
+            
+            // Show modal
+            UIkit.modal(document.getElementById('scholarshipCreateModal')).show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            UIkit.notification({
+                message: 'Error loading scholarship details: ' + error.message,
+                status: 'danger',
+                pos: 'top-center',
+                timeout: 3000
+            });
+        });
+}
+
+function deleteScholarship(scholarshipId) {
+    if (confirm('Are you sure you want to delete this scholarship? This action cannot be undone.')) {
+        const token = localStorage.getItem('token');
+        
+        fetch(`/api/scholarships/${scholarshipId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete scholarship');
+            }
+            return response.json();
+        })
+        .then(data => {
+            UIkit.notification({
+                message: 'Scholarship deleted successfully',
+                status: 'success',
+                pos: 'top-center',
+                timeout: 3000
+            });
+            
+            // Reload scholarships
+            fetchScholarships();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            UIkit.notification({
+                message: 'Error deleting scholarship: ' + error.message,
+                status: 'danger',
+                pos: 'top-center',
+                timeout: 3000
+            });
+        });
+    }
+}
+
+function viewApplications(scholarshipId) {
+    // Implementation for viewing applications
+    UIkit.notification({
+        message: 'Application viewing not yet implemented',
+        status: 'primary',
+        pos: 'top-center',
+        timeout: 3000
+    });
+}
+
+</script>
+
+</html>
