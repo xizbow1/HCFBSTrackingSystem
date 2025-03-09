@@ -123,15 +123,16 @@
                                                 <label class="uk-form-label">Upload Transcripts</label>
                                                 <br />
                                                 <div uk-form-custom="target: true">
-                                                    <input type="file" required="required">
+                                                    <input type="file" id="transcriptsFile" name="transcripts" accept=".pdf,.doc,.docx,image/*" required="required">
                                                     <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
                                                 </div>
+                                                <div class="uk-text-small uk-text-muted">Accepted formats: PDF, DOC, DOCX, Images</div>
                                             </div>
                                         </div>
                                 
                                             <div class="uk-inline uk-width-1-1">
                                                 <label class="uk-form-label">Year</label>
-                                                <select class="uk-select" required="required">
+                                                <select class="uk-select" id="studentType" required="required">
                                                     <option value="" selected disabled>Select...</option>
                                                     <option value="freshman">Freshman</option>
                                                     <option value="sophomore">Sophomore</option>
@@ -143,10 +144,10 @@
                                             <div class="uk-margin">
                                             <div class="uk-inline uk-width-1-1">
                                                 <label class="uk-form-label">Enrollment Status</label>
-                                                <select class="uk-select" required="required">
+                                                <select class="uk-select" id="enrollmentStatus" required="required">
                                                     <option value="" selected disabled>Select...</option>
-                                                    <option value="freshman">Part-time</option>
-                                                    <option value="sophomore">Full-time</option>
+                                                    <option value="part-time">Part-time</option>
+                                                    <option value="full-time">Full-time</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -155,6 +156,18 @@
                                             <div class="uk-inline uk-width-1-1">
                                                 <span class="uk-form-icon" uk-icon="icon: calendar"></span>
                                                 <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required="required">
+                                            </div>
+                                        </div>
+
+                                        <div class="uk-margin">
+                                            <div class="uk-inline uk-width-1-1">
+                                                <label class="uk-form-label">Upload Profile Picture</label>
+                                                <br />
+                                                <div uk-form-custom="target: true">
+                                                    <input type="file" id="profilePic" name="pic" accept="image/*" required="required">
+                                                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                </div>
+                                                <div class="uk-text-small uk-text-muted">Accepted formats: JPEG, PNG, GIF</div>
                                             </div>
                                         </div>
                                     </div>
@@ -193,13 +206,52 @@
         document.getElementById('signupForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             
+            // Move errorMessage declaration to the beginning
+            const errorMessage = document.getElementById('error-message');
+            
             const email = document.querySelector('input[type="email"]').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const firstName = document.querySelector('input[placeholder="First Name"]').value;
             const lastName = document.querySelector('input[placeholder="Last Name"]').value;
             const phone = document.querySelector('input[type="tel"]').value;
-            const errorMessage = document.getElementById('error-message');
+            const street = document.querySelector('input[placeholder="Street Address 1"]').value;
+            const aptNum = document.querySelector('input[placeholder="Street Address 2"]').value;
+            const city = document.querySelector('input[placeholder="City"]').value;
+            const zip = document.querySelector('input[placeholder="ZIP"]').value;
+            const state = document.querySelector('input[placeholder="State"]').value;
+            const college = document.querySelector('input[placeholder="College/University"]').value;
+            const major = document.querySelector('input[placeholder="Major"]').value;
+            
+            // Get GPA and ensure it's a valid number
+            const gpaInput = document.querySelector('input[placeholder="GPA"]').value;
+            const gpa = parseFloat(gpaInput);
+            if (isNaN(gpa) || gpa < 0 || gpa > 4.0) {
+                errorMessage.textContent = "Please enter a valid GPA between 0 and 4.0";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            const transcripts = document.getElementById('transcriptsFile').files[0];
+            const highschool = document.querySelector('input[placeholder="High School"]').value;
+            const hsGradYear = document.querySelector('input[placeholder="Expected Graduation Date (YYYY)"]').value;
+            const studentType = document.getElementById('studentType').value;
+            const enrollmentStatus = document.getElementById('enrollmentStatus').value;
+            const gradYear = document.querySelector('input[placeholder="Expected Graduation Date (YYYY)"]').value;
+            const pic = document.getElementById('profilePic').files[0];
+            
+            // Validate required fields
+            if (!studentType || studentType === "") {
+                errorMessage.textContent = "Please select a year level";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            if (!enrollmentStatus || enrollmentStatus === "") {
+                errorMessage.textContent = "Please select an enrollment status";
+                errorMessage.style.display = 'block';
+                return;
+            }
             
             // Validate password match
             if (password !== confirmPassword) {
@@ -208,19 +260,60 @@
                 return;
             }
             
+            // Validate file uploads
+            if (!transcripts) {
+                errorMessage.textContent = "Please upload your transcripts";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            if (!pic) {
+                errorMessage.textContent = "Please upload a profile picture";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Check file sizes
+            if (transcripts.size > 10 * 1024 * 1024) {
+                errorMessage.textContent = "Transcript file is too large (max 10MB)";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            if (pic.size > 5 * 1024 * 1024) {
+                errorMessage.textContent = "Profile picture is too large (max 5MB)";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
             try {
+                const formData = new FormData();
+
+                formData.append('firstName', firstName);
+                formData.append('lastName', lastName);
+                formData.append('password', password);
+                formData.append('email', email);
+                formData.append('phone', phone);
+                formData.append('street', street);
+                formData.append('aptNum', aptNum);
+                formData.append('city', city);
+                formData.append('zip', zip);
+                formData.append('state', state);
+                formData.append('gpa', gpa);
+                formData.append('college', college);
+                formData.append('major', major);
+                formData.append('highschool', highschool);
+                formData.append('hsGradYear', hsGradYear);
+                formData.append('gradYear', gradYear);
+                formData.append('studentType', studentType);
+                formData.append('enrollmentStatus', enrollmentStatus);
+
+                formData.append('transcripts', transcripts);
+                formData.append('pic', pic);
+
                 const response = await fetch('/signup', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        email, 
-                        password,
-                        firstName,
-                        lastName,
-                        phone
-                    })
+                    body: formData
                 });
                 
                 const result = await response.json();
@@ -229,7 +322,13 @@
                     // Redirect to login page
                     window.location.href = '/login.html?registered=true';
                 } else {
-                    errorMessage.textContent = result.error || 'Signup failed. Please try again.';
+                    // Enhanced error handling to show specific validation errors
+                    if (result.errors) {
+                        const errorMessages = Object.values(result.errors).join(', ');
+                        errorMessage.textContent = errorMessages || 'Validation error. Please check your form.';
+                    } else {
+                        errorMessage.textContent = result.message || 'Signup failed. Please try again.';
+                    }
                     errorMessage.style.display = 'block';
                 }
             } catch (error) {

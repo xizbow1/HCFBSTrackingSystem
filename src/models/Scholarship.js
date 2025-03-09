@@ -43,8 +43,7 @@ const scholarshipSchema = new mongoose.Schema({
     },
     applications: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Application',
-        required: true
+        ref: 'Application'
     }]
 });
 
