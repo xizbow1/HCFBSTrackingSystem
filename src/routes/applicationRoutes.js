@@ -1,21 +1,24 @@
 import express from 'express';
-import * as applicationController from '../controllers/applicationController.js';
+import { 
+  getAllApplications, 
+  getUserApplications, 
+  createApplication 
+} from '../controllers/applicationController.js';
+import { uploadSingleFile } from '../middlewares/uploadMiddleware.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// GET all applicants
-router.get('/', applicationController.getApplications);
+// Apply auth middleware to all routes
+router.use(authMiddleware);
 
-// GET a single applicant
-router.get('/:id', applicationController.getApplication);
+// Get all applications (admin only - you might want to add admin check middleware)
+router.get('/', getAllApplications);
 
-// POST a new applicant
-router.post('/', applicationController.createApplication);
+// Get current user's applications
+router.get('/user', getUserApplications);
 
-// PUT update an applicant
-router.put('/:id', applicationController.updateApplication);
-
-// DELETE an applicant
-router.delete('/:id', applicationController.deleteApplication);
+// Submit a new application
+router.post('/', uploadSingleFile('cv'), createApplication);
 
 export default router;

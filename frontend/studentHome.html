@@ -172,8 +172,8 @@
         <div class="uk-animation-fade">
             <div class="uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large" style="    width: 600px;
     margin-top: 0px;">
-                <form>
-                    <button class="closeButton" onclick="closeMenu('formSubmissionModal')">
+                <form id="applicationForm">
+                    <button class="closeButton" type="button" onclick="closeMenu('formSubmissionModal')">
                         <i class="ri-close-circle-fill"></i>
                     </button>
                     <h2 style = "
@@ -182,17 +182,19 @@
                     " class="uk-text-left">Scholarship Application</h2>
                     <hr />
                     <p style = "font-weight:300" id="formScholarshipDesc">Scholarship Description</p>
+                    <input type="hidden" id="scholarshipId" name="scholarshipId">
 
                     <div class="uk-margin">
-                        <textarea id="personalStatement" class="uk-textarea" placeholder="Include a personal statement (max. 500)" maxlength="500"></textarea>
+                        <textarea id="personalStatement" class="uk-textarea" name="personalStatement" placeholder="Include a personal statement (max. 500)" maxlength="500" required></textarea>
                     </div>
 
                     <div class="uk-inline uk-width-1-1">
                         <label class="uk-form-label">Upload Cover Letter</label>
                         <div uk-form-custom="target: true">
-                            <input type="file">
+                            <input type="file" id="cvFile" name="cv" accept=".pdf,.doc,.docx" required>
                             <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
                         </div>
+                        <div class="uk-text-small uk-text-muted">Accepted formats: PDF, DOC, DOCX</div>
                     </div>
 
                     <p class="formWarning">
@@ -201,7 +203,7 @@
                 </p>
 
                     <div class="uk-margin">
-                        <button class="uk-button uk-width-1-1" style = "box-shadow:5px 5px 0px #33333350;border-radius:10px">
+                        <button type="submit" class="uk-button uk-width-1-1" style = "box-shadow:5px 5px 0px #33333350;border-radius:10px">
                             <i class="ri-check-fill" style = "margin-right:5px"></i>
                         Submit Application
                     </button>
@@ -346,8 +348,6 @@
         </form>
     </div>
 </body>
-
-<script src="assets/js/dummyScholarship.js"></script>
 
 <script>
 
@@ -730,25 +730,30 @@ function writeScholarship(
     }
 
     function launchApplyModal(id) {
+    const scholarship = document.getElementById(id);
     const modal = UIkit.modal(document.getElementById('formSubmissionModal'));
     
-    // Ensure 'id' is the actual string and not a reference to an HTML element
-    const scholarshipElement = id;
-
-    if (scholarshipElement) {
-        const scholarshipDesc = scholarshipElement.getAttribute('data-description');
-
-        if (scholarshipDesc) {
-            document.getElementById('formScholarshipDesc').innerHTML = `<b style="font-weight:900;margin-right:5px"><i class="ri-quote-text"></i></b> ${scholarshipDesc}`;
-        } else {
-            console.error(`Description not found for element with ID ${id}.`);
-        }
-
+    if (scholarship) {
+        const scholarshipId = scholarship.getAttribute('data-id');
+        const scholarshipDesc = scholarship.getAttribute('data-description');
+        
+        document.getElementById('scholarshipId').value = scholarshipId;
+        document.getElementById('formScholarshipDesc').innerHTML = 
+            `<b style="font-weight:900;margin-right:5px"><i class="ri-quote-text"></i></b> ${scholarshipDesc}`;
+        
+        // Clear form fields
+        document.getElementById('personalStatement').value = '';
+        document.getElementById('cvFile').value = '';
+        
         modal.show();
-    } else {
-        console.error(`Element with ID ${id} not found.`);
     }
 }
+
+document.getElementById('applicationForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const scholarshipId = document.getElementById('scholarshipId').value;
+    await submitApplication(scholarshipId);
+});
 
 function launchEditProfileModal() {
     const modal = UIkit.modal(document.getElementById('editProfileModal'));
@@ -756,5 +761,6 @@ function launchEditProfileModal() {
 }
 
 </script>
+<script src="assets/js/dashboard.js"></script>
 
     </html>

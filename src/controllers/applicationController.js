@@ -1,12 +1,130 @@
-import Application from '../models/Application.js';
+import { Application, Applicant } from '../models/index.js';
 
-// Get all applicants
-export const getApplications = async (req, res) => {
+// Get all applications
+export const getAllApplications = async (req, res) => {
   try {
-    const applications = await Application.find();
-    res.status(200).json(applications);
+    const applications = await Application.find().populate('scholarship').populate('applicant');
+    res.status(200).json({
+      success: true,
+      count: applications.length,
+      data: applications
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error fetching applications:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching applications',
+      error: error.message
+    });
+  }
+};
+
+// Get applications for the current user
+export const getUserApplications = async (req, res) => {
+  try {
+    // Get user ID from authenticated request
+    const firebaseUID = req.user.uid; // Assuming you have authentication middleware
+
+    if (!firebaseUID) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
+      });
+    }
+
+    // Find the applicant by Firebase UID
+    const applicant = await Applicant.findOne({ firebaseUID });
+    
+    if (!applicant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Applicant not found'
+      });
+    }
+
+    // Find all applications submitted by this applicant and populate the scholarship details
+    const applications = await Application.find({ applicant: applicant._id })
+      .populate('scholarship')
+      .sort({ dateSubmission: -1 }); // Most recent first
+
+    res.status(200).json({
+      success: true,
+      count: applications.length,
+      data: applications
+    });
+  } catch (error) {
+    console.error('Error fetching user applications:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching your applications',
+      error: error.message
+    });
+  }
+};
+
+// Create a new application
+export const createApplication = async (req, res) => {
+  try {
+    // Get the current authenticated user
+    const firebaseUID = req.user.uid;
+
+    if (!firebaseUID) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
+      });
+    }
+
+    // Find the applicant
+    const applicant = await Applicant.findOne({ firebaseUID });
+    
+    if (!applicant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Applicant not found'
+      });
+    }
+
+    // Extract data from request
+    const { scholarshipId, personalStatement } = req.body;
+    
+    // Validate cover letter file exists
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cover letter file is required'
+      });
+    }
+
+    // Create new application
+    const newApplication = new Application({
+      applicant: applicant._id,
+      scholarship: scholarshipId,
+      cv: req.file.buffer, // From multer middleware
+      personalStatement,
+      dateSubmission: new Date(),
+      fundsDispursed: false,
+      rank: 0 // Default rank, to be updated by admins
+    });
+
+    const savedApplication = await newApplication.save();
+
+    // Update the applicant's applications array
+    applicant.application.push(savedApplication._id);
+    await applicant.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Application submitted successfully',
+      data: savedApplication
+    });
+  } catch (error) {
+    console.error('Error creating application:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error submitting application',
+      error: error.message
+    });
   }
 };
 
@@ -22,80 +140,6 @@ export const getApplication = async (req, res) => {
     res.status(200).json(application);
   } catch (error) {
     res.status(500).json({ message: error.message });
-  }
-};
-
-// Create a new applicant
-export const createApplication = async (req, res) => {
-  try {
-    console.log('Request body:', req.body);
-    console.log('Request files:', req.files ? Object.keys(req.files) : 'No files');
-    
-    // Better file existence check with detailed error message
-    if (!req.files) {
-      return res.status(400).json({ message: 'No files were uploaded' });
-    }
-    
-    if (!req.files.transcripts) {
-      return res.status(400).json({ message: 'Transcripts file is required' });
-    }
-    
-    if (!req.files.pic) {
-      return res.status(400).json({ message: 'Profile picture is required' });
-    }
-    
-    // Process GPA to ensure it's a number
-    let gpa = parseFloat(req.body.gpa);
-    if (isNaN(gpa)) {
-      return res.status(400).json({ message: 'GPA must be a valid number' });
-    }
-
-    // Create applicant data with explicit file handling
-    const applicationData = {
-      applicant: req.body.applicant,
-      scholarship: req.body.scholarship,
-      cv: req.files.cv[0].buffer,
-      personalStatement: req.body.personalStatement,
-      fundsDisbursed: req.body.fundsDisbursed,
-      dateSubmission: req.body.dateSubmission,
-      rank: req.body.rank
-    };
-
-    console.log("Processing new applicant:", {
-        applicant: applicationData.applicant,
-        scholarship: applicationData.scholarship,
-        cv: applicantData.cv ? "Buffer exists" : "No Buffer",
-        personalStatement: req.body.personalStatement,
-        fundsDisbursed: req.body.fundsDisbursed,
-        dateSubmission: req.body.dateSubmission,
-        rank: req.body.rank,
-      fileTypes: {
-        cv: req.files.cv[0].mimetype
-      }
-    });
-
-    const newApplication = new Application(applicationData);
-    const savedApplication = await newApplication.save();
-    res.status(201).json(savedApplication);
-  } catch (error) {
-    console.error('Error creating application:', error);
-    
-    // Provide more detailed validation error information
-    if (error.name === 'ValidationError') {
-      const validationErrors = {};
-      
-      // Extract specific validation error messages
-      for (const field in error.errors) {
-        validationErrors[field] = error.errors[field].message;
-      }
-      
-      return res.status(400).json({ 
-        message: 'Validation error', 
-        errors: validationErrors 
-      });
-    }
-    
-    res.status(400).json({ message: error.message });
   }
 };
 

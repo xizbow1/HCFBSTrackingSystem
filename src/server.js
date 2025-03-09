@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRoutes.js';
 import applicantRoutes from './routes/applicantRoutes.js';
 import scholarshipRoutes from './routes/scholarshipRoutes.js';
+import applicationRoutes from './routes/applicationRoutes.js';
 import connectDB from './connectDB.js';
 import cors from 'cors';
 
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', authRoutes); // For login/signup
 app.use('/api/applicants', applicantRoutes);
 app.use('/api/scholarships', scholarshipRoutes);
+app.use('/api/applications', applicationRoutes);
 
 // Start server
 app.listen(3000, () => {
