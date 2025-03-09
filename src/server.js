@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRoutes.js';
 import applicantRoutes from './routes/applicantRoutes.js';
-import connectDB from './config/database.js';
+import connectDB from './connectDB.js';
 import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,6 +12,8 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+
+connectDB();
 
 // Define the root path handler first (before static middleware)
 app.get('/', (req, res) => {

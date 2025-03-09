@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import express from 'express';
+
 
 const connectDB = async() => {
     try {
-        //update with database name
         await mongoose.connect('mongodb://localhost:27017/hcfbsTrackingSystem');
         console.log('MongoDB connected successfully');
     } catch(err ){
@@ -102,7 +101,19 @@ const adminSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true
-    }
+    },
+    super: {
+        type: Boolean,
+        required: true
+    },
+    read: {
+        type: Boolean,
+        required: true
+    },
+    write: {
+        type: Boolean,
+        required: true
+    } 
 });
 
 const scholarshipSchema = new mongoose.Schema({
