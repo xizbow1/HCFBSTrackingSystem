@@ -18,4 +18,4 @@ The main objective of the Humboldt County Farm Bureau Scholarship Tracker is be 
 
 The web app utilizes NodeJS, MongoDB, HTML, CSS and JavaScript to create a clean and straightforward environment for both students and organization members. The structure of the web app allow for easy use of CRUD operations for managing scholarships, applications and applicants.
 
-Our goal with the design of the application is to allow the Humboldt County Farm Bureau to have an easily scalable and maintainable application for the Humboldt County Farm Bureau. 
+Our goal with the design of the application is to allow the Humboldt County Farm Bureau to have an easily scalable and maintainable application for the Humboldt County Farm Bureau.
