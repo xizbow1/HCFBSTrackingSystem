@@ -81,18 +81,13 @@
         <!-- Application Modal -->
         <div id="scholarshipCreateModal" uk-modal>
             <div class="uk-animation-fade">
-                <div class="uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large" style="    width: 600px;
-        margin-top: 0px;">
-                    <form>
-                        <button class="closeButton" onclick="closeMenu('scholarshipCreateModal')">
+                <div class="uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large" style="width: 600px; margin-top: 0px;">
+                    <form id="scholarshipForm">
+                        <button type="button" class="closeButton" onclick="closeMenu('scholarshipCreateModal')">
                             <i class="ri-close-circle-fill"></i>
                         </button>
-                        <h2 style = "    margin: 0px;
-                        margin-left: 0px;
-                        font-size: 25px;
-                        margin-bottom: -10px;
-                        " class="uk-text-left">New Scholarship</h2>
-                        <hr style = "    border: 2px solid #e9e9e9;"/>
+                        <h2 style="margin: 0px; margin-left: 0px; font-size: 25px; margin-bottom: -10px;" class="uk-text-left">New Scholarship</h2>
+                        <hr style="border: 2px solid #e9e9e9;"/>
 
                         <div class="uk-margin">
                             <label class="uk-form-label" for="formScholarshipName">Scholarship Name</label>
@@ -130,10 +125,10 @@
 
     
                         <div class="uk-margin">
-                            <button class="uk-button uk-width-1-1" style = "box-shadow:5px 5px 0px #33333350;border-radius:10px;font-size:16px;">
-                                <i class="ri-check-fill" style = "margin-right:5px"></i>
+                            <button type="submit" class="uk-button uk-width-1-1" style="box-shadow:5px 5px 0px #33333350;border-radius:10px;font-size:16px;">
+                                <i class="ri-check-fill" style="margin-right:5px"></i>
                                 Create Scholarship
-                        </button>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -143,18 +138,13 @@
         <!--Admin Creation Modal-->
         <div id="adminCreateModal" uk-modal>
             <div class="uk-animation-fade">
-                <div class="uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large" style="    width: 600px;
-        margin-top: 0px;">
-                    <form>
-                        <button class="closeButton" onclick="closeMenu('adminCreateModal')">
+                <div class="uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large" style="width: 600px; margin-top: 0px;">
+                    <form id="adminForm">
+                        <button type="button" class="closeButton" onclick="closeMenu('adminCreateModal')">
                             <i class="ri-close-circle-fill"></i>
                         </button>
-                        <h2 style = "    margin: 0px;
-                        margin-left: 0px;
-                        font-size: 25px;
-                        margin-bottom: -10px;
-                        " class="uk-text-left">New Admin</h2>
-                        <hr style = "    border: 2px solid #e9e9e9;"/>
+                        <h2 style="margin: 0px; margin-left: 0px; font-size: 25px; margin-bottom: -10px;" class="uk-text-left">New Admin</h2>
+                        <hr style="border: 2px solid #e9e9e9;"/>
 
                         <div class="uk-margin">
                             <label class="uk-form-label" for="formAdminName">First Name</label>
@@ -182,12 +172,15 @@
                             </div>
     
                         <div class="uk-margin">
-                            <button class="uk-button uk-width-1-1" style = "box-shadow:5px 5px 0px #33333350;border-radius:10px;font-size:16px;">
-                                <i class="ri-check-fill" style = "margin-right:5px"></i>
+                            <button type="submit" class="uk-button uk-width-1-1" style="box-shadow:5px 5px 0px #33333350;border-radius:10px;font-size:16px;">
+                                <i class="ri-check-fill" style="margin-right:5px"></i>
                                 Create Admin
-                        </button>
+                            </button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
 
 
 </body>
@@ -269,15 +262,21 @@ function getScholarshipData(id, menu) {
         fetchScholarships();
 
         // Add submit handler for the scholarship form
-        const scholarshipForm = document.querySelector('#scholarshipCreateModal form');
+        const scholarshipForm = document.getElementById('scholarshipForm');
         if (scholarshipForm) {
             scholarshipForm.addEventListener('submit', handleScholarshipSubmit);
+            console.log('Scholarship form handler attached');
+        } else {
+            console.warn('Scholarship form not found');
         }
         
         // Add submit handler for the admin creation form
-        const adminForm = document.querySelector('#adminCreateModal form');
+        const adminForm = document.getElementById('adminForm');
         if (adminForm) {
             adminForm.addEventListener('submit', handleAdminSubmit);
+            console.log('Admin form handler attached');
+        } else {
+            console.warn('Admin form not found');
         }
     }
     
@@ -479,18 +478,35 @@ function writeScholarshipFromDB(scholarship, menu) {
 // Make sure form submit handlers are properly implemented
 function handleScholarshipSubmit(event) {
     event.preventDefault();
+    console.log('Scholarship form submitted');
     
+    // Validate form
+    const name = document.getElementById('formScholarshipName').value;
+    const dueDate = document.getElementById('formScholarshipDueDate').value;
+    const funderName = document.getElementById('formScholarshipFunderName').value;
+    
+    if (!name || !dueDate || !funderName) {
+        UIkit.notification({
+            message: 'Please fill in all required fields',
+            status: 'danger',
+            pos: 'top-center',
+            timeout: 3000
+        });
+        return;
+    }
+    
+    // Prepare form data
     const formData = {
-        name: document.getElementById('formScholarshipName').value,
-        dueDate: document.getElementById('formScholarshipDueDate').value,
-        funderName: document.getElementById('formScholarshipFunderName').value,
-        description: document.getElementById('formScholarshipDescription').value,
-        requirements: document.getElementById('formScholarshipRequirements').value,
-        fundsAllocated: parseFloat(document.getElementById('formScholarshipFundsAllocated').value),
+        name: name,
+        dueDate: dueDate,
+        funderName: funderName,
+        description: document.getElementById('formScholarshipDescription').value || 'No description provided',
+        requirements: document.getElementById('formScholarshipRequirements').value || 'No requirements specified',
+        fundsAllocated: parseFloat(document.getElementById('formScholarshipFundsAllocated').value) || 0,
         fundingType: 'Scholarship', // Default value
         numOfApps: 0, // Default for new scholarships
         creationDate: new Date().toISOString(),
-        endDate: document.getElementById('formScholarshipDueDate').value, // Same as due date by default
+        endDate: dueDate, // Same as due date by default
     };
     
     const modal = document.getElementById('scholarshipCreateModal');
@@ -547,6 +563,7 @@ function handleScholarshipSubmit(event) {
 
 function handleAdminSubmit(event) {
     event.preventDefault();
+    console.log('Admin form submitted');
     
     // Validate password matching
     const password = document.getElementById('formAdminPassword').value;
