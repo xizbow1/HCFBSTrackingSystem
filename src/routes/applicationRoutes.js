@@ -1,21 +1,21 @@
 import express from 'express';
-import * as applicantionController from '../controllers/applicantionController.js';
+import * as applicationController from '../controllers/applicationController.js';
 
 const router = express.Router();
 
 // GET all applicants
-router.get('/', applicantionController.getApplicantions);
+router.get('/', applicationController.getApplications);
 
 // GET a single applicant
-router.get('/:id', applicantionController.getApplicantion);
+router.get('/:id', applicationController.getApplication);
 
 // POST a new applicant
-router.post('/', applicantionController.createApplicantion);
+router.post('/', applicationController.createApplication);
 
 // PUT update an applicant
-router.put('/:id', applicantionController.updateApplicantion);
+router.put('/:id', applicationController.updateApplication);
 
 // DELETE an applicant
-router.delete('/:id', applicantionController.deleteApplicantion);
+router.delete('/:id', applicationController.deleteApplication);
 
 export default router;

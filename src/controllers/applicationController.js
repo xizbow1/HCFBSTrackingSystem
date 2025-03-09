@@ -1,10 +1,10 @@
-import Applicantion from '../models/Applicantion.js';
+import Application from '../models/Application.js';
 
 // Get all applicants
 export const getApplications = async (req, res) => {
   try {
-    const applicantions = await Applicantion.find();
-    res.status(200).json(applicantions);
+    const applications = await Application.find();
+    res.status(200).json(applications);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -13,13 +13,13 @@ export const getApplications = async (req, res) => {
 // Get a single applicant by id
 export const getApplication = async (req, res) => {
   try {
-    const applicantion = await Applicantion.findById(req.params.id);
+    const application = await Application.findById(req.params.id);
     
-    if (!applicantion) {
+    if (!application) {
       return res.status(404).json({ message: 'Applicant not found' });
     }
     
-    res.status(200).json(applicantion);
+    res.status(200).json(application);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -51,7 +51,7 @@ export const createApplication = async (req, res) => {
     }
 
     // Create applicant data with explicit file handling
-    const applicantionData = {
+    const applicationData = {
       applicant: req.body.applicant,
       scholarship: req.body.scholarship,
       cv: req.files.cv[0].buffer,
