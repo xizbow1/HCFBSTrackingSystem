@@ -1,4 +1,5 @@
 import Applicant from '../models/Applicant.js';
+import { auth, createUserWithEmailAndPassword } from '../firebase.js';
 
 // Get all applicants
 export const getApplicants = async (req, res) => {
@@ -31,6 +32,30 @@ export const createApplicant = async (req, res) => {
     console.log('Request body:', req.body);
     console.log('Request files:', req.files ? Object.keys(req.files) : 'No files');
     
+    const { email, password } = req.body;
+    
+    // First, create the user in Firebase Authentication
+    let firebaseUser;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      firebaseUser = userCredential.user;
+      console.log('Firebase user created:', firebaseUser.uid);
+    } catch (firebaseError) {
+      console.error('Firebase Auth error:', firebaseError);
+      
+      // Handle specific Firebase Auth errors
+      if (firebaseError.code === 'auth/email-already-in-use') {
+        return res.status(400).json({ message: 'Email is already in use' });
+      } else if (firebaseError.code === 'auth/invalid-email') {
+        return res.status(400).json({ message: 'Invalid email format' });
+      } else if (firebaseError.code === 'auth/weak-password') {
+        return res.status(400).json({ message: 'Password is too weak' });
+      }
+      
+      // Generic Firebase error
+      return res.status(500).json({ message: `Firebase authentication failed: ${firebaseError.message}` });
+    }
+    
     // Better file existence check with detailed error message
     if (!req.files) {
       return res.status(400).json({ message: 'No files were uploaded' });
@@ -50,12 +75,13 @@ export const createApplicant = async (req, res) => {
       return res.status(400).json({ message: 'GPA must be a valid number' });
     }
 
-    // Create applicant data with explicit file handling
+    // Create applicant data with explicit file handling and Firebase UID
     const applicantData = {
+      firebaseUID: firebaseUser.uid, // Store Firebase UID for reference
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
+      email: email, // Use the same email used for Firebase Auth
+      password: password, // Consider if you need to store this in MongoDB as well
       phone: req.body.phone,
       street: req.body.street,
       aptNum: req.body.aptNum || '',
@@ -77,6 +103,7 @@ export const createApplicant = async (req, res) => {
     console.log("Processing new applicant:", {
       firstName: applicantData.firstName,
       email: applicantData.email,
+      firebaseUID: applicantData.firebaseUID,
       transcripts: applicantData.transcripts ? "Buffer exists" : "No Buffer",
       pic: applicantData.pic ? "Buffer exists" : "No buffer",
       fileTypes: {
@@ -88,6 +115,7 @@ export const createApplicant = async (req, res) => {
     const newApplicant = new Applicant(applicantData);
     const savedApplicant = await newApplicant.save();
     res.status(201).json(savedApplicant);
+    
   } catch (error) {
     console.error('Error creating applicant:', error);
     

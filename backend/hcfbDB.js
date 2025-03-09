@@ -12,6 +12,11 @@ const connectDB = async() => {
 }
 
 const applicantSchema = new mongoose.Schema({
+    firebaseUID: {
+        type: String,
+        required: true,
+        unique: true
+    },
     firstName: { 
         type: String,
         required: true

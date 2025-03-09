@@ -40,8 +40,9 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/signup.html'))
 });
 
-// Improved file upload handling with better error handling
+// Improved file upload handling with better error handling for signup
 app.post('/signup', (req, res, next) => {
+  console.log('Signup request received');
   upload.fields([
     {name: 'transcripts', maxCount: 1},
     {name: 'pic', maxCount: 1}
@@ -50,11 +51,10 @@ app.post('/signup', (req, res, next) => {
       console.error('File upload error:', err);
       return res.status(400).json({ message: `File upload error: ${err.message}` });
     }
+    console.log('Files uploaded successfully');
     next();
   });
 }, createApplicant);
-
-//app.post('/addScholarship', (req, res, next), createScholarship);
 
 // Define the root path handler first (before static middleware)
 app.get('/', (req, res) => {

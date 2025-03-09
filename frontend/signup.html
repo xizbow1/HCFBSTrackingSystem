@@ -198,6 +198,9 @@
             // Move errorMessage declaration to the beginning
             const errorMessage = document.getElementById('error-message');
             
+            // Clear any previous error messages
+            errorMessage.style.display = 'none';
+            
             const email = document.querySelector('input[type="email"]').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
@@ -276,6 +279,7 @@
             }
             
             try {
+                console.log('Creating form data for submission');
                 const formData = new FormData();
 
                 formData.append('firstName', firstName);
@@ -300,17 +304,22 @@
                 formData.append('transcripts', transcripts);
                 formData.append('pic', pic);
 
+                console.log('Submitting signup form to /signup endpoint');
                 const response = await fetch('/signup', {
                     method: 'POST',
                     body: formData
                 });
                 
+                console.log('Response status:', response.status);
                 const result = await response.json();
+                console.log('Response data:', result);
                 
                 if (response.ok) {
+                    console.log('Signup successful, redirecting to login');
                     // Redirect to login page
                     window.location.href = '/login.html?registered=true';
                 } else {
+                    console.error('Signup failed:', result);
                     // Enhanced error handling to show specific validation errors
                     if (result.errors) {
                         const errorMessages = Object.values(result.errors).join(', ');
@@ -321,6 +330,7 @@
                     errorMessage.style.display = 'block';
                 }
             } catch (error) {
+                console.error('Error during signup submission:', error);
                 errorMessage.textContent = 'An error occurred. Please try again later.';
                 errorMessage.style.display = 'block';
                 console.error('Error:', error);
