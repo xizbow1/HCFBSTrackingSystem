@@ -1,4 +1,4 @@
-import { Scholarship } from '../../backend/hcfbDB.js';
+import { Scholarship } from '../models/index.js';
 
 // Create a new scholarship
 export const createScholarship = async (req, res) => {
@@ -131,7 +131,7 @@ export const getScholarshipById = async (req, res) => {
   }
 };
 
-// Update an Scholarship
+// Update a scholarship
 export const updateScholarship = async (req, res) => {
   try {
     const updatedScholarship = await Scholarship.findByIdAndUpdate(
@@ -150,7 +150,7 @@ export const updateScholarship = async (req, res) => {
   }
 };
 
-// Delete an Scholarship
+// Delete a scholarship
 export const deleteScholarship = async (req, res) => {
   try {
     const deletedScholarship = await Scholarship.findByIdAndDelete(req.params.id);

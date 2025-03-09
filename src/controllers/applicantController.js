@@ -1,4 +1,4 @@
-import Applicant from '../models/Applicant.js';
+import { Applicant } from '../models/index.js';
 import { auth, createUserWithEmailAndPassword } from '../firebase.js';
 
 // Get all applicants
