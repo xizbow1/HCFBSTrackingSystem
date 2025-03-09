@@ -1,5 +1,6 @@
 import { createApplicant } from './applicantController.js';
 import { auth, signInWithEmailAndPassword } from '../firebase.js';
+import { Admin } from '../models/index.js';
 
 // Signup controller - delegates to applicant controller after upload middleware
 export const signup = (req, res) => {
@@ -20,6 +21,10 @@ export const login = async (req, res) => {
       });
     }
 
+    // First, check if this is an admin user
+    const adminUser = await Admin.findOne({ email });
+    const isAdmin = !!adminUser; // Convert to boolean
+
     // Attempt to sign in with Firebase
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -32,7 +37,8 @@ export const login = async (req, res) => {
         success: true,
         email: user.email,
         uid: user.uid,
-        token
+        token,
+        isAdmin // Include admin status in response
       });
     } catch (firebaseError) {
       console.error('Firebase auth error:', firebaseError);

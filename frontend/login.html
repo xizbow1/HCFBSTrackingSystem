@@ -74,12 +74,19 @@
             const result = await response.json();
             
             if (response.ok) {
-                // Store token in localStorage for future requests
+                // Store token and user info in localStorage
                 localStorage.setItem('token', result.token);
                 localStorage.setItem('userEmail', result.email);
+                localStorage.setItem('userRole', result.isAdmin ? 'admin' : 'student');
                 
-                // Redirect to dashboard or home page
-                window.location.href = '/studentHome.html';
+                // Redirect based on user type
+                if (result.isAdmin) {
+                    // Admin redirect
+                    window.location.href = '/adminHome.html';
+                } else {
+                    // Student redirect
+                    window.location.href = '/studentHome.html';
+                }
             } else {
                 errorMessage.textContent = result.error || 'Login failed. Please try again.';
                 errorMessage.style.display = 'block';
