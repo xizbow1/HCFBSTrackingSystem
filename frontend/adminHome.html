@@ -42,6 +42,10 @@
                 <li onclick = "changeTab('allScholarships')" style = "padding-left:20px;"><a href="#" class="active" id = "allTab">All Scholarships</a></li>
                 <li onclick = "changeTab('myAdmins')"><a href="#" id = "adminsTab">All Admins</a></li>
                 <li onclick = "changeTab('myProfile')"><a href="#" id = "myTab">My Profile</a></li>
+
+                <!--search bar-->
+                <input type="text" id="searchBar" onkeyup="searchScholarships()" placeholder="Search...">
+
             </ul>
 
             <div class = "page" id="allScholarships">
@@ -259,10 +263,10 @@ function getScholarshipData(id, menu) {
             document.getElementById(id).classList.toggle("active", id === tabMapping[tab]);
         });
 
-        if (tab === "myProfile") {
-            document.getElementById('myProfileOuter').style.backgroundImage = "none";
+        if (tab === "allScholarships") {
+            document.getElementById('searchBar').style.display = "block";
         } else {
-            document.getElementById('myProfileOuter').style.backgroundImage = "url('assets/images/pfp_test.jpg')";
+            document.getElementById('searchBar').style.display = "none";
         }
 
     }
@@ -273,7 +277,7 @@ function getScholarshipData(id, menu) {
 
     window.onload = function(){
 
-        // generateWriteScholarships("allScholarships");
+        //generateWriteScholarships("allScholarships");
 
         fetchScholarships();
 
@@ -294,6 +298,7 @@ function getScholarshipData(id, menu) {
         } else {
             console.warn('Admin form not found');
         }
+            
     }
     
     function logOut(){
@@ -842,6 +847,31 @@ function writeScholarship(
             intertia: true,
         });
     }, 0);  // Timeout ensures it's applied after the DOM is updated
+}
+
+function searchScholarships() {
+    var input, filter, scholarships, scholarship, title, requirements, date, funder, description, i, txtValue, reqValue, dateValue, funderValue, descValue;
+    input = document.getElementById("searchBar");
+    filter = input.value.toUpperCase();
+    scholarships = document.getElementById("allScholarshipsInner");
+    scholarship = scholarships.getElementsByClassName("scholarship");
+    for (i = 0; i < scholarship.length; i++) {
+        title = scholarship[i].getElementsByTagName("h1")[0];
+        requirements = scholarship[i].getElementsByClassName("scholarshipReq")[0];
+        date = scholarship[i].getElementsByTagName("h3")[0];
+        funder = scholarship[i].getElementsByTagName("h2")[0];
+        description = scholarship[i].getElementsByClassName("scholarshipDesc")[0];
+        txtValue = title ? (title.textContent || title.innerText) : "";
+        reqValue = requirements ? (requirements.textContent || requirements.innerText) : "";
+        dateValue = date ? (date.textContent || date.innerText) : "";
+        funderValue = funder ? (funder.textContent || funder.innerText) : "";
+        descValue = description ? (description.textContent || description.innerText) : "";
+        if (txtValue.toUpperCase().indexOf(filter) > -1 || reqValue.toUpperCase().indexOf(filter) > -1 || dateValue.toUpperCase().indexOf(filter) > -1 || funderValue.toUpperCase().indexOf(filter) > -1 || descValue.toUpperCase().indexOf(filter) > -1) {
+            scholarship[i].style.display = "";
+        } else {
+            scholarship[i].style.display = "none";
+        }
+    }
 }
 
 
