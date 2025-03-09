@@ -13,743 +13,559 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lexend+Deca:wght@100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/uikitMods.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/tippyMods.css">
     <link rel = "stylesheet" type = "text/css" href = "https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css">
-    <style>
-        body, html {
-    width: 100%;
-    height: 100%;
-    overflow:hidden;
-        }
-
-        #mainPage {
-            width: 100%;
-    height: 100%;
-    margin: -30px;
-    padding: 10px;
-        }
-
-        .uk-card {
-            width: -webkit-fill-available;
-    height: 100%;
-    margin: 10px;
-    margin-top: 65px;
-        }
-
-        #logo {
-width:200px;
-margin:-5px;
-        }
-
-        #topBar {
-            width: 100%;
-    height: 50px;
-    background-color: transparent;
-    position: fixed;
-    top: 0;
-    z-index: 100;
-        }
-
-        .uk-tab {
-            margin-bottom: 0px;
-        }
-
-        .uk-tab li {
-            padding:0px;
-            padding-left:10px;
-        }
-
-        .uk-tab .active {
-            background-color: #d89334;
-    color: white;
-        }
-
-        .uk-tab a{
-            border:none;
-            background-color: #e9e9e9;
-    border-radius: 10px 10px 0px 0px;
-        }
-
-        .uk-tab::before {
-    border:none!important;
-}
-
-    .page {
-        background-color: #d89334;
-    height: -webkit-fill-available;
-    padding: 10px;
-    width: 100%;
-    overflow-y: scroll;
-    padding-bottom: 50px;
-    border-radius: 0px 10px 0px 0px;
-    display: inline-flex;
-    background-image: url('assets/images/test_clear.png');
-    background-size: 275px;
-    background-repeat: no-repeat;
-    background-position: 87.5% 35%;
-    }
-
-    .scholarship {
-        background-color: #e9e9e9;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    }
-
-    .scholarshipTitle {
-        display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid #ccc;
-    }
-
-    .scholarshipTitle h1 span {
-        font-size:20px;
-        margin:0px;
-    }
-
-    .scholarshipTitle h1 {
-        font-size: 16px;
-        margin:0px;
-    }
-
-    .scholarshipTitle h3 {
-        font-size: 16px;
-        margin:0px;
-        font-style: italic;
-    }
-
-    .scholarshipMiddle {
-        padding:5px;
-        padding-left:0px;
-    }
-
-    .scholarshipMiddle p {
-        color: #666;
-    font-weight: 600;
-    line-height: normal;
-    margin: 0px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    }
-
-    .scholarshipReq {
-        white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    }
-
-    .scholarshipNav {
-        text-align:right;
-    }
-
-    .scholarshipNav button {
-        border: none;
-    padding: 10px;
-    background-color: #ccc;
-    border-radius: 5px;
-    font-weight: 900;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 16px;
-    }
-
-    .scholarship hr {
-        border: 1px solid #ccc;
-    margin: 5px;
-    margin-bottom: 10px;
-    margin-left: 0px;
-    margin-right: 0px;
-    }
-
-    .innerWriteable {
-        display: flex;
-    flex-direction: column;
-    width: 55%;
-    }
-
-    .innerMenu {
-        display: none;
-    width: 45%;
-    background-color: #e9e9e9;
-    margin: 0px;
-    border-radius: 10px;
-    margin-left: 10px;
-    text-align: left;
-    position: relative;
-    padding: 10px;
-    }
-
-    .innerMenu h1 {
-        font-size: 20px;
-    margin: 0px;
-    }
-
-    .innerMenu hr {
-        width: 100%;
-    border-color: #ccc;
-    border-width: 2px;
-    margin: 5px;
-    margin-left: 0;
-    margin-right: 0;
-    }
-
-    .innerMenu .closeButton {
-        background-color: transparent;
-    border: none;
-    font-size: 30px;
-    position: absolute;
-    margin: 5px;
-    padding: 0px;
-    right:0;
-    top:0;
-    }
-
-    .innerMenu p {
-        font-size: 16px;
-    margin: 0px;
-    }
-
-    button {
-        cursor:pointer;
-    }
-
-    .innerMenu .box {
-        background-color: #ccc;
-    padding: 5px;
-    font-weight: 300;
-    margin: 5px;
-    border-radius: 5px;
-    margin-left: 0px;
-    margin-right: 0px;
-    }
-
-    #allApplyButton{
-        border: none;
-    padding: 10px;
-    background-color: green;
-    border-radius: 5px;
-    font-weight: 900;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 16px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 15px;
-    color: white;
-    }
-
-    #formSubmissionModal hr {
-        border: 2px solid #e9e9e9;
-        margin: 0px;
-    }
-
-    .formWarning {
-            background-color: #e9e9e9;
-    padding: 10px;
-    font-weight: 600;
-    font-size: 13px;
-    }
-
-    #personalStatement {
-        width: 100%;
-    height: 100px;
-    resize: none;
-    background-color: #e9e9e9;
-    font-weight: 300;
-    }
-
-    #pfp_container {
-        position: absolute;
-    top: 0;
-    right: 0;
-    width: 90px;
-    border-radius: 10px;
-    font-size: 15px;
-    background-color: transparent;
-    color: white;
-    font-weight: 900;
-    margin: 15px;
-    padding: 5px;
-    border: 2.5px solid white;
-    padding-left: 50px;
-    padding-right: 0px;
-    display: flex;
-    text-align: left;
-    overflow: hidden;
-    cursor:pointer;
-    }
-
-    #pfp_container img {
-        float: left;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 25%;
-    }
-
-    #pfp_dropdown h1 {
-        font-size: 20px;
-    margin: 0px;
-    }
-
-    #pfp_dropdown p {
-        font-size: 16px;
-    margin: 5px;
-    margin-left: 0px;
-    margin-right: 0px;
-    }
-
-    #pfp_dropdown button {
-        background-color: #e9e9e9;
-    border: none;
-    padding: 10px;
-    display: block;
-    width: 100%;
-    margin: 10px;
-    margin-left: 0px;
-    margin-right: 0px;
-    font-weight: 900;
-    font-size: 15px;
-    }
-
-    #pfp_dropdown hr {
-        border: 2.5px solid #e9e9e9;
-        margin: 0px;
-    }
-
-    .uk-dropdown {
-        border-radius: 10px;
-        padding:15px;
-    }
-
-    </style>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 
 <body>
 
-    <div id = "topBar">
-        <img id = "logo" src="assets/images/clear logo.png" alt="Humboldt Logo">
-        <div id = "pfp_container">
-        <img id = "pfp" src="assets/images/pfp_test.jpg" alt="Profile Picture" >
-        My Profile
+    <div id="topBar">
+        <img id="logo" src="assets/images/clear logo.png" alt="Humboldt Logo">
+        <img id="pfp" style = "cursor:pointer" src="assets/images/pfp_test.jpg" alt="Profile Picture">
+        <div uk-dropdown="pos: middle-right; mode: hover">
+            <ul class="uk-nav uk-dropdown-nav">
+                <li><a href="#" onclick="logOut()">Log Out</a></li>
+            </ul>
         </div>
-            <div id = "pfp_dropdown" uk-dropdown="mode: click;pos: bottom-right">
-                <h1 id = "pfp_name">Bob boberson</h1>
-                <p id = "pfp_email">bob@bob.com</p>
-                <hr/>
-                <button uk-toggle="target: #editProfileModal" >Edit Profile</button>
-                <button onclick = "logOut()" style = "margin-bottom:0px" >Log Out</button>
-            </div>
     </div>
 
     <div class="uk-card uk-card-default uk-card-body uk-box-shadow-large">
+        <div id="mainPage" class="uk-card-body">
 
-        
-        <div id = "mainPage" class="uk-card-body">
-
-            <!-- two tabbed interface-->
+            <!-- Tab Navigation -->
             <ul class="uk-tab" uk-tab>
-                <li onclick = "changeTab('allScholarships')" style = "padding-left:20px;"><a href="#" class="active" id = "allTab">All Scholarships</a></li>
-                <li onclick = "changeTab('myScholarships')"><a href="#" id = "myTab" >My Scholarships</a></li>
+                <li style = "margin-left:10px" onclick="changeTab('allScholarships')"><a href="#" id="allTab" class="active">
+                    <i class="ri-compass-line"></i>
+                    All Scholarships</a>
+                </li>
+                <li onclick="changeTab('myScholarships')"><a href="#" id="myTab">
+                    <i class="ri-history-fill"></i>
+                    My Scholarships</a></li>
+                <li style = "margin-right:10px" onclick="changeTab('myProfile')"><a href="#" id="pfTab">
+                    <i class="ri-user-3-fill"></i>
+                    My Profile</a></li>
             </ul>
 
-            <div class = "page" id="allScholarships">
-
-            <div class = "innerWriteable" id = "allScholarshipsInner">
+            <!-- Scholarship Pages -->
+            <div class="page" id="allScholarships">
+                <div class="innerWriteable" id="allScholarshipsInner"></div>
             </div>
 
-            <div class = "innerMenu" id="allScholarshipsMenu">
-
-                <h1>Scholarship Information</h1>
-                <hr/>
-                <p>Name: <span id = "allScholarshipName"></span></p>
-                <p>Posted: <span id = "allScholarshipPosted"></span></p>
-                <p>Funder: <span id = "allScholarshipFunder"></span></p>
-                <p>Deadline: <span id = "allScholarshipEndDate"></span></p>
-                <p>Amount: <span id = "allScholarshipAmount"></span></p>
-
-                <p class = "box" >Requirements: <span id = "allScholarshipRequirements"></span></p>
-                <p class = "box" >Description: <span id = "allScholarshipDescription"></span></p>
-
-            <button id = "allApplyButton" >Apply</button>
-
-            <button class = "closeButton" onclick = "closeMenu('allScholarshipsMenu')">
-                <i class="ri-close-circle-fill"></i>
-            </button>
-
+            <div class="page" id="myScholarships">
+                <div class="innerWriteable" id="myScholarshipsInner"></div>
             </div>
-
+            <div class="page" id="myProfile">
+                <div class="innerWriteable" id="myProfileInner">
+                <div class="innerWriteable" id="myProfileInner">
+                    <button style="border: none; border-radius: 10px; box-shadow: 5px 5px 0px #33333350; font-size: 17px;" class="uk-button uk-button-default" onclick="launchEditProfileModal()">
+                        <i style="margin-right:5px" class="ri-pencil-line"></i>
+                        Edit Profile
+                    </button>
+                    <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
+                        <div>
+                            <label class="uk-form-label">Upload Profile Picture</label>
+                            <div uk-form-custom="target: true">
+                                <input type="file" required="required">
+                                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                                <input class="uk-input" type="email" placeholder="example@domain.com" required="required">
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: phone"></span>
+                                <input class="uk-input" type="tel" placeholder="(888) 888-8888" required="required">
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: home"></span>
+                                <input class="uk-input" type="text" placeholder="Street Address 1" required="required">
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: home"></span>
+                                <input class="uk-input" type="text" placeholder="Street Address 2">
+                            </div>
+                            <div class="uk-margin">
+                                <input class="uk-input" type="text" placeholder="City" required="required">
+                                <input class="uk-input" type="text" placeholder="State" required="required">
+                                <input class="uk-input" type="text" placeholder="ZIP" required="required">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: location"></span>
+                                <input class="uk-input" type="text" placeholder="High School" required="required">
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: star"></span>
+                                <input class="uk-input" type="text" placeholder="GPA (Optional)">
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: location"></span>
+                                <input class="uk-input" type="text" placeholder="College/University" required="required">
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: pencil"></span>
+                                <input class="uk-input" type="text" placeholder="Major" required="required">
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: star"></span>
+                                <input class="uk-input" type="text" placeholder="GPA" required="required">
+                            </div>
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Upload Transcripts</label>
+                                <div uk-form-custom="target: true">
+                                    <input type="file" id="transcriptsFile" name="transcripts" accept=".pdf,.doc,.docx,image/*" required="required">
+                                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                </div>
+                                <div class="uk-text-small uk-text-muted">Accepted formats: PDF, DOC, DOCX, Images</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Year</label>
+                                <select class="uk-select" id="studentType" required="required">
+                                    <option value="" selected disabled>Select...</option>
+                                    <option value="freshman">Freshman</option>
+                                    <option value="sophomore">Sophomore</option>
+                                    <option value="junior">Junior</option>
+                                    <option value="senior">Senior</option>
+                                </select>
+                            </div>
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Enrollment Status</label>
+                                <select class="uk-select" id="enrollmentStatus" required="required">
+                                    <option value="" selected disabled>Select...</option>
+                                    <option value="part-time">Part-time</option>
+                                    <option value="full-time">Full-time</option>
+                                </select>
+                            </div>
+                            <div class="uk-margin">
+                                <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+                                <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required="required">
+                            </div>
+                            <div class="uk-margin uk-width-1-1" style="white-space:nowrap">
+                                <div class="uk-inline uk-width-1-2">
+                                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                    <input class="uk-input" id="password" type="password" placeholder="Password" required="required">
+                                </div>
+                                <div class="uk-inline uk-width-1-2">
+                                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                    <input class="uk-input" id="confirmPassword" type="password" placeholder="Confirm Password" required="required">
+                                </div>
+                            </div>
+                            <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
+                            <div class="uk-margin">
+                                <button type="submit" class="uk-button uk-width-1-1">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class = "page" id="myScholarships">
-
-            <div class = "innerWriteable" id = "myScholarshipsInner">
-            </div>
-
-            <div class = "innerMenu" id="myScholarshipsMenu">
-
-            <button class = "closeButton" onclick = "closeMenu('myScholarshipsMenu')">
-                <i class="ri-close-circle-fill"></i>
-            </button>
-
-            <h1>Scholarship Information</h1>
-                <hr/>
-                <p>Name: <span id = "myScholarshipName"></span></p>
-                <p>Posted: <span id = "myScholarshipPosted"></span></p>
-                <p>Funder: <span id = "myScholarshipFunder"></span></p>
-                <p>Deadline: <span id = "myScholarshipEndDate"></span></p>
-                <p>Amount: <span id = "myScholarshipAmount"></span></p>
-
-                <p class = "box" >Requirements: <span id = "myScholarshipRequirements"></span></p>
-                <p class = "box" >Description: <span id = "myScholarshipDescription"></span></p>
-                
-            </div>
-
-            </div>  
 
         </div>
     </div>
 
+    <!-- Application Modal -->
     <div id="formSubmissionModal" uk-modal>
+        <div class="uk-animation-fade">
+            <div class="uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large" style="    width: 600px;
+    margin-top: 0px;">
+                <form>
+                    <button class="closeButton" onclick="closeMenu('formSubmissionModal')">
+                        <i class="ri-close-circle-fill"></i>
+                    </button>
+                    <h2 style = "
+                    margin: 10px;
+                    margin-left: 0px;
+                    " class="uk-text-left">Scholarship Application</h2>
+                    <hr />
+                    <p style = "font-weight:300" id="formScholarshipDesc">Scholarship Description</p>
 
-        <div class="uk-animation-fade" >
-                            <div class="uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large" style="width: 600px;margin-top: 0px;">
-                                <img style="    max-width: 200px;
-                                margin-bottom: -20px;
-                                margin-top: -20px;
-                                margin-left: -20px!important;" src="assets/images/FB_HUMBOLDT_LOGO_RGB_1COLOR_GREEN.jpg" alt="Humboldt Logo" class="uk-margin uk-margin-auto">
-                                <form>
-                                    <h2 style = "    margin: 10px;
-                                    margin-left: 0px;
-                                    margin-right: 0px;
-                                    font-size: 25px;" class="uk-text-left">Scholarship Application</h2>
-                                    <hr/>
+                    <div class="uk-margin">
+                        <textarea id="personalStatement" class="uk-textarea" placeholder="Include a personal statement (max. 500)" maxlength="500"></textarea>
+                    </div>
 
-                                    <p id = "formScholarshipDesc">Scholarship Description</p>
-
-                                    <div class="uk-margin">
-                                        <textarea id = "personalStatement" class="uk-textarea" placeholder="Please include a personal statement. (max. 500)" maxlength = "500" required="required"></textarea>
-                                    </div>
-
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <label class="uk-form-label">Upload Cover Letter</label>
-                                                    <br>
-                                                    <div uk-form-custom="target: true" class="uk-form-custom">
-                                                        <input type="file" required="required">
-                                                        <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled="">
-                                                    </div>
-                                                </div>
-
-                                    <p class = "formWarning">Your transcripts will be automatically be submitted with this application.</p>
-                                    
-    
-                                    <div class="uk-margin">
-                                        <button class="uk-button uk-width-1-1">Submit Application</button>
-                                    </div>
-    
-                                </form>
-                            </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <label class="uk-form-label">Upload Cover Letter</label>
+                        <div uk-form-custom="target: true">
+                            <input type="file">
+                            <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
                         </div>
+                    </div>
 
+                    <p class="formWarning">
+                        <i class="ri-information-line"></i>
+                    Your transcripts will be automatically submitted with this application.
+                </p>
 
+                    <div class="uk-margin">
+                        <button class="uk-button uk-width-1-1" style = "box-shadow:5px 5px 0px #33333350;border-radius:10px">
+                            <i class="ri-check-fill" style = "margin-right:5px"></i>
+                        Submit Application
+                    </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
+    <!--Editing Profile Modal-->
     <div id="editProfileModal" uk-modal>
-
-        <div class="uk-animation-fade" uk-height-viewport>
-                        <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-                            style = "width: 100%;margin-top:0px;">
-                                <form id="signupForm">
-                                    <div class="form-container uk-column-1-2 uk-column-divider">
-                                        <h1>Edit Profile</h1>
-                                        <div id="column-left">
-    
-                                            <div class="uk-margin">
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <label class="uk-form-label">Upload Profile Picture</label>
-                                                    <br />
-                                                    <div uk-form-custom="target: true">
-                                                        <input type="file" required="required">
-                                                        <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <span class="uk-form-icon" uk-icon="icon: mail"></span>
-                                                    <input class="uk-input" type="email" placeholder="example@domain.com" required="required">
-                                                </div>
-                                    
-                                            <div class="uk-margin">
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <span class="uk-form-icon" uk-icon="icon: phone"></span>
-                                                    <input class="uk-input" type="tel" placeholder="(888) 888-8888" required="required">
-                                                </div>
-                                            </div>
-                                    
-                                            <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
-                                                <span class="uk-form-icon" uk-icon="icon: home"></span>
-                                                <input class="uk-input" type="text" placeholder="Street Address 1" required="required">
-                                            </div>
-    
-                                            <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
-                                                <span class="uk-form-icon" uk-icon="icon: home"></span>
-                                                <input class="uk-input" type="text" placeholder="Street Address 2" required="required">
-                                            </div>
-                                    
-                                            <div>
-                                                <div class="uk-inline uk-width-1-3">
-                                                    <input class="uk-input" type="text" placeholder="City" required="required">
-                                                </div>
-                                                <div class="uk-inline uk-width-1-4">
-                                                    <input class="uk-input" type="text" placeholder="State" required="required">
-                                                </div>
-                                                <div class="uk-inline uk-width-1-3">
-                                                    <input class="uk-input" type="text" placeholder="ZIP" required="required">
-                                                </div>
-                                            </div>
-    
-    
-                                            <br />
-                                            <div class="uk-margin">
-                                                <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
-                                                    <span class="uk-form-icon" uk-icon="icon: location"></span>
-                                                    <input class="uk-input" type="text" placeholder="High School" required="required">
-                                                </div>
-                                    
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <span class="uk-form-icon" uk-icon="icon: star"></span>
-                                                    <input class="uk-input" type="text" placeholder="GPA (Optional)">
-                                                </div>
-                                            </div>
-    
-                                        </div>
-                                    
-                                        <div id="column-right">
-                                    
-                                            <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
-                                                <span class="uk-form-icon" uk-icon="icon: location"></span>
-                                                <input class="uk-input" type="text" placeholder="College/University" required="required">
-                                            </div>
-                                    
-                                            <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
-                                                <span class="uk-form-icon" uk-icon="icon: pencil"></span>
-                                                <input class="uk-input" type="text" placeholder="Major" required="required">
-                                            </div>
-                                    
-                                            <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
-                                                <span class="uk-form-icon" uk-icon="icon: star"></span>
-                                                <input class="uk-input" type="text" placeholder="GPA" required="required">
-                                            </div>
-                                    
-                                            <div class="uk-margin">
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <label class="uk-form-label">Upload Transcripts</label>
-                                                    <br />
-                                                    <div uk-form-custom="target: true">
-                                                        <input type="file" required="required">
-                                                        <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <label class="uk-form-label">Year</label>
-                                                    <select class="uk-select" required="required">
-                                                        <option value="" selected disabled>Select...</option>
-                                                        <option value="freshman">Freshman</option>
-                                                        <option value="sophomore">Sophomore</option>
-                                                        <option value="junior">Junior</option>
-                                                        <option value="senior">Senior</option>
-                                                    </select>
-                                                </div>
-    
-                                                <div class="uk-margin">
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <label class="uk-form-label">Enrollment Status</label>
-                                                    <select class="uk-select" required="required">
-                                                        <option value="" selected disabled>Select...</option>
-                                                        <option value="freshman">Part-time</option>
-                                                        <option value="sophomore">Full-time</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                    
-                                            <div class="uk-margin">
-                                                <div class="uk-inline uk-width-1-1">
-                                                    <span class="uk-form-icon" uk-icon="icon: calendar"></span>
-                                                    <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required="required">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-    
-    
-                                    <div class="uk-margin uk-width-1-1" style = "white-space:nowrap">
-                                        <div class="uk-inline uk-width-1-2">
-                                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                            <input class="uk-input" id="password" type="password" placeholder="Password" required="required">
-                                        </div>
-                                        <div class="uk-inline uk-width-1-2">
-                                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                            <input class="uk-input" id="confirmPassword" type="password" placeholder="Confirm Password" required="required">
-                                        </div>
-                                    </div>
-    
-                                    <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
-                                    
-                                    <div class="uk-margin">
-                                        <button type="submit" class="uk-button uk-width-1-1">Save</button>
-                                    </div>
-    
-                                </form>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="closeButton" onclick="closeMenu('editProfileModal')">
+            <i class="ri-close-circle-fill"></i>
+        </button>
+        <h2 style = "
+        margin: 10px;
+        margin-left: 0px;
+        " class="uk-text-left">Edit Profile</h2>
+        <hr />
+        
+        <form>
+            <div class="form-container uk-column-1-2 uk-column-divider">
+                <div id="column-left">
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <label class="uk-form-label">Upload Profile Picture</label>
+                            <br />
+                            <div uk-form-custom="target: true">
+                                <input type="file" required="required">
+                                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                        <input class="uk-input" type="email" placeholder="example@domain.com" required="required">
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: phone"></span>
+                            <input class="uk-input" type="tel" placeholder="(888) 888-8888" required="required">
+                        </div>
+                    </div>
+                    <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                        <span class="uk-form-icon" uk-icon="icon: home"></span>
+                        <input class="uk-input" type="text" placeholder="Street Address 1" required="required">
+                    </div>
+                    <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                        <span class="uk-form-icon" uk-icon="icon: home"></span>
+                        <input class="uk-input" type="text" placeholder="Street Address 2">
+                    </div>
+                    <div>
+                        <div class="uk-inline uk-width-1-3">
+                            <input class="uk-input" type="text" placeholder="City" required="required">
+                        </div>
+                        <div class="uk-inline uk-width-1-4">
+                            <input class="uk-input" type="text" placeholder="State" required="required">
+                        </div>
+                        <div class="uk-inline uk-width-1-3">
+                            <input class="uk-input" type="text" placeholder="ZIP" required="required">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input class="uk-input" type="text" placeholder="High School" required="required">
+                        </div>
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: star"></span>
+                            <input class="uk-input" type="text" placeholder="GPA (Optional)">
+                        </div>
+                    </div>
+                </div>
+                <div id="column-right">
+                    <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                        <span class="uk-form-icon" uk-icon="icon: location"></span>
+                        <input class="uk-input" type="text" placeholder="College/University" required="required">
+                    </div>
+                    <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                        <span class="uk-form-icon" uk-icon="icon: pencil"></span>
+                        <input class="uk-input" type="text" placeholder="Major" required="required">
+                    </div>
+                    <div class="uk-inline uk-width-1-1" style="margin-bottom:5px">
+                        <span class="uk-form-icon" uk-icon="icon: star"></span>
+                        <input class="uk-input" type="text" placeholder="GPA" required="required">
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <label class="uk-form-label">Upload Transcripts</label>
+                            <br />
+                            <div uk-form-custom="target: true">
+                                <input type="file" id="transcriptsFile" name="transcripts" accept=".pdf,.doc,.docx,image/*" required="required">
+                                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                            </div>
+                            <div class="uk-text-small uk-text-muted">Accepted formats: PDF, DOC, DOCX, Images</div>
+                        </div>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <label class="uk-form-label">Year</label>
+                        <select class="uk-select" id="studentType" required="required">
+                            <option value="" selected disabled>Select...</option>
+                            <option value="freshman">Freshman</option>
+                            <option value="sophomore">Sophomore</option>
+                            <option value="junior">Junior</option>
+                            <option value="senior">Senior</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <label class="uk-form-label">Enrollment Status</label>
+                            <select class="uk-select" id="enrollmentStatus" required="required">
+                                <option value="" selected disabled>Select...</option>
+                                <option value="part-time">Part-time</option>
+                                <option value="full-time">Full-time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+                            <input class="uk-input" type="text" placeholder="Expected Graduation Date (YYYY)" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-margin uk-width-1-1" style="white-space:nowrap">
+                <div class="uk-inline uk-width-1-2">
+                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    <input class="uk-input" id="password" type="password" placeholder="Password" required="required">
+                </div>
+                <div class="uk-inline uk-width-1-2">
+                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    <input class="uk-input" id="confirmPassword" type="password" placeholder="Confirm Password" required="required">
+                </div>
+            </div>
+            <div id="error-message" class="uk-text-danger uk-text-center" style="display: none;"></div>
+            <div class="uk-margin">
+                <button type="submit" class="uk-button uk-width-1-1">Save Changes</button>
+            </div>
+        </form>
     </div>
-
 </body>
 
 <script src="assets/js/dummyScholarship.js"></script>
 
 <script>
 
-    function writeScholarship(
-    name,
-    dueDate,
-    funderName,
-    description,
-    fundsAllocated,
-    fundingType,
-    numOfApps,
-    creationDate,
-    endDate,
-    requirements,
-    menu
-){
 
-    var randomID = Math.floor(Math.random() * 1000000);
-    var fixedDateMonth = dueDate.getMonth() + 1;
-    var fixedDateDay = dueDate.getDate();
-        document.getElementById(menu+"Inner").innerHTML += `
-        <div id = "`+randomID+`" class = "scholarship"
-                    data-name = "`+name+`"
-                    data-dueDate = "`+fixedDateMonth+`/`+fixedDateDay+`"
-                    data-funderName = "`+funderName+`"
-                    data-description = "`+description+`"
-                    data-fundsAllocated = "`+fundsAllocated+`"
-                    data-fundingType = "`+fundingType+`"
-                    data-numOfApps = "`+numOfApps+`"
-                    data-creationDate = "`+creationDate+`"
-                    data-endDate = "`+endDate+`"
-                    data-requirements = "`+requirements+`"
-                    >
-                <div class = "scholarshipTitle">
-                <h1><span>`+name+`</span>, `+funderName+`</h1>
-                <h3>`+fixedDateMonth+`/`+fixedDateDay+`</h3>
-                </div>
-                <div class ="scholarshipMiddle">
-                <p>Requirements:</p>
-                <div class = "scholarshipReq">
-                    `+requirements+`
-                </div>
-                </div>
-                <div class = "scholarshipNav">
-                    <button onclick = "getScholarshipData(`+randomID+`, '`+menu+`Menu')" >
-                    More
-                    </button>
-                </div>
+function writeScholarship(
+    name, dueDate, funderName, description, fundsAllocated, 
+    fundingType, numOfApps, creationDate, endDate, requirements, menu
+) {
+    const randomID = "id_" + Math.floor(Math.random() * 1000000);
+    const fixedDateMonth = dueDate.getMonth() + 1;
+    const fixedDateDay = dueDate.getDate();
+    const fixedDateYear = dueDate.getFullYear();
+
+    // Generate tooltip content
+    const today = new Date();
+    const timeDiff = dueDate.getTime() - today.getTime();
+    const daysUntilDeadline = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    const postedDateMonth = creationDate.getMonth() + 1;
+    const postedDateDay = creationDate.getDate();
+    const postedDateYear = creationDate.getFullYear();
+
+    // how many days ago was creation date
+    var timeDiff2 = today.getTime() - creationDate.getTime();
+    var daysSincePosted = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+    // if it was "1 days ago" change to "yesterday"
+    if (daysSincePosted === 1) {
+        daysSincePosted = 'Posted yesterday';
+    } else {
+        daysSincePosted = daysSincePosted + ' days ago';
+    }
+
+    var formattedMoney = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(fundsAllocated);
+
+    const tooltipContent = `
+        <p>Full Description</p>
+        <h3>${description}</h3>
+        <hr>
+        <p style = 'margin-top:10px' >Full Requirements</p>
+        <h3>${requirements}</h3>
+        <hr>
+        <p>Quick Info</p>
+        <b style = 'opacity:30%' ><i class='ri-price-tag-3-fill'></i></b> <span style = 'opacity:30%'>${name}</span><br>
+        <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${funderName}</span><br>
+        <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
+        <b><i class='ri-award-line'></i></b> <span>${fundingType}</span><br>
+        <b><i class='ri-group-2-line'></i></b> <span>${numOfApps} applicants</span><br>
+        <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
+        <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
+        <hr style = 'margin-top:10px;margin-bottom:10px'>
+        <button class = 'applyButton2' onclick='launchApplyModal(`+randomID+`)'>
+        <i class='ri-external-link-fill' style = 'margin-right:5px'></i>
+        Apply Now
+        </button>
+    `;
+
+    const scholarshipHTML = `
+    <div id="${randomID}" class="scholarship"
+        data-name="${name}" 
+        data-dueDate="${fixedDateMonth}/${fixedDateDay}"
+        data-funderName="${funderName}" 
+        data-description="${description}"
+        data-fundsAllocated="${fundsAllocated}" 
+        data-fundingType="${fundingType}"
+        data-numOfApps="${numOfApps}" 
+        data-creationDate="${creationDate}"
+        data-endDate="${endDate}" 
+        data-requirements="${requirements}"
+        data-tippy-content="${tooltipContent}">
+        <div class="scholarshipTitle">
+            <div class="titleWrapper">
+                <h1>${name}</h1>
+                <h2>${funderName}</h2>
             </div>
-        `;
+            <h3><i style = "margin-right:5px;" class="ri-calendar-schedule-line"></i> ${fixedDateMonth}/${fixedDateDay}</h3>
+        </div>
+        <div class="scholarshipMiddle">
+            <p>Requirements</p>
+            <div class="scholarshipReq">${requirements}</div>
+        </div>
+    </div>`;
 
+    document.getElementById(`${menu}Inner`).insertAdjacentHTML('beforeend', scholarshipHTML);
+
+    // Initialize Tippy.js on the newly added scholarship after insertion
+    setTimeout(() => {
+        tippy(`#${randomID}`, {
+            allowHTML: true,
+            theme: 'innerMenuTheme',
+            interactive: true,
+            placement: 'right-start',
+            intertia: true,
+        });
+    }, 0);  // Timeout ensures it's applied after the DOM is updated
+}
+
+    function getScholarshipData(id, menu) {
+    const postedScholarship = document.getElementById(id);
+    if (!postedScholarship) {
+        console.error(`Element with ID ${id} not found.`);
+        return;
     }
 
+    const dataMappings = {
+        name: "Name",
+        creationDate: "Posted",
+        funderName: "Funder",
+        endDate: "EndDate",
+        fundsAllocated: "Amount",
+        requirements: "Requirements",
+        description: "Description"
+    };
 
-    function getScholarshipData(id, menu){
-
-        var postedScholarship = document.getElementById(id);
-
-        if (menu === "myScholarshipsMenu") {
-            document.getElementById("myScholarshipName").innerHTML = postedScholarship.getAttribute("data-name");
-            document.getElementById("myScholarshipPosted").innerHTML = postedScholarship.getAttribute("data-creationDate");
-            document.getElementById("myScholarshipFunder").innerHTML = postedScholarship.getAttribute("data-funderName");
-            document.getElementById("myScholarshipEndDate").innerHTML = postedScholarship.getAttribute("data-endDate");
-            document.getElementById("myScholarshipAmount").innerHTML = postedScholarship.getAttribute("data-fundsAllocated");
-            document.getElementById("myScholarshipRequirements").innerHTML = postedScholarship.getAttribute("data-requirements");
-            document.getElementById("myScholarshipDescription").innerHTML = postedScholarship.getAttribute("data-description");
+    Object.keys(dataMappings).forEach(key => {
+        const elemId = `${menu === "myScholarshipsMenu" ? "myScholarship" : "allScholarship"}${dataMappings[key]}`;
+        const targetElem = document.getElementById(elemId);
+        
+        if (targetElem) {
+            targetElem.innerHTML = postedScholarship.getAttribute(`data-${key}`) || "N/A";
         } else {
-            document.getElementById("allScholarshipName").innerHTML = postedScholarship.getAttribute("data-name");
-            document.getElementById("allScholarshipPosted").innerHTML = postedScholarship.getAttribute("data-creationDate");
-            document.getElementById("allScholarshipFunder").innerHTML = postedScholarship.getAttribute("data-funderName");
-            document.getElementById("allScholarshipEndDate").innerHTML = postedScholarship.getAttribute("data-endDate");
-            document.getElementById("allScholarshipAmount").innerHTML = postedScholarship.getAttribute("data-fundsAllocated");
-            document.getElementById("allScholarshipRequirements").innerHTML = postedScholarship.getAttribute("data-requirements");
-            document.getElementById("allScholarshipDescription").innerHTML = postedScholarship.getAttribute("data-description");
-            document.getElementById('allApplyButton').addEventListener('click', function(){
+            console.warn(`Element with ID ${elemId} not found.`);
+        }
+    });
+
+    if (menu === "allScholarshipsMenu") {
+        const applyButton = document.getElementById('allApplyButton');
+        if (applyButton) {
+            applyButton.onclick = function () {
                 UIkit.modal(document.getElementById('formSubmissionModal')).show();
-                document.getElementById('formScholarshipDesc').innerHTML = "<b style = 'font-weight:900'>Description:</b> "+ postedScholarship.getAttribute("data-description");
-            });
-        }
-
-        document.getElementById(menu).style.display = "block";
-
-    }
-
-
-    function generateWriteScholarships(menu) {
-
-        for (let i = 0; i < dummyScholarships.length; i++) {
-            writeScholarship(
-                dummyScholarships[i].name,
-                dummyScholarships[i].dueDate,
-                dummyScholarships[i].funderName,
-                dummyScholarships[i].description,
-                dummyScholarships[i].fundsAllocated,
-                dummyScholarships[i].fundingType,
-                dummyScholarships[i].numOfApps,
-                dummyScholarships[i].creationDate,
-                dummyScholarships[i].endDate,
-                dummyScholarships[i].requirements,
-                menu
-            );
-        }
-
-    }
-
-
-
-    function changeTab(tab){
-        document.getElementById("allScholarships").style.display = "none";
-        document.getElementById("myScholarships").style.display = "none";
-        document.getElementById(tab).style.display = "flex";
-
-        if(tab == "allScholarships"){
-            // add active tab class
-            document.getElementById("allTab").classList.add("active");
-            document.getElementById("myTab").classList.remove("active");
-        }else{
-            // add active tab class
-            document.getElementById("myTab").classList.add("active");
-            document.getElementById("allTab").classList.remove("active");
+                const descElem = document.getElementById('formScholarshipDesc');
+                if (descElem) {
+                    descElem.innerHTML = `<b style="font-weight:900">Description:</b> ${postedScholarship.getAttribute("data-description") || "N/A"}`;
+                }
+            };
+        } else {
+            console.warn("Apply button not found.");
         }
     }
 
-    function closeMenu(menu){
-        console.log(menu);
-        document.getElementById(menu).style.display = "none";
+    const menuElem = document.getElementById(menu);
+    if (menuElem) {
+        menuElem.style.display = "block";
+    } else {
+        console.warn(`Menu element with ID ${menu} not found.`);
+    }
+}
+
+function generateWriteScholarships(menu) {
+        dummyScholarships.forEach(scholarship => writeScholarship(
+            scholarship.name, scholarship.dueDate, scholarship.funderName, 
+            scholarship.description, scholarship.fundsAllocated, scholarship.fundingType, 
+            scholarship.numOfApps, scholarship.creationDate, scholarship.endDate, 
+            scholarship.requirements, menu
+        ));
     }
 
-    window.onload = function(){
-        generateWriteScholarships("allScholarships");
+    function changeTab(tab) {
+        ["allScholarships", "myScholarships", "myProfile"].forEach(id => {
+            document.getElementById(id).style.display = id === tab ? "flex" : "none";
+        });
+
+        const tabMapping = {
+            allScholarships: "allTab",
+            myScholarships: "myTab",
+            myProfile: "pfTab"
+        };
+
+        ["allTab", "myTab", "pfTab"].forEach(id => {
+            document.getElementById(id).classList.toggle("active", id === tabMapping[tab]);
+        });
     }
-    
-    function logOut(){
+
+    function logOut() {
         localStorage.clear();
         window.location.href = "login.html";
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-    </script>
+    window.onload = () => generateWriteScholarships("allScholarships");
+
+    function closeMenu(menu) {
+        UIkit.modal(document.getElementById(menu)).hide();
+        
+    }
+
+    function launchApplyModal(id) {
+    const modal = UIkit.modal(document.getElementById('formSubmissionModal'));
+    
+    // Ensure 'id' is the actual string and not a reference to an HTML element
+    const scholarshipElement = id;
+
+    if (scholarshipElement) {
+        const scholarshipDesc = scholarshipElement.getAttribute('data-description');
+
+        if (scholarshipDesc) {
+            document.getElementById('formScholarshipDesc').innerHTML = `<b style="font-weight:900;margin-right:5px"><i class="ri-quote-text"></i></b> ${scholarshipDesc}`;
+        } else {
+            console.error(`Description not found for element with ID ${id}.`);
+        }
+
+        modal.show();
+    } else {
+        console.error(`Element with ID ${id} not found.`);
+    }
+}
+
+function launchEditProfileModal() {
+    const modal = UIkit.modal(document.getElementById('editProfileModal'));
+    modal.show();
+}
+
+</script>
 
     </html>
