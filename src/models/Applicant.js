@@ -58,13 +58,21 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     highschool: {
-        Type:String
+        type:String
     },
     hsGradYear: { 
-        type: Date,
+        type: String,
     },
     gradYear: { 
-        type: Date,
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    enrollmentStatus: {
+        type: String,
         required: true
     },
     pic: { 
@@ -73,8 +81,7 @@ const applicantSchema = new mongoose.Schema({
     },
     application: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Application',
-        required: true
+        ref: 'Application'
     }]
 });
 
