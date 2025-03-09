@@ -12,7 +12,7 @@ npm start
 ```
 
 The relationship within the database is shown below:
-![screenshot](/deployment/schema.png)
+![screenshot](/documentation/schema.png)
 
 The main objective of the Humboldt County Farm Bureau Scholarship Tracker is be an interactive web application for both students and organization members to easily access, apply, and manage scholarships under helm of the Humboldt County Farm Bureau.
 
