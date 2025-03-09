@@ -1,18 +1,20 @@
 import express from 'express';
 import { 
-  createScholarship,
-  getScholarships,
-  getScholarshipById,
-  updateScholarship,
-  deleteScholarship
+    getScholarships, 
+    getScholarshipById, 
+    createScholarship,
+    updateScholarship, 
+    deleteScholarship 
 } from '../controllers/scholarshipController.js';
 
 const router = express.Router();
 
-// Scholarship routes
+// Public routes
+router.get('/', getScholarships); // Get all scholarships
+router.get('/:id', getScholarshipById); // Get single scholarship
+
+// Protected routes (require authentication)
 router.post('/', createScholarship);
-router.get('/', getScholarships);
-router.get('/:id', getScholarshipById);
 router.put('/:id', updateScholarship);
 router.delete('/:id', deleteScholarship);
 

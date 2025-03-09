@@ -455,6 +455,7 @@ function writeScholarship(
         return;
     }
 
+    // Fix for mapping scholarship data to UI elements
     const dataMappings = {
         name: "Name",
         creationDate: "Posted",
@@ -465,6 +466,10 @@ function writeScholarship(
         description: "Description"
     };
 
+    // Convert MongoDB _id to string if needed
+    const scholarshipId = postedScholarship.getAttribute('data-id') || id;
+
+    // Either use existing element data or fetch from API if needed
     Object.keys(dataMappings).forEach(key => {
         const elemId = `${menu === "myScholarshipsMenu" ? "myScholarship" : "allScholarship"}${dataMappings[key]}`;
         const targetElem = document.getElementById(elemId);
@@ -499,13 +504,177 @@ function writeScholarship(
     }
 }
 
-function generateWriteScholarships(menu) {
-        dummyScholarships.forEach(scholarship => writeScholarship(
-            scholarship.name, scholarship.dueDate, scholarship.funderName, 
-            scholarship.description, scholarship.fundsAllocated, scholarship.fundingType, 
-            scholarship.numOfApps, scholarship.creationDate, scholarship.endDate, 
-            scholarship.requirements, menu
-        ));
+    // New function to fetch scholarships from the API
+    async function fetchScholarships() {
+        try {
+            document.getElementById('allScholarshipsInner').innerHTML = '<div class="uk-text-center"><div uk-spinner="ratio: 3"></div><p>Loading scholarships...</p></div>';
+            
+            const response = await fetch('/api/scholarships');
+            
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error('Failed to retrieve scholarships');
+            }
+            
+            // Clear loading indicator
+            document.getElementById('allScholarshipsInner').innerHTML = '';
+            
+            // Display scholarships
+            if (data.data && data.data.length > 0) {
+                data.data.forEach(scholarship => {
+                    writeScholarshipFromDB(scholarship, "allScholarships");
+                });
+            } else {
+                document.getElementById('allScholarshipsInner').innerHTML = '<p class="uk-text-center">No scholarships available at this time.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching scholarships:', error);
+            document.getElementById('allScholarshipsInner').innerHTML = `
+                <div class="uk-alert-danger" uk-alert>
+                    <p>Error loading scholarships. Please try again later.</p>
+                </div>
+            `;
+        }
+    }
+
+    // New function to fetch user's applied scholarships
+    async function fetchMyScholarships() {
+        try {
+            document.getElementById('myScholarshipsInner').innerHTML = '<div class="uk-text-center"><div uk-spinner="ratio: 3"></div><p>Loading your scholarships...</p></div>';
+            
+            // You'll need to implement this API endpoint
+            const response = await fetch('/api/applications/user');
+            
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            document.getElementById('myScholarshipsInner').innerHTML = '';
+            
+            if (data.data && data.data.length > 0) {
+                data.data.forEach(application => {
+                    // Assuming the API returns scholarship data with each application
+                    writeScholarshipFromDB(application.scholarship, "myScholarships");
+                });
+            } else {
+                document.getElementById('myScholarshipsInner').innerHTML = '<p class="uk-text-center">You haven\'t applied to any scholarships yet.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching your scholarships:', error);
+            document.getElementById('myScholarshipsInner').innerHTML = `
+                <div class="uk-alert-danger" uk-alert>
+                    <p>Error loading your scholarships. Please try again later.</p>
+                </div>
+            `;
+        }
+    }
+
+    // Function to write scholarships from database data
+    function writeScholarshipFromDB(scholarship, menu) {
+        const randomID = "id_" + Math.floor(Math.random() * 1000000);
+        
+        // Convert database dates to JavaScript Date objects
+        const dueDate = new Date(scholarship.dueDate);
+        const creationDate = new Date(scholarship.creationDate);
+        const endDate = new Date(scholarship.endDate);
+        
+        const fixedDateMonth = dueDate.getMonth() + 1;
+        const fixedDateDay = dueDate.getDate();
+        const fixedDateYear = dueDate.getFullYear();
+
+        // Generate tooltip content
+        const today = new Date();
+        const timeDiff = dueDate.getTime() - today.getTime();
+        const daysUntilDeadline = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        const postedDateMonth = creationDate.getMonth() + 1;
+        const postedDateDay = creationDate.getDate();
+        const postedDateYear = creationDate.getFullYear();
+
+        // how many days ago was creation date
+        var timeDiff2 = today.getTime() - creationDate.getTime();
+        var daysSincePosted = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+        // if it was "1 days ago" change to "yesterday"
+        if (daysSincePosted === 1) {
+            daysSincePosted = 'Posted yesterday';
+        } else {
+            daysSincePosted = daysSincePosted + ' days ago';
+        }
+
+        var formattedMoney = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        }).format(scholarship.fundsAllocated);
+
+        const tooltipContent = `
+            <p>Full Description</p>
+            <h3>${scholarship.description}</h3>
+            <hr>
+            <p style = 'margin-top:10px' >Full Requirements</p>
+            <h3>${scholarship.requirements}</h3>
+            <hr>
+            <p>Quick Info</p>
+            <b style = 'opacity:30%' ><i class='ri-price-tag-3-fill'></i></b> <span style = 'opacity:30%'>${scholarship.name}</span><br>
+            <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${scholarship.funderName}</span><br>
+            <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
+            <b><i class='ri-award-line'></i></b> <span>${scholarship.fundingType}</span><br>
+            <b><i class='ri-group-2-line'></i></b> <span>${scholarship.numOfApps} applicants</span><br>
+            <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
+            <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
+            <hr style = 'margin-top:10px;margin-bottom:10px'>
+            <button class = 'applyButton2' onclick='launchApplyModal("${randomID}")'>
+            <i class='ri-external-link-fill' style = 'margin-right:5px'></i>
+            Apply Now
+            </button>
+        `;
+
+        const scholarshipHTML = `
+        <div id="${randomID}" class="scholarship"
+            data-id="${scholarship._id}"
+            data-name="${scholarship.name}" 
+            data-dueDate="${fixedDateMonth}/${fixedDateDay}"
+            data-funderName="${scholarship.funderName}" 
+            data-description="${scholarship.description}"
+            data-fundsAllocated="${scholarship.fundsAllocated}" 
+            data-fundingType="${scholarship.fundingType}"
+            data-numOfApps="${scholarship.numOfApps}" 
+            data-creationDate="${scholarship.creationDate}"
+            data-endDate="${scholarship.endDate}" 
+            data-requirements="${scholarship.requirements}"
+            data-tippy-content="${tooltipContent}">
+            <div class="scholarshipTitle">
+                <div class="titleWrapper">
+                    <h1>${scholarship.name}</h1>
+                    <h2>${scholarship.funderName}</h2>
+                </div>
+                <h3><i style = "margin-right:5px;" class="ri-calendar-schedule-line"></i> ${fixedDateMonth}/${fixedDateDay}</h3>
+            </div>
+            <div class="scholarshipMiddle">
+                <p>Requirements</p>
+                <div class="scholarshipReq">${scholarship.requirements}</div>
+            </div>
+        </div>`;
+
+        document.getElementById(`${menu}Inner`).insertAdjacentHTML('beforeend', scholarshipHTML);
+
+        // Initialize Tippy.js on the newly added scholarship after insertion
+        setTimeout(() => {
+            tippy(`#${randomID}`, {
+                allowHTML: true,
+                theme: 'innerMenuTheme',
+                interactive: true,
+                placement: 'right-start',
+                inertia: true,
+            });
+        }, 0);  // Timeout ensures it's applied after the DOM is updated
     }
 
     function changeTab(tab) {
@@ -522,6 +691,11 @@ function generateWriteScholarships(menu) {
         ["allTab", "myTab", "pfTab"].forEach(id => {
             document.getElementById(id).classList.toggle("active", id === tabMapping[tab]);
         });
+        
+        // Load tab-specific data when switching tabs
+        if (tab === "myScholarships") {
+            fetchMyScholarships();
+        }
     }
 
     function logOut() {
@@ -533,7 +707,22 @@ function generateWriteScholarships(menu) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    window.onload = () => generateWriteScholarships("allScholarships");
+    // Update window.onload to fetch real data instead of using dummy data
+    window.onload = () => {
+        fetchScholarships();
+        
+        // Check for and display any URL parameters or notifications
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        if (message) {
+            UIkit.notification({
+                message: message,
+                status: 'primary',
+                pos: 'top-center',
+                timeout: 5000
+            });
+        }
+    };
 
     function closeMenu(menu) {
         UIkit.modal(document.getElementById(menu)).hide();
