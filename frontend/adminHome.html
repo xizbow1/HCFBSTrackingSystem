@@ -159,29 +159,21 @@
                         <hr style="border: 2px solid #e9e9e9;"/>
 
                         <div class="uk-margin">
-                            <label class="uk-form-label" for="formAdminName">First Name</label>
-                            <div class="uk-form-controls">
-                                <input class="uk-input" id="formAdminName" type="text" placeholder="First Name">
-                            </div>
-
-                            <div class="uk-form-controls">
-                                <input class="uk-input" id="formAdminLastName" type="text" placeholder="Last Name">
-                            </div>
 
                             <label class="uk-form-label" for="formAdminEmail">Email</label>
                             <div class="uk-form-controls">
-                                <input class="uk-input" id="formAdminEmail" type="email" placeholder="Admin Email">
+                                <input class="uk-input" id="formAdminEmail" type="email" placeholder="Email">
                             </div>
+                        </div>
 
-                            <label class="uk-form-label" for="formAdminPassword">Password</label>
+                        <!-- radio buttons for read or write permissions. one or the other-->
+                        <div class="uk-margin">
+                            <label class="uk-form-label">Permissions</label>
                             <div class="uk-form-controls">
-                                <input class="uk-input" id="formAdminPassword" type="password" placeholder="Password">
+                                <label><input class="uk-radio" type="radio" name="permissions" value="read" checked> Read</label><br>
+                                <label><input class="uk-radio" type="radio" name="permissions" value="write"> Read/Write</label>
                             </div>
-
-                            <label class="uk-form-label" for="formAdminPasswordConfirm">Confirm Password</label>
-                            <div class="uk-form-controls">
-                                <input class="uk-input" id="formAdminPasswordConfirm" type="password" placeholder="Confirm Password">
-                            </div>
+                        </div>
     
                         <div class="uk-margin">
                             <button type="submit" class="uk-button uk-width-1-1" style="box-shadow:5px 5px 0px #33333350;border-radius:10px;font-size:16px;">
@@ -318,7 +310,6 @@ function getScholarshipData(id, menu) {
         document.getElementById('scholarshipCreateModal').removeAttribute('data-edit-id');
         
         const submitButton = document.querySelector('#scholarshipCreateModal form button');
-        submitButton.innerHTML = '<i class="ri-check-fill" style="margin-right:5px"></i>Create Scholarship';
         
         UIkit.modal(document.getElementById('scholarshipCreateModal')).show();
     }
@@ -346,8 +337,6 @@ function getScholarshipData(id, menu) {
             <div class="uk-modal-dialog uk-modal-body">
                 <button class="closeButton" type="button" uk-close onclick="document.getElementById('applicationDetailsModal').remove()"></button>
                 <h2 class="uk-modal-title">Application Details</h2>
-                
-                    // ...existing code...
                 </div>
             </div>
         `;
