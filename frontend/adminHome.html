@@ -40,6 +40,8 @@
             <!-- two tabbed interface-->
             <ul class="uk-tab" uk-tab>
                 <li onclick = "changeTab('allScholarships')" style = "padding-left:20px;"><a href="#" class="active" id = "allTab">All Scholarships</a></li>
+                <li onclick = "changeTab('myAdmins')"><a href="#" id = "adminsTab">All Admins</a></li>
+                <li onclick = "changeTab('myProfile')"><a href="#" id = "myTab">My Profile</a></li>
             </ul>
 
             <div class = "page" id="allScholarships">
@@ -59,21 +61,35 @@
                     <i class="ri-add-fill"></i>
                     New Scholarship
                 </button>
+            </div>
+
+            </div>
+
+            <div class = "page" id="myAdmins">
+
+            <div class = "innerWriteable" id = "myAdminsInner">
+            </div>
+
+            <div class = "innerToolbar">
                 <button id = "createAccountButton" onclick = "createAdmin()">
                     <i class="ri-add-fill"></i>
                     New Admin
                 </button>
             </div>
 
-            </div>
-
-            <div class = "page" id="myAccount">
-
-            <div class = "innerWriteable" id = "myAccountInner">
-            </div>
-
 
             </div>  
+
+            <div class = "page" id="myProfile">
+                <div class = "innerWriteable" id = "myProfileInner">
+                    <h1>My Profile</h1>
+                    <hr>
+                    <div class = "profileInfo">
+                        <b>First Name:</b> <span id = "myProfileFirstName">N/A</span><br>
+                        <b>Last Name:</b> <span id = "myProfileLastName">N/A</span><br>
+                        <b>Email:</b> <span id = "myProfileEmail">N/A</span><br>
+                    </div>
+                </div>
 
         </div>
     </div>
@@ -185,6 +201,8 @@
 
 </body>
 
+<script src="assets/js/dummyScholarship.js"></script>
+
 <script>
 
 function getScholarshipData(id, menu) {
@@ -238,20 +256,27 @@ function getScholarshipData(id, menu) {
     }
 }
 
-    function changeTab(tab){
-        document.getElementById("allScholarships").style.display = "none";
-        document.getElementById("myAccount").style.display = "none";
-        document.getElementById(tab).style.display = "flex";
+    function changeTab(tab) {
+        ["allScholarships", "myAdmins", "myProfile"].forEach(id => {
+            document.getElementById(id).style.display = id === tab ? "flex" : "none";
+        });
 
-        if(tab == "allScholarships"){
-            // add active tab class
-            document.getElementById("allTab").classList.add("active");
-            document.getElementById("myTab").classList.remove("active");
-        }else{
-            // add active tab class
-            document.getElementById("myTab").classList.add("active");
-            document.getElementById("allTab").classList.remove("active");
+        const tabMapping = {
+            allScholarships: "allTab",
+            myAdmins: "adminsTab",
+            myProfile: "myTab"
+        };
+
+        ["allTab", "adminsTab", "myTab"].forEach(id => {
+            document.getElementById(id).classList.toggle("active", id === tabMapping[tab]);
+        });
+
+        if (tab === "myProfile") {
+            document.getElementById('myProfileOuter').style.backgroundImage = "none";
+        } else {
+            document.getElementById('myProfileOuter').style.backgroundImage = "url('assets/images/pfp_test.jpg')";
         }
+
     }
 
     function closeMenu(menu){

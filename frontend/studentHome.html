@@ -246,7 +246,6 @@
                     margin-left: 0px;
                     " class="uk-text-left">Scholarship Application</h2>
                     <hr />
-                    <p style = "font-weight:300" id="formScholarshipDesc">Scholarship Description</p>
                     <input type="hidden" id="scholarshipId" name="scholarshipId">
 
                     <div class="uk-margin">
@@ -259,7 +258,6 @@
                             <input type="file" id="cvFile" name="cv" accept=".pdf,.doc,.docx" required>
                             <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
                         </div>
-                        <div class="uk-text-small uk-text-muted">Accepted formats: PDF, DOC, DOCX</div>
                     </div>
 
                     <p class="formWarning">
@@ -414,6 +412,8 @@
     </div>
 </body>
 
+<script src="assets/js/dummyScholarships.js"></script>
+
 <script>
 
 
@@ -421,7 +421,7 @@ function writeScholarship(
     name, dueDate, funderName, description, fundsAllocated, 
     fundingType, numOfApps, creationDate, endDate, requirements, menu
 ) {
-    const randomID = "id_" + Math.floor(Math.random() * 1000000);
+    var randomID = "id_" + Math.floor(Math.random() * 1000000);
     const fixedDateMonth = dueDate.getMonth() + 1;
     const fixedDateDay = dueDate.getDate();
     const fixedDateYear = dueDate.getFullYear();
@@ -466,7 +466,7 @@ function writeScholarship(
         <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
         <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
         <hr style = 'margin-top:10px;margin-bottom:10px'>
-        <button class = 'applyButton2' onclick='launchApplyModal(`+randomID+`)'>
+        <button class = 'applyButton2' onclick='launchApplyModal()'>
         <i class='ri-external-link-fill' style = 'margin-right:5px'></i>
         Apply Now
         </button>
@@ -639,6 +639,28 @@ function writeScholarship(
         }
     }
 
+    function generateWriteScholarships(menu) {
+
+for (let i = 0; i < dummyScholarships.length; i++) {
+    writeScholarship(
+        dummyScholarships[i].name,
+        dummyScholarships[i].dueDate,
+        dummyScholarships[i].funderName,
+        dummyScholarships[i].description,
+        dummyScholarships[i].fundsAllocated,
+        dummyScholarships[i].fundingType,
+        dummyScholarships[i].numOfApps,
+        dummyScholarships[i].creationDate,
+        dummyScholarships[i].endDate,
+        dummyScholarships[i].requirements,
+        menu
+    );
+}
+
+}
+
+
+
     // Function to write scholarships from database data
     function writeScholarshipFromDB(scholarship, menu) {
         const randomID = "id_" + Math.floor(Math.random() * 1000000);
@@ -693,7 +715,7 @@ function writeScholarship(
             <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
             <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
             <hr style = 'margin-top:10px;margin-bottom:10px'>
-            <button class = 'applyButton2' onclick='launchApplyModal(`+randomID.toString()+`)'>
+            <button class = 'applyButton2' onclick='launchApplyModal()'>
             <i class='ri-external-link-fill' style = 'margin-right:5px'></i>
             Apply Now
             </button>
@@ -779,6 +801,10 @@ function writeScholarship(
 
     // Update window.onload to fetch real data instead of using dummy data
     window.onload = () => {
+        
+        generateWriteScholarships("allScholarships");
+
+        /*
         fetchScholarships();
         
         // Check for and display any URL parameters or notifications
@@ -792,6 +818,7 @@ function writeScholarship(
                 timeout: 5000
             });
         }
+            */
     };
 
     function closeMenu(menu) {
@@ -799,25 +826,16 @@ function writeScholarship(
         
     }
 
-    function launchApplyModal(id) {
-    const scholarship = document.getElementById(id);
+    function launchApplyModal() {
+        
     const modal = UIkit.modal(document.getElementById('formSubmissionModal'));
     
-    if (scholarship) {
-        const scholarshipId = scholarship.getAttribute('data-id');
-        const scholarshipDesc = scholarship.getAttribute('data-description');
-        
-        document.getElementById('scholarshipId').value = scholarshipId;
-        document.getElementById('formScholarshipDesc').innerHTML = 
-            `<b style="font-weight:900;margin-right:5px"><i class="ri-quote-text"></i></b> ${scholarshipDesc}`;
-        
         // Clear form fields
         document.getElementById('personalStatement').value = '';
         document.getElementById('cvFile').value = '';
         
         modal.show();
     }
-}
 
 document.getElementById('applicationForm').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -831,6 +849,6 @@ function launchEditProfileModal() {
 }
 
 </script>
-<script src="assets/js/dashboard.js"></script>
+<!--<script src="assets/js/dashboard.js"></script>-->
 
     </html>
