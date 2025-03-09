@@ -10,4 +10,4 @@ npm start
 ```
 
 The relationship within the database is shown below:
-![screenshot](/deployment/schema.jpeg)
+![screenshot](/deployment/schema.png)
