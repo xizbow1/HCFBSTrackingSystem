@@ -54,6 +54,8 @@ app.post('/signup', (req, res, next) => {
   });
 }, createApplicant);
 
+app.post('/addScholarship', (req, res, next), createScholarship);
+
 // Define the root path handler first (before static middleware)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/login.html'));
