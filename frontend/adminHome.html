@@ -277,9 +277,9 @@ function getScholarshipData(id, menu) {
 
     window.onload = function(){
 
-        //generateWriteScholarships("allScholarships");
+        generateWriteScholarships("allScholarships");
 
-        fetchScholarships();
+       /* fetchScholarships();
 
         // Add submit handler for the scholarship form
         const scholarshipForm = document.getElementById('scholarshipForm');
@@ -298,6 +298,7 @@ function getScholarshipData(id, menu) {
         } else {
             console.warn('Admin form not found');
         }
+            */
             
     }
     
@@ -801,6 +802,7 @@ function writeScholarship(
         <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${funderName}</span><br>
         <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
         <b><i class='ri-award-line'></i></b> <span>${fundingType}</span><br>
+        <b><i class='ri-group-2-line'></i></b> <span>${numOfApps} applicants</span><br>
         <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
         <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
         <hr style = 'margin-top:10px;margin-bottom:10px'>

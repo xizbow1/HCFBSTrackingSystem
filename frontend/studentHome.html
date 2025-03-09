@@ -266,7 +266,7 @@
                 </p>
 
                     <div class="uk-margin">
-                        <button type="submit" class="uk-button uk-width-1-1" style = "box-shadow:5px 5px 0px #33333350;border-radius:10px">
+                        <button onclick = "submitApplication_test()" type="submit" class="uk-button uk-width-1-1" style = "box-shadow:5px 5px 0px #33333350;border-radius:10px">
                             <i class="ri-check-fill" style = "margin-right:5px"></i>
                         Submit Application
                     </button>
@@ -507,6 +507,10 @@ function writeScholarship(
             interactive: true,
             placement: 'right-start',
             intertia: true,
+            onShow(instance) {
+                // selected_ID = the id of the scholarship that was clicked
+                selected_ID = instance.reference.id;
+            }
         });
     }, 0);  // Timeout ensures it's applied after the DOM is updated
 }
@@ -779,7 +783,7 @@ for (let i = 0; i < dummyScholarships.length; i++) {
         
         // Load tab-specific data when switching tabs
         if (tab === "myScholarships") {
-            fetchMyScholarships();
+            //fetchMyScholarships();
         }
 
         if (tab === "myProfile") {
@@ -802,10 +806,10 @@ for (let i = 0; i < dummyScholarships.length; i++) {
     // Update window.onload to fetch real data instead of using dummy data
     window.onload = () => {
 
-        fetchScholarships();
+        //fetchScholarships();
         
         // Check for and display any URL parameters or notifications
-        const urlParams = new URLSearchParams(window.location.search);
+        /*const urlParams = new URLSearchParams(window.location.search);
         const message = urlParams.get('message');
         if (message) {
             UIkit.notification({
@@ -815,6 +819,9 @@ for (let i = 0; i < dummyScholarships.length; i++) {
                 timeout: 5000
             });
         }
+            */
+
+            generateWriteScholarships("allScholarships");
     };
 
     function closeMenu(menu) {
@@ -843,6 +850,144 @@ function launchEditProfileModal() {
     const modal = UIkit.modal(document.getElementById('editProfileModal'));
     modal.show();
 }
+
+function submitApplication_test() {
+    // Close modal and clear form fields
+    UIkit.modal(document.getElementById('formSubmissionModal')).hide();
+    document.getElementById('personalStatement').value = '';
+    document.getElementById('cvFile').value = '';
+
+    const scholarshipId = selected_ID;
+    const scholarship = document.querySelector(`[id="${scholarshipId}"]`);
+
+    if (scholarship) {
+        const scholarshipData = {
+            name: scholarship.getAttribute('data-name'),
+            dueDate: new Date(scholarship.getAttribute('data-dueDate')),
+            funderName: scholarship.getAttribute('data-funderName'),
+            description: scholarship.getAttribute('data-description'),
+            fundsAllocated: parseFloat(scholarship.getAttribute('data-fundsAllocated')),
+            fundingType: scholarship.getAttribute('data-fundingType'),
+            numOfApps: parseInt(scholarship.getAttribute('data-numOfApps')),
+            creationDate: new Date(scholarship.getAttribute('data-creationDate')),
+            endDate: new Date(scholarship.getAttribute('data-endDate')),
+            requirements: scholarship.getAttribute('data-requirements')
+        };
+
+        // Ensure all tippy instances are properly removed
+        if (scholarship._tippy) {
+            scholarship._tippy.destroy();
+            delete scholarship._tippy;
+        }
+
+        // Remove the element from the DOM
+        scholarship.remove();
+
+        // Recreate the scholarship in "myScholarships"
+        writeScholarship(
+            scholarshipData.name,
+            scholarshipData.dueDate,
+            scholarshipData.funderName,
+            scholarshipData.description,
+            scholarshipData.fundsAllocated,
+            scholarshipData.fundingType,
+            scholarshipData.numOfApps,
+            scholarshipData.creationDate,
+            scholarshipData.endDate,
+            scholarshipData.requirements,
+            'myScholarships'
+        );
+
+        // Find the newly added scholarship in "myScholarships"
+        setTimeout(() => {
+            const newScholarship = document.querySelector(`#myScholarshipsInner .scholarship:last-child`);
+            if (newScholarship) {
+                // Remove any lingering tippy instance before applying a new one
+                if (newScholarship._tippy) {
+                    newScholarship._tippy.destroy();
+                    delete newScholarship._tippy;
+                }
+
+                console.log(newScholarship.getAttribute('data-tippy-content'));
+
+                newScholarship.setAttribute('data-tippy-content', "");
+
+
+                var scholarship = scholarshipData;
+    var fundsAllocated = scholarshipData.fundsAllocated;
+    var dueDate = new Date(scholarship.endDate);
+    var creationDate = new Date(scholarship.creationDate);
+    var randomID = "id_" + Math.floor(Math.random() * 1000000);
+    const fixedDateMonth = dueDate.getMonth() + 1;
+    const fixedDateDay = dueDate.getDate();
+    const fixedDateYear = dueDate.getFullYear();
+
+    // Generate tooltip content
+    const today = new Date();
+    const timeDiff = dueDate.getTime() - today.getTime();
+    const daysUntilDeadline = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    const postedDateMonth = creationDate.getMonth() + 1;
+    const postedDateDay = creationDate.getDate();
+    const postedDateYear = creationDate.getFullYear();
+
+    // how many days ago was creation date
+    var timeDiff2 = today.getTime() - creationDate.getTime();
+    var daysSincePosted = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+    // if it was "1 days ago" change to "yesterday"
+    if (daysSincePosted === 1) {
+        daysSincePosted = 'Posted yesterday';
+    } else {
+        daysSincePosted = daysSincePosted + ' days ago';
+    }
+
+    var formattedMoney = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(fundsAllocated);
+
+    var dueDate = new Date(scholarship.endDate);
+    var creationDate = new Date(scholarship.creationDate);
+
+                var tooltipContent2 =  `
+                            <p>Full Description</p>
+            <h3>${scholarship.description}</h3>
+            <hr>
+            <p style = 'margin-top:10px' >Full Requirements</p>
+            <h3>${scholarship.requirements}</h3>
+            <hr>
+            <p>Quick Info</p>
+            <b style = 'opacity:30%' ><i class='ri-price-tag-3-fill'></i></b> <span style = 'opacity:30%'>${scholarship.name}</span><br>
+            <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${scholarship.funderName}</span><br>
+            <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
+            <b><i class='ri-award-line'></i></b> <span>${scholarship.fundingType}</span><br>
+            <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
+            <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
+            <hr style = 'margin-top:10px;margin-bottom:10px'>
+            <div class = "applicationStatus">
+            <i class='ri-check-line'></i> <span>Submitted, Under Review</span>
+            </div>
+            `;
+
+            newScholarship.setAttribute('data-tippy-content', tooltipContent2);
+
+
+                tippy(newScholarship, {
+                    allowHTML: true,
+                    theme: 'innerMenuTheme',
+                    interactive: true,
+                    placement: 'right-start',
+                    inertia: true,
+                    content: tooltipContent2
+                });
+
+            }
+        }, 0); // Timeout ensures DOM updates are processed before applying tippy
+    }
+}
+
+var selected_ID = "";
 
 </script>
 <!--<script src="assets/js/dashboard.js"></script>-->

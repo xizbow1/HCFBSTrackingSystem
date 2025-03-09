@@ -120,3 +120,18 @@
             width: 25%;
             font-family: 'DM Sans';
         }
+
+        .applicationStatus {
+            background-color: #d89334;
+            padding: 10px;
+            border-radius: 0px 10px 0px 10px;
+            font-weight: 900;
+            font-family: 'DM Sans';
+            font-size: 15px;
+            vertical-align: middle;
+            display: flex;
+        }
+
+        .applicationStatus i {
+            margin-right: 5px;
+        }
