@@ -48,10 +48,6 @@
 
             <div class = "innerWriteable" id = "allScholarshipsInner">
                 <!-- Scholarships will be loaded here dynamically -->
-                <div class="uk-text-center">
-                    <div uk-spinner="ratio: 1.5"></div>
-                    <p>Loading scholarships...</p>
-                </div>
             </div>
 
             
@@ -201,7 +197,7 @@
 
 </body>
 
-<script src="assets/js/dummyScholarship.js"></script>
+<script src="assets/js/dummyScholarships.js"></script>
 
 <script>
 
@@ -284,6 +280,10 @@ function getScholarshipData(id, menu) {
     }
 
     window.onload = function(){
+
+        generateWriteScholarships("allScholarships");
+
+        /*
         fetchScholarships();
 
         // Add submit handler for the scholarship form
@@ -303,6 +303,7 @@ function getScholarshipData(id, menu) {
         } else {
             console.warn('Admin form not found');
         }
+            */
     }
     
     function logOut(){
@@ -741,6 +742,122 @@ function viewApplications(scholarshipId) {
         timeout: 3000
     });
 }
+
+function generateWriteScholarships(menu) {
+
+for (let i = 0; i < dummyScholarships.length; i++) {
+    writeScholarship(
+        dummyScholarships[i].name,
+        dummyScholarships[i].dueDate,
+        dummyScholarships[i].funderName,
+        dummyScholarships[i].description,
+        dummyScholarships[i].fundsAllocated,
+        dummyScholarships[i].fundingType,
+        dummyScholarships[i].numOfApps,
+        dummyScholarships[i].creationDate,
+        dummyScholarships[i].endDate,
+        dummyScholarships[i].requirements,
+        menu
+    );
+}
+
+}
+
+function writeScholarship(
+    name, dueDate, funderName, description, fundsAllocated, 
+    fundingType, numOfApps, creationDate, endDate, requirements, menu
+) {
+    var randomID = "id_" + Math.floor(Math.random() * 1000000);
+    const fixedDateMonth = dueDate.getMonth() + 1;
+    const fixedDateDay = dueDate.getDate();
+    const fixedDateYear = dueDate.getFullYear();
+
+    // Generate tooltip content
+    const today = new Date();
+    const timeDiff = dueDate.getTime() - today.getTime();
+    const daysUntilDeadline = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    const postedDateMonth = creationDate.getMonth() + 1;
+    const postedDateDay = creationDate.getDate();
+    const postedDateYear = creationDate.getFullYear();
+
+    // how many days ago was creation date
+    var timeDiff2 = today.getTime() - creationDate.getTime();
+    var daysSincePosted = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+    // if it was "1 days ago" change to "yesterday"
+    if (daysSincePosted === 1) {
+        daysSincePosted = 'Posted yesterday';
+    } else {
+        daysSincePosted = daysSincePosted + ' days ago';
+    }
+
+    var formattedMoney = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(fundsAllocated);
+
+    const tooltipContent = `
+        <p>Full Description</p>
+        <h3>${description}</h3>
+        <hr>
+        <p style = 'margin-top:10px' >Full Requirements</p>
+        <h3>${requirements}</h3>
+        <hr>
+        <p>Quick Info</p>
+        <b style = 'opacity:30%' ><i class='ri-price-tag-3-fill'></i></b> <span style = 'opacity:30%'>${name}</span><br>
+        <b style = 'opacity:30%' ><i class='ri-hand-coin-fill'></i></b> <span style = 'opacity:30%' >${funderName}</span><br>
+        <b><i class='ri-money-dollar-circle-line'></i></b> <span>${formattedMoney}<span><br>
+        <b><i class='ri-award-line'></i></b> <span>${fundingType}</span><br>
+        <b><i class='ri-calendar-check-line'></i></b> <span>${postedDateMonth}/${postedDateDay}/${postedDateYear}<span> <span class = 'daysLeft'> ${daysSincePosted}</span><br>
+        <b><i class='ri-calendar-schedule-line'></i></b> <span>${fixedDateMonth}/${fixedDateDay}/${fixedDateYear}<span> <span class = 'daysLeft'> ${daysUntilDeadline} days left</span><br>
+        <hr style = 'margin-top:10px;margin-bottom:10px'>
+        <button class = 'applyButton2' onclick='launchApplyModal()'>
+        <i class='ri-pencil-fill' style = 'margin-right:5px'></i>
+        Edit Scholarship
+        </button>
+    `;
+
+    const scholarshipHTML = `
+    <div id="${randomID}" class="scholarship"
+        data-name="${name}" 
+        data-dueDate="${fixedDateMonth}/${fixedDateDay}"
+        data-funderName="${funderName}" 
+        data-description="${description}"
+        data-fundsAllocated="${fundsAllocated}" 
+        data-fundingType="${fundingType}"
+        data-creationDate="${creationDate}"
+        data-endDate="${endDate}"
+        data-requirements="${requirements}"
+        data-tippy-content="${tooltipContent}">
+        <div class="scholarshipTitle">
+            <div class="titleWrapper">
+                <h1>${name}</h1>
+                <h2>${funderName}</h2>
+            </div>
+            <h3><i style = "margin-right:5px;" class="ri-calendar-schedule-line"></i> ${fixedDateMonth}/${fixedDateDay}</h3>
+        </div>
+        <div class="scholarshipMiddle">
+            <p>Requirements</p>
+            <div class="scholarshipReq">${requirements}</div>
+        </div>
+    </div>`;
+
+    document.getElementById(`${menu}Inner`).insertAdjacentHTML('beforeend', scholarshipHTML);
+
+    // Initialize Tippy.js on the newly added scholarship after insertion
+    setTimeout(() => {
+        tippy(`#${randomID}`, {
+            allowHTML: true,
+            theme: 'innerMenuTheme',
+            interactive: true,
+            placement: 'right-start',
+            intertia: true,
+        });
+    }, 0);  // Timeout ensures it's applied after the DOM is updated
+}
+
+
 
 </script>
 
