@@ -1,9 +1,11 @@
 import express from 'express';
-import * as authController from '../controllers/authController.js';
+import { signup, login } from '../controllers/authController.js';
+import { uploadApplicantFiles } from '../middlewares/uploadMiddleware.js';
 
 const router = express.Router();
 
-router.post('/login', authController.login);
-router.post('/signup', authController.signup);
+// Auth routes
+router.post('/signup', uploadApplicantFiles, signup);
+router.post('/login', login);
 
 export default router;

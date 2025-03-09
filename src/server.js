@@ -4,68 +4,38 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRoutes.js';
 import applicantRoutes from './routes/applicantRoutes.js';
-import { createApplicant } from './controllers/applicantController.js';
+import scholarshipRoutes from './routes/scholarshipRoutes.js';
 import connectDB from './connectDB.js';
-import multer from 'multer';
 import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configure multer for file uploads with proper limits
-const upload = multer({
-  limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB file size limit
-  },
-  fileFilter: (req, file, cb) => {
-    // Accept images and documents
-    if (file.mimetype.startsWith('image/') || 
-        file.mimetype === 'application/pdf' ||
-        file.mimetype === 'application/msword' ||
-        file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      cb(null, true);
-    } else {
-      cb(new Error('Unsupported file type'), false);
-    }
-  }
-});
-
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
+// Database connection
 connectDB();
 
-app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/signup.html'))
-});
-
-// Improved file upload handling with better error handling for signup
-app.post('/signup', (req, res, next) => {
-  console.log('Signup request received');
-  upload.fields([
-    {name: 'transcripts', maxCount: 1},
-    {name: 'pic', maxCount: 1}
-  ])(req, res, (err) => {
-    if (err) {
-      console.error('File upload error:', err);
-      return res.status(400).json({ message: `File upload error: ${err.message}` });
-    }
-    console.log('Files uploaded successfully');
-    next();
-  });
-}, createApplicant);
-
-// Define the root path handler first (before static middleware)
+// Define the root path handler (before static middleware)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/login.html'));
 });
 
-// Then serve static files
+// Serve static files
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Use auth routes
-app.use('/', authRoutes);
+// Mount API routes
+app.use('/', authRoutes); // For login/signup
+app.use('/api/applicants', applicantRoutes);
+app.use('/api/scholarships', scholarshipRoutes);
 
-app.listen(3000, () => console.log('Example app listening on port 3000! Visit http://localhost:3000 to view the login page.'));
+// Start server
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+  console.log('Visit http://localhost:3000 to view the application');
+});

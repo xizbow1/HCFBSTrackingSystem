@@ -1,77 +1,133 @@
-import Scholarship from '../models/Scholarship.js';
+import { Scholarship } from '../../backend/hcfbDB.js';
 
-// Get all Scholarships
-export const getScholarships = async (req, res) => {
-  try {
-    const scholarships = await Scholarship.find();
-    res.status(200).json(Scholarships);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get a single Scholarship by id
-export const getScholarship = async (req, res) => {
-  try {
-    const scholarship = await Scholarship.findById(req.params.id);
-    
-    if (!scholarship) {
-      return res.status(404).json({ message: 'Scholarship not found' });
-    }
-    
-    res.status(200).json(Scholarship);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Create a new Scholarship
+// Create a new scholarship
 export const createScholarship = async (req, res) => {
   try {
-    console.log('Request body:', req.body);
-    console.log('Request files:', req.files ? Object.keys(req.files) : 'No files');
+    // Get scholarship data from request body
+    const {
+      name,
+      dueDate,
+      funderName,
+      description,
+      fundsAllocated,
+      fundingType,
+      numOfApps,
+      creationDate,
+      endDate,
+      requirements
+    } = req.body;
 
-    // Create Scholarship data with explicit file handling
+    // Validate required fields
+    const requiredFields = ['name', 'dueDate', 'funderName', 'description', 
+                           'fundsAllocated', 'fundingType', 'endDate', 'requirements'];
+    
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+    
+    if (missingFields.length > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `Missing required fields: ${missingFields.join(', ')}` 
+      });
+    }
+    
+    // Format dates if they're strings
+    const formattedDueDate = new Date(dueDate);
+    const formattedCreationDate = creationDate ? new Date(creationDate) : new Date(); // Default to now
+    const formattedEndDate = new Date(endDate);
+    
+    // Create scholarship object
     const scholarshipData = {
-        name: req.body.name,
-        description: req.body.description,
-        dueDate: req.body.dueDate,
-        funderName: req.body.funderName,
-        fundsAllocated: req.body.fundsAllocated,
-        fundingType: req.body.fundingType,
-        numOfApps: req.body.numOfApps,
-        creationDate: req.body.creationDate,
-        endDate: req.body.endDate,
-        requirements: req.body.requirements,
-        applications: []
+      name,
+      dueDate: formattedDueDate,
+      funderName,
+      description,
+      fundsAllocated: Number(fundsAllocated),
+      fundingType,
+      numOfApps: Number(numOfApps) || 0, // Default to 0 if not provided
+      creationDate: formattedCreationDate,
+      endDate: formattedEndDate,
+      requirements,
+      applications: [] // Start with empty applications array
     };
 
-    console.log("Processing new scholarship:", {
-        scholarshipData,
-    });
-
-    const newScholarship = new Scholarship(ScholarshipData);
+    // Create and save new scholarship
+    const newScholarship = new Scholarship(scholarshipData);
     const savedScholarship = await newScholarship.save();
-    res.status(201).json(savedScholarship);
-  } catch (error) {
-    console.error('Error creating Scholarship:', error);
     
-    // Provide more detailed validation error information
+    // Return success response
+    res.status(201).json({
+      success: true,
+      message: 'Scholarship created successfully',
+      data: savedScholarship
+    });
+    
+  } catch (error) {
+    console.error('Error creating scholarship:', error);
+    
+    // Handle validation errors
     if (error.name === 'ValidationError') {
       const validationErrors = {};
       
-      // Extract specific validation error messages
       for (const field in error.errors) {
         validationErrors[field] = error.errors[field].message;
       }
       
-      return res.status(400).json({ 
-        message: 'Validation error', 
-        errors: validationErrors 
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error',
+        errors: validationErrors
       });
     }
     
-    res.status(400).json({ message: error.message });
+    // General error
+    res.status(500).json({
+      success: false,
+      message: 'Error creating scholarship',
+      error: error.message
+    });
+  }
+};
+
+// Get all scholarships
+export const getScholarships = async (req, res) => {
+  try {
+    const scholarships = await Scholarship.find();
+    res.status(200).json({
+      success: true,
+      count: scholarships.length,
+      data: scholarships
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching scholarships',
+      error: error.message
+    });
+  }
+};
+
+// Get a single scholarship by ID
+export const getScholarshipById = async (req, res) => {
+  try {
+    const scholarship = await Scholarship.findById(req.params.id);
+    
+    if (!scholarship) {
+      return res.status(404).json({
+        success: false,
+        message: 'Scholarship not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: scholarship
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching scholarship',
+      error: error.message
+    });
   }
 };
 

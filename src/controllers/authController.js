@@ -1,42 +1,68 @@
-import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from '../firebase.js';
+import { createApplicant } from './applicantController.js';
+import { auth, signInWithEmailAndPassword } from '../firebase.js';
 
-// Login function
-export const login = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    res.status(200).send({ 
-      message: 'Login successful', 
-      email: user.email,
-      uid: user.uid,
-      token: await user.getIdToken()
-    });
-  } catch (error) {
-    console.error('Firebase auth error:', error);
-    res.status(401).send({ message: 'Login failed', error: error.message });
-  }
+// Signup controller - delegates to applicant controller after upload middleware
+export const signup = (req, res) => {
+  // The file upload middleware has already been processed at this point
+  console.log('Signup controller called - delegating to createApplicant');
+  return createApplicant(req, res);
 };
 
-// Signup function
-export const signup = async (req, res) => {
-  const { email, password, firstName, lastName, phone } = req.body;
-
+// Login controller
+export const login = async (req, res) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    const { email, password } = req.body;
     
-    // Here you could store additional user information in Firebase Firestore
-    // This is a placeholder for that functionality
-    
-    res.status(201).send({ 
-      message: 'User created successfully',
-      email: user.email,
-      uid: user.uid
-    });
+    if (!email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        error: 'Email and password are required' 
+      });
+    }
+
+    // Attempt to sign in with Firebase
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Generate token for authentication
+      const token = await user.getIdToken();
+      
+      res.json({ 
+        success: true,
+        email: user.email,
+        uid: user.uid,
+        token
+      });
+    } catch (firebaseError) {
+      console.error('Firebase auth error:', firebaseError);
+      
+      // Handle specific Firebase auth errors
+      if (firebaseError.code === 'auth/user-not-found' || 
+          firebaseError.code === 'auth/wrong-password') {
+        return res.status(401).json({ 
+          success: false,
+          error: 'Invalid email or password' 
+        });
+      }
+      
+      if (firebaseError.code === 'auth/too-many-requests') {
+        return res.status(429).json({ 
+          success: false,
+          error: 'Too many login attempts. Please try again later.' 
+        });
+      }
+      
+      return res.status(500).json({ 
+        success: false,
+        error: 'Authentication failed' 
+      });
+    }
   } catch (error) {
-    console.error('Firebase signup error:', error);
-    res.status(400).send({ message: 'Signup failed', error: error.message });
+    console.error('Login error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
   }
 };

@@ -1,21 +1,19 @@
 import express from 'express';
-import * as scholarshipController from '../controllers/scholarshipController.js';
+import { 
+  createScholarship,
+  getScholarships,
+  getScholarshipById,
+  updateScholarship,
+  deleteScholarship
+} from '../controllers/scholarshipController.js';
 
 const router = express.Router();
 
-// GET all scholarships
-router.get('/', scholarshipController.getScholarships);
-
-// GET a single scholarship
-router.get('/:id', scholarshipController.getScholarship);
-
-// POST a new scholarship
-router.post('/', scholarshipController.createScholarship);
-
-// PUT update an scholarship
-router.put('/:id', scholarshipController.updateScholarship);
-
-// DELETE an scholarship
-router.delete('/:id', scholarshipController.deleteScholarship);
+// Scholarship routes
+router.post('/', createScholarship);
+router.get('/', getScholarships);
+router.get('/:id', getScholarshipById);
+router.put('/:id', updateScholarship);
+router.delete('/:id', deleteScholarship);
 
 export default router;
