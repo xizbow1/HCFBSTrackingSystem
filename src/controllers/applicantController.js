@@ -33,8 +33,7 @@ export const createApplicant = async (req, res) => {
     console.log('Request files:', req.files ? Object.keys(req.files) : 'No files');
     
     const { email, password } = req.body;
-    
-    // First, create the user in Firebase Authentication
+  
     let firebaseUser;
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -56,7 +55,6 @@ export const createApplicant = async (req, res) => {
       return res.status(500).json({ message: `Firebase authentication failed: ${firebaseError.message}` });
     }
     
-    // Better file existence check with detailed error message
     if (!req.files) {
       return res.status(400).json({ message: 'No files were uploaded' });
     }
@@ -80,8 +78,8 @@ export const createApplicant = async (req, res) => {
       firebaseUID: firebaseUser.uid, // Store Firebase UID for reference
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: email, // Use the same email used for Firebase Auth
-      password: password, // Consider if you need to store this in MongoDB as well
+      email: email, 
+      password: password,
       phone: req.body.phone,
       street: req.body.street,
       aptNum: req.body.aptNum || '',
@@ -119,11 +117,10 @@ export const createApplicant = async (req, res) => {
   } catch (error) {
     console.error('Error creating applicant:', error);
     
-    // Provide more detailed validation error information
+
     if (error.name === 'ValidationError') {
       const validationErrors = {};
       
-      // Extract specific validation error messages
       for (const field in error.errors) {
         validationErrors[field] = error.errors[field].message;
       }

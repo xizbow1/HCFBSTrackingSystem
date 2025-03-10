@@ -30,12 +30,10 @@ export const createScholarship = async (req, res) => {
       });
     }
     
-    // Format dates if they're strings
     const formattedDueDate = new Date(dueDate);
     const formattedCreationDate = creationDate ? new Date(creationDate) : new Date(); // Default to now
     const formattedEndDate = new Date(endDate);
     
-    // Create scholarship object
     const scholarshipData = {
       name,
       dueDate: formattedDueDate,
@@ -43,18 +41,17 @@ export const createScholarship = async (req, res) => {
       description,
       fundsAllocated: Number(fundsAllocated),
       fundingType,
-      numOfApps: Number(numOfApps) || 0, // Default to 0 if not provided
+      numOfApps: Number(numOfApps) || 0,
       creationDate: formattedCreationDate,
       endDate: formattedEndDate,
       requirements,
-      applications: [] // Start with empty applications array
+      applications: [] 
     };
 
     // Create and save new scholarship
     const newScholarship = new Scholarship(scholarshipData);
     const savedScholarship = await newScholarship.save();
     
-    // Return success response
     res.status(201).json({
       success: true,
       message: 'Scholarship created successfully',
@@ -64,7 +61,6 @@ export const createScholarship = async (req, res) => {
   } catch (error) {
     console.error('Error creating scholarship:', error);
     
-    // Handle validation errors
     if (error.name === 'ValidationError') {
       const validationErrors = {};
       
@@ -79,7 +75,6 @@ export const createScholarship = async (req, res) => {
       });
     }
     
-    // General error
     res.status(500).json({
       success: false,
       message: 'Error creating scholarship',

@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 // Import routes
 import applicantRoutes from './routes/applicantRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-// Import other routes as needed
 
 // Configure environment variables
 dotenv.config();
@@ -24,8 +23,7 @@ app.use(express.static('frontend'));
 
 // Routes
 app.use('/api/applicants', applicantRoutes);
-app.use('/', authRoutes); // This will handle /login endpoint
-// Set up other routes as needed
+app.use('/', authRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)

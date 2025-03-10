@@ -45,7 +45,7 @@ export const getUserApplications = async (req, res) => {
     // Find all applications submitted by this applicant and populate the scholarship details
     const applications = await Application.find({ applicant: applicant._id })
       .populate('scholarship')
-      .sort({ dateSubmission: -1 }); // Most recent first
+      .sort({ dateSubmission: -1 });
 
     res.status(200).json({
       success: true,

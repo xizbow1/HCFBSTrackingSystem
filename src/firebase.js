@@ -7,7 +7,6 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
-// Your web app's Firebase configuration from environment variables
 const firebaseConfig = {
   apiKey: process.env.APIKEY,
   authDomain: process.env.AUTHDOMAIN,
@@ -22,7 +21,6 @@ const firebaseConfig = {
 console.log('Firebase config:', { 
   apiKey: process.env.APIKEY ? "Present" : "Missing",
   authDomain: process.env.AUTHDOMAIN ? "Present" : "Missing",
-  // Other fields...
 });
 
 // Initialize Firebase

@@ -64,7 +64,7 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     highschool: {
-        type: String // Fixed typo from Type to type
+        type: String
     },
     hsGradYear: { 
         type: Date,

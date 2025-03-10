@@ -12,7 +12,7 @@ const router = express.Router();
 // Apply auth middleware to all routes
 router.use(authMiddleware);
 
-// Get all applications (admin only - you might want to add admin check middleware)
+// Get all applications
 router.get('/', getAllApplications);
 
 // Get current user's applications

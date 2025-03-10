@@ -1,6 +1,5 @@
 import multer from 'multer';
 
-// Configure multer for file uploads with proper limits
 const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB file size limit

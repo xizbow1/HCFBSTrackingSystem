@@ -10,7 +10,7 @@ router.get('/', adminController.getadmins);
 // GET a single admin
 router.get('/:id', adminController.getadmin);
 
-// POST a new admin - with file upload middleware
+// POST a new admin
 router.post('/', uploadadminFiles, adminController.createadmin);
 
 // PUT update an admin
